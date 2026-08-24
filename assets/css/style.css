@@ -17,6 +17,7 @@
   --ser:'Instrument Serif',Georgia,serif;
 
   --pad:20px;
+  --gs-w:min(calc(100vw - 82px), 420px);
   --dock:56px;
   --safe:env(safe-area-inset-bottom,0px);
   --e:cubic-bezier(.22,1,.36,1);
@@ -131,7 +132,6 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
   position:sticky;top:0;z-index:20;
   background:var(--void);padding-top:12px;
 }
-.hint{margin:-12px 0 18px}
 
 .big{
   font-size:clamp(26px,7.6vw,54px);
@@ -188,6 +188,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 
 /* jendela geser */
 .gal__view{
+  position:relative;
   overflow-x:auto;overflow-y:hidden;
   scroll-snap-type:x mandatory;
   -webkit-overflow-scrolling:touch;
@@ -196,17 +197,17 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 }
 .gal__view::-webkit-scrollbar{display:none}
 .gal__view.drag{cursor:grabbing;scroll-snap-type:none}
-
 .gal__track{
   display:flex;gap:10px;
-  padding-inline:var(--pad);
   width:max-content;
+  /* tepi dinamis: kartu pertama & terakhir tetap bisa berhenti di tengah */
+  padding-inline:max(var(--pad), calc((100vw - var(--gs-w)) / 2));
 }
 
 .gs{
   scroll-snap-align:center;
-  width:calc(100vw - (var(--pad) * 2) - 42px);
-  max-width:420px;flex-shrink:0;
+  width:var(--gs-w);
+  flex-shrink:0;
 }
 .gs__fig{
   position:relative;overflow:hidden;background:var(--ash);
@@ -315,9 +316,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 
 /* ---------- ≥720px ---------- */
 @media (min-width:720px){
-  :root{--pad:40px}
+  :root{--pad:40px;--gs-w:min(46vw,400px)}
   .sec{padding-top:104px}
-  .gs{width:min(46vw,400px)}
   .wk__body{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start}
   .wk__story{margin-top:0}
   .prose{grid-template-columns:1fr 1fr;gap:32px}
@@ -327,7 +327,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 
 /* ---------- ≥1100px ---------- */
 @media (min-width:1100px){
-  :root{--pad:56px}
+  :root{--pad:56px;--gs-w:min(30vw,420px)}
   body{padding-bottom:0}
   .dock{
     top:0;bottom:auto;height:var(--dock);padding-bottom:0;
@@ -336,7 +336,6 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
   .dock__p{top:auto;bottom:-1px}
   .hero{padding-top:calc(var(--dock) + 32px)}
   .sec__bar{top:var(--dock)}
-  .gs{width:min(30vw,420px)}
   .gal__no{font-size:44px}
   .sec{max-width:1400px;margin-inline:auto}
   .hero{max-width:1400px;margin-inline:auto}

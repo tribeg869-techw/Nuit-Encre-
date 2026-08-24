@@ -89,11 +89,18 @@
   }
 
   // kartu mana yang paling dekat ke tengah jendela
+  // jarak kartu dari tepi kiri isi yang bisa digulir
+  function startOf(c) {
+    return c.getBoundingClientRect().left
+         - view.getBoundingClientRect().left
+         + view.scrollLeft;
+  }
+
   function nearest() {
     const mid = view.scrollLeft + view.clientWidth / 2;
     let best = 0, gap = Infinity;
     cards.forEach((c, i) => {
-      const d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid);
+      const d = Math.abs(startOf(c) + c.offsetWidth / 2 - mid);
       if (d < gap) { gap = d; best = i; }
     });
     return best;
@@ -101,8 +108,10 @@
 
   function goTo(i) {
     const c = cards[Math.max(0, Math.min(total - 1, i))];
+    const max = view.scrollWidth - view.clientWidth;
+    const to  = startOf(c) - (view.clientWidth - c.offsetWidth) / 2;
     view.scrollTo({
-      left: c.offsetLeft - (view.clientWidth - c.offsetWidth) / 2,
+      left: Math.max(0, Math.min(max, to)),
       behavior: reduced ? 'auto' : 'smooth'
     });
   }
@@ -119,8 +128,9 @@
 
   // seret dengan mouse — di layar sentuh, biarkan native
   let down = false, sx = 0, sl = 0, far = 0;
+  view.addEventListener('dragstart', e => e.preventDefault());
   view.addEventListener('pointerdown', e => {
-    if (e.pointerType === 'touch') return;
+    if (e.pointerType === 'touch' || e.button !== 0) return;
     down = true; far = 0;
     sx = e.clientX; sl = view.scrollLeft;
     view.classList.add('drag');
@@ -203,13 +213,17 @@
   addEventListener('keydown', e => { if (e.key === 'Escape' && !sheet.hidden) setSheet(false); });
 
   /* ---------- REVEAL ---------- */
-  const io = new IntersectionObserver(es => {
-    es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-  }, { threshold: .1, rootMargin: '0px 0px -5% 0px' });
-  $$('.rv').forEach((el, i) => {
-    el.style.transitionDelay = (i % 4) * 55 + 'ms';
-    io.observe(el);
-  });
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(es => {
+      es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: .1, rootMargin: '0px 0px -5% 0px' });
+    $$('.rv').forEach((el, i) => {
+      el.style.transitionDelay = (i % 4) * 55 + 'ms';
+      io.observe(el);
+    });
+  } else {
+    $$('.rv').forEach(el => el.classList.add('in'));
+  }
 
   /* ---------- SCROLL ---------- */
   const prog = $('#dockP'), dockI = $('#dockI');
