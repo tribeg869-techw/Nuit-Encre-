@@ -187,6 +187,10 @@
   function bootDone() {
     boot.classList.add('off');
     document.body.style.overflow = '';
+    /* Penanda tirai sudah tersingkap. Animasi hero digantung padanya
+       supaya tidak habis di balik layar boot. Wajib dipasang di
+       SETIAP jalur keluar, termasuk saat gerak diredam. */
+    document.body.classList.add('ready');
   }
 
   const bx = bc && bc.getContext ? bc.getContext('2d') : null;
