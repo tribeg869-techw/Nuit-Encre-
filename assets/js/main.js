@@ -253,7 +253,7 @@
     $('#voidId').textContent = 'SPESIMEN ' + code;
 
     /* — bentuk tinta: gumpalan yang saling bertaut — */
-    const N = 58 + Math.floor(rnd() * 32);
+    const N = 72 + Math.floor(rnd() * 38);
     const blobs = [];
     const armA = rnd() * Math.PI * 2;
     const armK = 2 + Math.floor(rnd() * 3);
@@ -355,17 +355,26 @@
       ctx.clearRect(0, 0, W, H);
       if (light.on < .01) return;
 
+      // acuan persegi: ukuran gumpalan & jangkauan tetap konsisten
+      // walau hero jauh lebih tinggi daripada lebar
+      const S  = Math.min(W, H);
+      const sx = Math.min(W / S, 1.45);
+      const sy = Math.min(H / S, 1.45);
+      const cx = W / 2, cy = H / 2;
+
       const lx = (light.x + gx * .16) * W;
       const ly = (light.y + gy * .1) * H;
-      const reach = Math.max(W, H) * (reduced ? .95 : .65);
+      const reach = S * (reduced ? 1.5 : .65);
       const drift = reduced ? 0 : 1;
 
       ctx.globalCompositeOperation = 'lighter';
 
       for (const b of blobs) {
-        const x = (b.bx + Math.sin(t * b.s + b.p) * .012 * drift + gx * .07 * b.d) * W;
-        const y = (b.by + Math.cos(t * b.s * .8 + b.p) * .012 * drift + gy * .05 * b.d) * H;
-        const r = b.r * Math.min(W, H);
+        const ox = b.bx - .5 + Math.sin(t * b.s + b.p) * .012 * drift + gx * .07 * b.d;
+        const oy = b.by - .5 + Math.cos(t * b.s * .8 + b.p) * .012 * drift + gy * .05 * b.d;
+        const x = cx + ox * S * sx;
+        const y = cy + oy * S * sy;
+        const r = b.r * S;
 
         const d = Math.hypot(x - lx, y - ly);
         let f = 1 - d / reach;
@@ -373,10 +382,10 @@
         f = f * f * light.on;
 
         const g = ctx.createRadialGradient(x, y, 0, x, y, r);
-        // .38 (bukan .5) mengimbangi gumpalan yang lebih rapat + jangkauan
-        // lebih luas; mode 'lighter' menumpuk, tanpa ini pusatnya jadi putih pol
-        g.addColorStop(0,   `rgba(250,250,250,${(.38 * f).toFixed(4)})`);
-        g.addColorStop(.45, `rgba(190,190,190,${(.12 * f).toFixed(4)})`);
+        // .34 menjaga kecerahan tetap seperti sebelumnya walau kanvas kini
+        // setinggi hero; mode 'lighter' menumpuk, tanpa ini pusatnya putih pol
+        g.addColorStop(0,   `rgba(250,250,250,${(.34 * f).toFixed(4)})`);
+        g.addColorStop(.45, `rgba(190,190,190,${(.11 * f).toFixed(4)})`);
         g.addColorStop(1,   'rgba(0,0,0,0)');
         ctx.fillStyle = g;
         ctx.beginPath();
