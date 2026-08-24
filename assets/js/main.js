@@ -328,7 +328,16 @@
         ink(t);
       } else {
         /* dibelah tiga, tiap panel didorong keluar bergantian arah */
-        if (!cut) { cut = true; boot.classList.add('cut'); }
+        if (!cut) {
+          cut = true;
+          boot.classList.add('cut');
+          /* Latar boot menjadi transparan di sini, jadi hero langsung
+             terlihat di sela panel. Efek singkap wordmark harus mulai
+             SEKARANG — bila menunggu bootDone() di t=END, pengguna
+             melihat teks utuh dulu selama 900ms lalu efeknya mengulang
+             dari nol. Itulah lompatan yang terlihat salah. */
+          document.body.classList.add('ready');
+        }
         const bh = H / BANDS;
         for (let i = 0; i < BANDS; i++) {
           const st = CUT + i * 110;
