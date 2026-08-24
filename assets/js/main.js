@@ -181,6 +181,14 @@
      keluar — hero sudah hidup di baliknya.                             */
   const t0 = performance.now();
   const boot = $('#boot'), bBar = $('#bootBar'), bPct = $('#bootPct');
+
+  /* Jaring pengaman terakhir: isi hero menunggu kelas .ready, jadi
+     bila adegan boot macet di tengah jalan (error, tab dilatarkan,
+     rAF tak pernah jalan) hero akan tersembunyi selamanya. Setelah
+     4 detik singkap paksa, apa pun yang terjadi. */
+  const failsafe = setTimeout(function () {
+    if (!document.body.classList.contains('ready')) bootDone();
+  }, 4000);
   const bc   = $('#bootC');
   document.body.style.overflow = 'hidden';
 
@@ -191,6 +199,7 @@
        supaya tidak habis di balik layar boot. Wajib dipasang di
        SETIAP jalur keluar, termasuk saat gerak diredam. */
     document.body.classList.add('ready');
+    clearTimeout(failsafe);
   }
 
   const bx = bc && bc.getContext ? bc.getContext('2d') : null;

@@ -160,31 +160,40 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
   text-shadow:0 2px 34px rgba(0,0,0,.72);
 }
 /* Huruf tidak "masuk" ke layar — huruf DISINGKAP oleh tinta yang
-   naik dari bawah. Topeng bertepi lembut meniru rembesan tinta,
-   bukan garis potong yang rapi. Animasi baru berjalan setelah
-   layar boot menyingkap (body.ready), sebab sebelumnya seluruh
-   gerakan ini selesai di balik tirai dan tak pernah terlihat. */
+   naik dari bawah, dengan tepi merembes, bukan garis potong.
+
+   AMAN-GAGAL: keadaan bawaan di bawah ini adalah keadaan AKHIR
+   (huruf tampil penuh). Animasi hanya meminjam keadaan awal lewat
+   `from`. Jadi bila animasi tak pernah jalan — JS mati, mask tak
+   didukung, apa pun — huruf tetap terbaca. Versi sebelumnya
+   memakai keadaan bawaan "tersembunyi" dan itu menghilangkan
+   wordmark sepenuhnya.
+
+   Catatan mask-position: offset = (100% - mask-size) x persen.
+   Dengan mask-size 300%, 0% = tersembunyi, 100% = tampil penuh.
+   Nilai negatif membuat topeng terlempar keluar elemen. */
 .wm__l{display:block;overflow:hidden}
 .wm__l span{
-  display:block;transform:translateY(102%);
+  display:block;
   -webkit-mask-image:linear-gradient(to top,
-    #000 0%,#000 28%,rgba(0,0,0,.72) 42%,rgba(0,0,0,.28) 56%,transparent 70%);
+    #000 0%,#000 33%,rgba(0,0,0,.75) 40%,rgba(0,0,0,.3) 46%,transparent 52%);
           mask-image:linear-gradient(to top,
-    #000 0%,#000 28%,rgba(0,0,0,.72) 42%,rgba(0,0,0,.28) 56%,transparent 70%);
-  -webkit-mask-size:100% 340%;mask-size:100% 340%;
-  -webkit-mask-position:0 -240%;mask-position:0 -240%;
+    #000 0%,#000 33%,rgba(0,0,0,.75) 40%,rgba(0,0,0,.3) 46%,transparent 52%);
+  -webkit-mask-size:100% 300%;mask-size:100% 300%;
+  -webkit-mask-position:0 100%;mask-position:0 100%;
   -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
 }
-body.ready .wm__l span{animation:inkRise 1.5s var(--e) forwards}
+body.ready .wm__l span{animation:inkRise 1.5s var(--e) both}
 body.ready .wm__l:nth-child(2) span{animation-delay:.16s}
 @keyframes inkRise{
-  to{transform:translateY(0);-webkit-mask-position:0 0;mask-position:0 0}
+  from{transform:translateY(102%);-webkit-mask-position:0 0;mask-position:0 0}
+  to  {transform:translateY(0);   -webkit-mask-position:0 100%;mask-position:0 100%}
 }
-/* peramban tanpa mask: cukup naik, tidak ada yang hilang */
+/* peramban tanpa mask: cukup naik, tak ada yang disingkap */
 @supports not ((-webkit-mask-image:linear-gradient(#000,#000)) or (mask-image:linear-gradient(#000,#000))){
-  body.ready .wm__l span{animation:rise 1.1s var(--e) forwards}
+  body.ready .wm__l span{animation:rise 1.1s var(--e) both}
 }
-@keyframes rise{to{transform:translateY(0)}}
+@keyframes rise{from{transform:translateY(102%)}to{transform:translateY(0)}}
 
 .hero__say{
   font-size:15px;color:var(--soft);max-width:26ch;
