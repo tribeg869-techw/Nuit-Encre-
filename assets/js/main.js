@@ -252,30 +252,20 @@
                + '—' + seed.toString(36).toUpperCase().slice(-4);
     $('#voidId').textContent = 'SPESIMEN ' + code;
 
-    /* — bentuk tinta: filamen cair yang menggenang —
-       Bukan gumpalan bulat terpisah, melainkan beberapa untai yang
-       mengalir. Tiap untai disusun dari simpul yang saling tumpang
-       tindih (hanya ~5% yang tidak bersinggungan), sehingga terbaca
-       sebagai satu massa tinta, bukan debu bercahaya.               */
-    const strands = 4 + Math.floor(rnd() * 3);
+    /* — bentuk tinta: filamen bercabang —
+       Untai induk mengalir, lalu menumbuhkan cabang halus yang
+       menjalar keluar seperti tinta merembes di air. Cabang inilah
+       yang memberi kesan berserat; percikan saja hanya jadi debu.  */
     const blobs = [];
+    const strands = 4 + Math.floor(rnd() * 3);
     const flowA = rnd() * Math.PI * 2;
 
-    for (let k = 0; k < strands; k++) {
-      // titik awal tersebar penuh pada tinggi hero
-      let px = .5 + (rnd() - .5) * .55;
-      let py = (k + rnd() * .85) / strands;
-
-      // arah dasar untai; untai genap & ganjil mengalir berlawanan
-      let dir = flowA + (rnd() - .5) * 1.5 + (k % 2 ? Math.PI : 0);
-      const nodes = 13 + Math.floor(rnd() * 9);
-      const step  = .038 + rnd() * .022;
-      const thick = .1 + rnd() * .08;          // ketebalan untai
-
+    function grow(px, py, dir, nodes, step, thick, gen) {
       for (let i = 0; i < nodes; i++) {
         const u = i / nodes;
-        // meliuk perlahan — aliran, bukan lingkaran
-        dir += (rnd() - .5) * .85;
+
+        // cabang meliuk lebih liar daripada induknya
+        dir += (rnd() - .5) * (gen ? 1.25 : .85);
         px += Math.cos(dir) * step;
         py += Math.sin(dir) * step * .72;
 
@@ -290,8 +280,18 @@
           d : .35 + rnd() * .65
         });
 
-        // percikan halus di sekitar untai — tekstur berserat
-        if (rnd() < .22) {
+        // tumbuhkan cabang — hanya satu tingkat, agar tidak jadi debu
+        if (gen < 1 && rnd() < .17) {
+          grow(px, py,
+               dir + (rnd() < .5 ? 1 : -1) * (.5 + rnd() * .7),
+               Math.max(3, Math.floor(nodes * .45)),
+               step * .7,
+               thick * .42,
+               gen + 1);
+        }
+
+        // percikan halus — tekstur, bukan struktur
+        if (rnd() < .18) {
           blobs.push({
             bx: px + (rnd() - .5) * .1,
             by: py + (rnd() - .5) * .07,
@@ -302,6 +302,18 @@
           });
         }
       }
+    }
+
+    for (let k = 0; k < strands; k++) {
+      grow(
+        .5 + (rnd() - .5) * .55,               // tersebar mendatar
+        (k + rnd() * .85) / strands,           // tersebar penuh setinggi hero
+        flowA + (rnd() - .5) * 1.5 + (k % 2 ? Math.PI : 0),
+        13 + Math.floor(rnd() * 9),
+        .038 + rnd() * .022,
+        .1 + rnd() * .08,
+        0
+      );
     }
 
     function size() {
@@ -413,11 +425,11 @@
         f = f * f * light.on;
 
         const g = ctx.createRadialGradient(x, y, 0, x, y, r);
-        // Filamen memakai simpul lebih besar namun lebih sedikit, sehingga
-        // tumpukannya berkurang; nilai dinaikkan agar kecerahan rata-rata
-        // kembali ke 0.85 — setara tampilan sebelumnya yang sudah pas.
-        g.addColorStop(0,   `rgba(250,250,250,${(.78 * f).toFixed(4)})`);
-        g.addColorStop(.45, `rgba(190,190,190,${(.30 * f).toFixed(4)})`);
+        // Cabang menambah simpul (103 -> 230), sehingga tumpukan cahaya
+        // pada mode 'lighter' naik lagi. Nilai diturunkan agar kecerahan
+        // rata-rata tetap ~0.88 — setara tampilan yang sudah disetujui.
+        g.addColorStop(0,   `rgba(250,250,250,${(.58 * f).toFixed(4)})`);
+        g.addColorStop(.45, `rgba(190,190,190,${(.22 * f).toFixed(4)})`);
         g.addColorStop(1,   'rgba(0,0,0,0)');
         ctx.fillStyle = g;
         ctx.beginPath();
