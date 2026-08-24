@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<meta name="robots" content="noindex" />
+<title>Banding Font — Nuit-Encre</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Instrument+Serif:ital@1&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,100..900,0..100,0..1&family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet" />
+
+<style>
+:root{
+  --void:#000; --line:#1F1F1F; --line2:#2E2E2E;
+  --dim:#6E6E6E; --soft:#A8A8A8; --pure:#FAFAFA;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --inter:'Inter',-apple-system,sans-serif;
+  --pad:20px;
+  --e:cubic-bezier(.22,1,.36,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--void);color:var(--pure);
+  font-family:var(--inter);line-height:1.5;
+  overflow-x:hidden;-webkit-font-smoothing:antialiased;
+  padding-bottom:100px;
+}
+.mono{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;line-height:1.4}
+.dim{color:var(--dim)}
+
+/* ---------- kepala ---------- */
+.top{padding:calc(var(--pad) + 8px) var(--pad) 0}
+.top__row{display:flex;justify-content:space-between;gap:12px;margin-bottom:28px}
+.top h1{font-size:26px;font-weight:600;letter-spacing:-.03em;line-height:1.15;max-width:16ch}
+.top p{color:var(--soft);font-size:14px;margin-top:12px;max-width:46ch}
+
+/* ---------- pengganti ---------- */
+.pick{
+  position:sticky;top:0;z-index:30;background:var(--void);
+  padding:16px var(--pad) 12px;margin-top:26px;
+  border-bottom:1px solid var(--line);
+}
+.pick__lbl{color:var(--dim);margin-bottom:10px}
+.pick__row{display:flex;gap:8px;flex-wrap:wrap}
+.pick__b{
+  font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--soft);background:none;border:1px solid var(--line2);
+  padding:10px 12px;min-height:44px;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+  transition:background .25s var(--e),color .25s var(--e);
+}
+.pick__b.on{background:var(--pure);color:var(--void);border-color:var(--pure)}
+
+/* ---------- panggung ---------- */
+.stage{padding:34px var(--pad) 40px;border-bottom:1px solid var(--line)}
+.stage__wm{line-height:.82;margin:0;font-size:clamp(52px,17.5vw,168px)}
+.wm__l{display:block}
+.stage__say{font-size:15px;color:var(--soft);max-width:26ch;margin-top:16px}
+.stage__say em{font-family:'Instrument Serif',Georgia,serif;font-style:italic;color:var(--pure)}
+.stage__meta{display:flex;justify-content:space-between;gap:12px;
+  padding-top:14px;margin-top:26px;border-top:1px solid var(--line)}
+.stage__ttl{font-size:clamp(34px,10.5vw,88px);line-height:.95;margin-top:34px}
+.stage__big{font-size:clamp(26px,7.6vw,54px);line-height:1.08;margin-top:26px;max-width:17ch}
+.stage__body{color:var(--soft);font-size:15px;margin-top:20px;max-width:52ch}
+
+/* ---------- catatan ---------- */
+.note{padding:26px var(--pad);border-bottom:1px solid var(--line);background:#050505}
+.note dl{display:grid;grid-template-columns:auto 1fr;gap:8px 16px;margin-top:14px}
+.note dt{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);white-space:nowrap}
+.note dd{font-size:14px;color:var(--soft)}
+.note__why{font-size:14px;color:var(--soft);margin-top:14px;max-width:52ch}
+
+/* ---------- tumpuk ---------- */
+.stack{padding:40px var(--pad) 0}
+.stack h2{font-size:20px;font-weight:600;letter-spacing:-.02em}
+.stack p{color:var(--soft);font-size:14px;margin-top:10px;max-width:46ch}
+.row{padding:26px 0;border-bottom:1px solid var(--line)}
+.row__lbl{display:flex;justify-content:space-between;gap:12px;margin-bottom:14px}
+.row__wm{font-size:clamp(40px,13.5vw,110px);line-height:.84;margin:0}
+
+/* ---------- font tiap kandidat ---------- */
+.f-inter .stage__wm,.f-inter .stage__ttl,.f-inter .stage__big,
+.r-inter .row__wm{
+  font-family:var(--inter);font-weight:600;letter-spacing:-.055em;
+}
+.f-bric .stage__wm,.f-bric .stage__ttl,.f-bric .stage__big,
+.r-bric .row__wm{
+  font-family:'Bricolage Grotesque',var(--inter);
+  font-weight:800;font-variation-settings:'opsz' 96,'wdth' 100;
+  letter-spacing:-.04em;
+}
+.f-frau .stage__wm,.f-frau .stage__ttl,.f-frau .stage__big,
+.r-frau .row__wm{
+  font-family:'Fraunces',Georgia,serif;
+  font-weight:900;font-variation-settings:'opsz' 144,'SOFT' 0,'WONK' 1;
+  letter-spacing:-.03em;
+}
+.f-arch .stage__wm,.f-arch .stage__ttl,.f-arch .stage__big,
+.r-arch .row__wm{
+  font-family:'Archivo',var(--inter);
+  font-weight:900;font-variation-settings:'wdth' 125;
+  letter-spacing:-.045em;
+}
+
+@media (min-width:720px){
+  :root{--pad:40px}
+  body{padding-bottom:120px}
+}
+</style>
+</head>
+<body class="f-bric">
+
+<header class="top">
+  <div class="top__row">
+    <span class="mono">BANDING FONT</span>
+    <span class="mono dim">SEMENTARA</span>
+  </div>
+  <h1>Mana yang paling berani?</h1>
+  <p>
+    Semua kandidat berlisensi <strong>SIL OFL 1.1</strong> — bebas dipakai komersial,
+    boleh di-<em>self-host</em>, tanpa biaya. Ketuk nama font untuk menukar
+    contoh di bawah. Teks, ukuran, dan latar dibuat persis seperti situs asli.
+  </p>
+</header>
+
+<div class="pick">
+  <div class="mono pick__lbl">GANTI FONT JUDUL</div>
+  <div class="pick__row" id="pick">
+    <button class="pick__b" data-f="f-inter">Inter <span class="dim">· kini</span></button>
+    <button class="pick__b on" data-f="f-bric">Bricolage</button>
+    <button class="pick__b" data-f="f-frau">Fraunces</button>
+    <button class="pick__b" data-f="f-arch">Archivo</button>
+  </div>
+</div>
+
+<!-- panggung: meniru hero asli -->
+<section class="stage">
+  <h2 class="stage__wm">
+    <span class="wm__l">NUIT</span>
+    <span class="wm__l">ENCRE</span>
+  </h2>
+
+  <p class="stage__say">Studi tentang bentuk, ruang, dan <em>atmosfer.</em></p>
+
+  <div class="stage__meta">
+    <span class="mono">● TERSEDIA UNTUK PROYEK</span>
+    <span class="mono dim">23.34 WIB</span>
+  </div>
+
+  <h3 class="stage__ttl">Concept Archive</h3>
+
+  <p class="stage__big">Tidak semua ide perlu berteriak.</p>
+
+  <p class="stage__body">
+    Contoh badan teks. Ukurannya 15px, sama seperti paragraf di situs asli.
+    Perhatikan apakah judul di atas masih terasa satu keluarga dengan teks ini,
+    atau justru bertabrakan.
+  </p>
+</section>
+
+<section class="note" id="note"></section>
+
+<section class="stack">
+  <h2>Bersebelahan</h2>
+  <p>Wordmark yang sama, empat font, satu layar. Ini cara tercepat melihat bedanya.</p>
+
+  <div class="row r-inter">
+    <div class="row__lbl"><span class="mono">INTER</span><span class="mono dim">KINI</span></div>
+    <p class="row__wm">NUIT<br>ENCRE</p>
+  </div>
+
+  <div class="row r-bric">
+    <div class="row__lbl"><span class="mono">BRICOLAGE GROTESQUE</span><span class="mono dim">OFL</span></div>
+    <p class="row__wm">NUIT<br>ENCRE</p>
+  </div>
+
+  <div class="row r-frau">
+    <div class="row__lbl"><span class="mono">FRAUNCES</span><span class="mono dim">OFL</span></div>
+    <p class="row__wm">NUIT<br>ENCRE</p>
+  </div>
+
+  <div class="row r-arch">
+    <div class="row__lbl"><span class="mono">ARCHIVO</span><span class="mono dim">OFL</span></div>
+    <p class="row__wm">NUIT<br>ENCRE</p>
+  </div>
+</section>
+
+<script>
+const INFO = {
+  'f-inter': {
+    nama: 'Inter', pencipta: 'Rasmus Andersson', lisensi: 'SIL OFL 1.1',
+    sifat: 'Netral, default desain web modern',
+    why: 'Yang dipakai sekarang. Sempurna secara teknis, tapi tidak mengatakan apa-apa — inilah alasan kamu merasa fontnya kurang berani.'
+  },
+  'f-bric': {
+    nama: 'Bricolage Grotesque', pencipta: 'Mathieu Triay', lisensi: 'SIL OFL 1.1',
+    sifat: 'Grotesk ber-ink-trap, variable (opsz · wdth · wght)',
+    why: 'Punya takik di sudut huruf — warisan cetak koran. Terbaca editorial dan sedikit nyeleneh tanpa jadi aneh. Paling dekat ke register huyml.co, dan paling seimbang dari ketiganya.'
+  },
+  'f-frau': {
+    nama: 'Fraunces', pencipta: 'Undercase Type', lisensi: 'SIL OFL 1.1',
+    sifat: 'Serif kontras tinggi, variable (opsz · SOFT · WONK)',
+    why: 'Sumbu WONK membuat bentuknya makin liar saat dinaikkan. Wordmark jadi terasa seperti sampul majalah, dan menguatkan Instrument Serif yang sudah dipakai di kata "atmosfer".'
+  },
+  'f-arch': {
+    nama: 'Archivo', pencipta: 'Omnibus-Type', lisensi: 'SIL OFL 1.1',
+    sifat: 'Grotesk variable dengan sumbu lebar (62–125)',
+    why: 'Dipakai pada lebar maksimum, wordmark memenuhi layar seperti papan nama. Paling brutal dan paling sedikit hiasan — cocok kalau kamu ingin situsnya terasa keras, bukan halus.'
+  }
+};
+
+const note = document.getElementById('note');
+function render(k) {
+  const i = INFO[k];
+  note.innerHTML =
+    '<span class="mono dim">CATATAN</span>' +
+    '<dl>' +
+      '<dt>Nama</dt><dd>' + i.nama + '</dd>' +
+      '<dt>Pencipta</dt><dd>' + i.pencipta + '</dd>' +
+      '<dt>Lisensi</dt><dd>' + i.lisensi + ' — bebas komersial</dd>' +
+      '<dt>Sifat</dt><dd>' + i.sifat + '</dd>' +
+    '</dl>' +
+    '<p class="note__why">' + i.why + '</p>';
+}
+
+document.getElementById('pick').addEventListener('click', e => {
+  const b = e.target.closest('.pick__b');
+  if (!b) return;
+  document.querySelectorAll('.pick__b').forEach(x => x.classList.remove('on'));
+  b.classList.add('on');
+  document.body.className = b.dataset.f;
+  render(b.dataset.f);
+});
+
+render('f-bric');
+</script>
+</body>
+</html>
