@@ -2,26 +2,30 @@
 
 ## make-og-card.py
 
-Membuat ulang `assets/img/og-cover.jpg` (kartu berbagi 1200×630).
+Membuat ulang `assets/img/og-cover.jpg` — kartu berbagi 1200×630 yang
+muncul saat link situs dikirim ke WhatsApp, X, atau LinkedIn.
 
-Kartu ini memakai bahasa visual yang sama dengan hero situs: wordmark
-Apfel Grotezk Fett yang disingkap oleh tinta bercabang dari algoritma
-`grow()` di `assets/js/main.js`.
+**Bahan:**
 
-Jalankan:
+- `assets/img/src-ink.jpg` — foto tinta putih membaur di air hitam.
+  Sisi kirinya sengaja hampir hitam total supaya ada ruang untuk
+  wordmark; kalau menggantinya, pastikan sifat itu tetap ada.
+- `assets/fonts/ApfelGrotezk-Fett.woff2` — dikonversi ke TTF otomatis,
+  jadi huruf di kartu identik dengan huruf di situs.
+
+**Jalankan:**
 
     python3 -m pip install --break-system-packages fonttools brotli pillow numpy
     python3 tools/make-og-card.py
 
-Skrip mengonversi `assets/fonts/ApfelGrotezk-Fett.woff2` ke
-`/tmp/ApfelFett.ttf` lebih dulu, jadi huruf di kartu identik dengan
-huruf di situs.
+Bisa dipanggil dari direktori mana pun; skrip pindah sendiri ke akar repo.
 
-Dua angka yang menentukan hasilnya:
+**Catatan penyetelan** — `vert = t*1.02 + .46`. Angka `.46` itu lantai
+keterbacaan: menurunkannya membuat baris NUIT mulai lenyap ditelan
+tinta. Pengali `0.62` pada `ink` mengatur seberapa dalam tinta menggerus
+huruf.
 
-- **rasio jari-jari terhadap langkah** harus >= 1.8, kalau tidak simpul
-  tidak bersentuhan dan tinta terbaca sebagai manik-manik, bukan serat
-- **`vert`** dasar 0.42 menjaga puncak huruf tetap terbaca; kalau
-  diturunkan, baris NUIT mulai lenyap
-
-Seed dikunci di `20260825` supaya hasilnya dapat diulang.
+**Riwayat:** versi sebelumnya mencoba menggambar tinta secara prosedural
+memakai algoritma `grow()` dari `main.js`. Parameter itu disetel untuk
+kanvas potret di HP dan menghasilkan bentuk seperti petir di kanvas
+lanskap — ditinggalkan, diganti foto.
