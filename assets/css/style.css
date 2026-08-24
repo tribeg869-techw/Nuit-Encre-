@@ -48,8 +48,15 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
   display:flex;flex-direction:column;justify-content:flex-end;
   padding:var(--pad);padding-bottom:calc(var(--pad) + var(--safe));
   transition:opacity .6s var(--e),visibility .6s;
+  isolation:isolate;
 }
 .boot.off{opacity:0;visibility:hidden}
+/* saat tinta dibelah, latar dilepas agar hero terlihat di sela panel */
+.boot.cut{background:transparent}
+.boot__c{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
+/* difference menjaga teks tetap terbaca saat layar tertutup tinta putih */
+.boot__row,.boot__bar{position:relative;z-index:2;mix-blend-mode:difference;transition:opacity .3s var(--e)}
+.boot.cut .boot__row,.boot.cut .boot__bar{opacity:0}
 .boot__row{display:flex;justify-content:space-between;margin-bottom:10px}
 .boot__bar{height:1px;background:var(--line)}
 .boot__bar i{display:block;height:100%;width:0;background:var(--pure)}

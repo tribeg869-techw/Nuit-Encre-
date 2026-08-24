@@ -174,22 +174,172 @@
   sm.href = 'mailto:' + D.meta.email;
   $('#yr').textContent = new Date().getFullYear();
 
-  /* ---------- BOOT ---------- */
-  const boot = $('#boot'), bBar = $('#bootBar'), bPct = $('#bootPct');
-  const dur = reduced ? 200 : 1100;
+  /* ---------- BOOT ----------
+     Adegan pembuka, bukan bar tunggu: setetes tinta putih jatuh,
+     menghantam dasar, lalu merembes NAIK memenuhi layar dengan tepian
+     berserat. Setelah penuh, massa tinta itu dibelah tiga dan didorong
+     keluar — hero sudah hidup di baliknya.                             */
   const t0 = performance.now();
+  const boot = $('#boot'), bBar = $('#bootBar'), bPct = $('#bootPct');
+  const bc   = $('#bootC');
   document.body.style.overflow = 'hidden';
 
-  (function step(now) {
-    const p = Math.min(1, (now - t0) / dur);
-    bBar.style.width = (p * 100).toFixed(1) + '%';
-    bPct.textContent = String(Math.round(p * 100)).padStart(3, '0');
-    if (p < 1) return requestAnimationFrame(step);
-    setTimeout(() => {
-      boot.classList.add('off');
-      document.body.style.overflow = '';
-    }, reduced ? 0 : 220);
-  })(t0);
+  function bootDone() {
+    boot.classList.add('off');
+    document.body.style.overflow = '';
+  }
+
+  const bx = bc && bc.getContext ? bc.getContext('2d') : null;
+
+  if (reduced || !bx) {
+    /* gerak diredam: tanpa adegan, cukup singkap cepat */
+    bBar.style.width = '100%';
+    bPct.textContent = '100';
+    setTimeout(bootDone, 200);
+  } else {
+    let W = 0, H = 0;
+
+    function bsize() {
+      W = innerWidth; H = innerHeight;
+      const dpr = Math.min(devicePixelRatio || 1, 2);
+      bc.width = W * dpr; bc.height = H * dpr;
+      bx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    bsize();
+    addEventListener('resize', bsize, { passive: true });
+
+    /* — acak deterministik, sama seperti void — */
+    let rs = (Date.now() ^ (Math.random() * 0xFFFFFF)) >>> 0;
+    const rnd = () => {
+      rs |= 0; rs = rs + 0x6D2B79F5 | 0;
+      let x = Math.imul(rs ^ rs >>> 15, 1 | rs);
+      x = x + Math.imul(x ^ x >>> 7, 61 | x) ^ x;
+      return ((x ^ x >>> 14) >>> 0) / 4294967296;
+    };
+
+    /* tepian bergelombang — dihitung sekali, dipakai tiap frame */
+    const wob = [];
+    for (let i = 0; i < 5; i++)
+      wob.push({ a: 4 + rnd() * 9, k: .004 + rnd() * .012, p: rnd() * Math.PI * 2 });
+    const frontY = (x, t) => {
+      let o = 0;
+      for (const w of wob) o += Math.sin(x * w.k + w.p + t * .0012) * w.a;
+      return o;
+    };
+
+    /* sulur berserat yang menjalar di atas permukaan tinta */
+    const tend = [];
+    for (let i = 0; i < 18; i++) {
+      const nodes = [];
+      let dx = 0, dy = 0, dir = -Math.PI / 2 + (rnd() - .5) * .8;
+      const step = 7 + rnd() * 9, n = 5 + Math.floor(rnd() * 7);
+      for (let j = 0; j < n; j++) {
+        dir += (rnd() - .5) * .95;
+        dx += Math.cos(dir) * step;
+        dy += Math.sin(dir) * step;
+        const taper = 1 - j / n;
+        nodes.push({ dx, dy, r: (3 + rnd() * 7) * (.35 + taper * .65) });
+      }
+      tend.push({ x: rnd(), rise: .45 + rnd() * .55, nodes });
+    }
+
+    const eOut  = p => 1 - Math.pow(1 - p, 3);
+    const eIn   = p => p * p;
+    const smoot = p => p * p * (3 - 2 * p);
+    const seg = (t, a, b) => Math.max(0, Math.min(1, (t - a) / (b - a)));
+
+    const DROP = 420, FILL_A = 400, FILL_B = 1200, CUT = 1260, END = 2160;
+    const OVER = 60;   // tinta dilebihkan agar puncak layar tak berlubang
+    const BANDS = 3;
+
+    /* menggambar massa tinta pada keadaan waktu t */
+    function ink(t) {
+      const f = eOut(seg(t, FILL_A, FILL_B));          // ketinggian rembesan
+      if (f <= 0) return;
+      const lvl = H - (H + OVER) * f;
+
+      bx.fillStyle = '#fff';
+
+      /* badan tinta */
+      bx.beginPath();
+      bx.moveTo(0, H);
+      bx.lineTo(0, lvl + frontY(0, t));
+      for (let x = 0; x <= W; x += 8) bx.lineTo(x, lvl + frontY(x, t));
+      bx.lineTo(W, H);
+      bx.closePath();
+      bx.fill();
+
+      /* sulur — hanya muncul setelah rembesan melewati ambangnya */
+      for (const s of tend) {
+        const g = seg(f, s.rise - .45, s.rise + .2);
+        if (g <= 0) continue;
+        const ox = s.x * W, oy = lvl + frontY(ox, t) + 4;
+        const lim = g * s.nodes.length;
+        for (let j = 0; j < s.nodes.length; j++) {
+          if (j > lim) break;
+          const nd = s.nodes[j];
+          const fade = Math.min(1, lim - j);
+          bx.globalAlpha = fade;
+          bx.beginPath();
+          bx.arc(ox + nd.dx, oy + nd.dy, nd.r, 0, Math.PI * 2);
+          bx.fill();
+        }
+        bx.globalAlpha = 1;
+      }
+    }
+
+    /* tetesan yang jatuh sebelum tinta menggenang */
+    function drop(t) {
+      const p = seg(t, 0, DROP);
+      if (p <= 0 || p >= 1) return;
+      const y  = -30 + (H + 30) * eIn(p);
+      const st = 1 + eIn(p) * 2.2;                     // memanjang saat cepat
+      bx.fillStyle = '#fff';
+      bx.save();
+      bx.translate(W * .5, y);
+      bx.scale(1, st);
+      bx.beginPath();
+      bx.arc(0, 0, 6.5, 0, Math.PI * 2);
+      bx.fill();
+      bx.restore();
+    }
+
+    let cut = false;
+
+    (function frame(now) {
+      const t = now - t0;
+      bx.clearRect(0, 0, W, H);
+
+      if (t < CUT) {
+        drop(t);
+        ink(t);
+      } else {
+        /* dibelah tiga, tiap panel didorong keluar bergantian arah */
+        if (!cut) { cut = true; boot.classList.add('cut'); }
+        const bh = H / BANDS;
+        for (let i = 0; i < BANDS; i++) {
+          const st = CUT + i * 110;
+          const p = smoot(seg(t, st, st + 620));
+          if (p >= 1) continue;
+          const dir = i % 2 ? 1 : -1;
+          bx.save();
+          bx.beginPath();
+          bx.rect(0, i * bh, W, bh + 1);
+          bx.clip();
+          bx.translate(dir * p * W * 1.3, 0);
+          ink(CUT);
+          bx.restore();
+        }
+      }
+
+      const q = Math.min(1, t / CUT);
+      bBar.style.width = (q * 100).toFixed(1) + '%';
+      bPct.textContent = String(Math.round(q * 100)).padStart(3, '0');
+
+      if (t < END) return requestAnimationFrame(frame);
+      bootDone();
+    })(performance.now());
+  }
 
   /* ---------- JAM ---------- */
   const clock = $('#heroClock');
