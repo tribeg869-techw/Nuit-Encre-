@@ -63,7 +63,7 @@ dengan teks hitam. Lebih berani, dan tidak bisa tertukar dengan Archive.
 |---|---|---|
 | Latar | Abu terang | Hitam |
 | Navigasi | Baris di tengah halaman | **Bilah bawah tetap** — zona jempol |
-| Galeri | Seret mendatar | **Tumpukan vertikal** — arah alami ibu jari |
+| Galeri | Seret mendatar, banyak kartu terlihat | **Geser + snap tengah** — satu kartu fokus, keterangan berganti di bawah |
 | Metadata | Empat sudut layar | Bilah bawah + label lengket per bagian |
 | Huruf display | Serif italic mendominasi | Grotesque mendominasi, serif italic sangat jarang |
 | Jumlah karya | 19 | 1 — maka strukturnya wajib berbeda |
@@ -81,8 +81,9 @@ Bekerja dari ponsel berarti keputusan berikut bukan tambahan, melainkan dasar.
 - **Ketuk, bukan hover.** Setiap kartu studi dibuka dengan ketukan. Tidak ada
   isi yang tersembunyi di balik hover.
 - **Sasaran sentuh minimal 44px.**
-- **Gulir vertikal saja.** Tanpa seret mendatar, tanpa gestur yang perlu
-  dipelajari.
+- **Geser pada galeri.** Gestur paling alami di ponsel. Memakai
+  `scroll-snap` bawaan peramban, sehingga momentumnya terasa seperti aplikasi
+  dan tetap ringan. Tombol panah disediakan sebagai cadangan.
 - **`100dvh`**, bukan `100vh` — agar tidak terpotong bilah alamat peramban.
 - **`safe-area-inset`** dihormati untuk ponsel berponi.
 - **Tipografi diuji pada 360px** — bukan diperkecil dari desktop.
@@ -112,7 +113,7 @@ Bekerja dari ponsel berarti keputusan berikut bukan tambahan, melainkan dasar.
 |---|---|---|
 | `001` | Pembuka | Nama besar, status, indeks |
 | `002` | Karya | Concept Archive — satu-satunya yang selesai |
-| `003` | Studi | 8 studi visual, tumpukan vertikal, ketuk untuk buka |
+| `003` | Studi | 8 studi visual, galeri geser dengan snap ke tengah |
 | `004` | Praktik | Dua paragraf posisi |
 | `005` | Kontak | Satu alamat, blok inversi |
 

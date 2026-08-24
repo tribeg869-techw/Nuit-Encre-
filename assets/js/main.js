@@ -37,32 +37,120 @@
       </div>
     </div>`;
 
-  /* ---------- 003 · STUDI (ketuk, bukan hover) ---------- */
-  $('#studies').innerHTML = D.studies.map((s, i) => `
-    <article class="st rv">
-      <button class="st__btn" aria-expanded="false" aria-controls="n${i}">
-        <span class="st__fig">
-          <span class="st__no">${s.no}</span>
-          <span class="st__tag">${s.tag}</span>
-          ${pic(s.img, s.title)}
-        </span>
-        <span class="st__row">
-          <span class="st__ttl">${s.title}</span>
-          <span class="st__pm"></span>
-        </span>
-      </button>
-      <div class="st__note" id="n${i}"><p>${s.note}</p></div>
-    </article>`).join('');
+  /* ---------- 003 · STUDI — galeri geser ---------- */
+  const view  = $('#galView');
+  const track = $('#galTrack');
+  const S = D.studies;
 
-  $('#stCount').textContent = String(D.studies.length).padStart(2, '0');
+  track.innerHTML = S.map((s, i) => `
+    <figure class="gs${i === 0 ? ' on' : ''}" data-n="${i}">
+      <div class="gs__fig">
+        <span class="gs__i">${s.no}</span>
+        ${pic(s.img, s.title)}
+      </div>
+    </figure>`).join('');
 
-  $$('.st__btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const card = btn.closest('.st');
-      const open = card.classList.toggle('open');
-      btn.setAttribute('aria-expanded', String(open));
+  const cards = $$('.gs', track);
+  const total = cards.length;
+  $('#stCount').textContent = String(total).padStart(2, '0');
+
+  const elNo   = $('#galNo');
+  const elTag  = $('#galTag');
+  const elTtl  = $('#galTtl');
+  const elNote = $('#galNote');
+  const elCap  = $('#galCap');
+  const elBar  = $('#galBar');
+  const bPrev  = $('#galPrev');
+  const bNext  = $('#galNext');
+
+  let cur = -1;
+
+  function paint(i) {
+    if (i === cur) return;
+    cur = i;
+    const s = S[i];
+
+    cards.forEach((c, n) => c.classList.toggle('on', n === i));
+
+    elCap.classList.add('sw');
+    setTimeout(() => {
+      elNo.textContent   = s.no;
+      elTag.textContent  = s.tag;
+      elTtl.textContent  = s.title;
+      elNote.textContent = s.note;
+      elCap.classList.remove('sw');
+    }, reduced ? 0 : 150);
+
+    elBar.style.width = (100 / total) + '%';
+    elBar.style.transform = `translateX(${i * 100}%)`;
+
+    bPrev.disabled = i === 0;
+    bNext.disabled = i === total - 1;
+  }
+
+  // kartu mana yang paling dekat ke tengah jendela
+  function nearest() {
+    const mid = view.scrollLeft + view.clientWidth / 2;
+    let best = 0, gap = Infinity;
+    cards.forEach((c, i) => {
+      const d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid);
+      if (d < gap) { gap = d; best = i; }
     });
+    return best;
+  }
+
+  function goTo(i) {
+    const c = cards[Math.max(0, Math.min(total - 1, i))];
+    view.scrollTo({
+      left: c.offsetLeft - (view.clientWidth - c.offsetWidth) / 2,
+      behavior: reduced ? 'auto' : 'smooth'
+    });
+  }
+
+  let raf = false;
+  view.addEventListener('scroll', () => {
+    if (raf) return;
+    raf = true;
+    requestAnimationFrame(() => { paint(nearest()); raf = false; });
+  }, { passive: true });
+
+  bPrev.addEventListener('click', () => goTo(cur - 1));
+  bNext.addEventListener('click', () => goTo(cur + 1));
+
+  // seret dengan mouse — di layar sentuh, biarkan native
+  let down = false, sx = 0, sl = 0, far = 0;
+  view.addEventListener('pointerdown', e => {
+    if (e.pointerType === 'touch') return;
+    down = true; far = 0;
+    sx = e.clientX; sl = view.scrollLeft;
+    view.classList.add('drag');
+    view.setPointerCapture(e.pointerId);
   });
+  view.addEventListener('pointermove', e => {
+    if (!down) return;
+    const d = e.clientX - sx;
+    far += Math.abs(d);
+    view.scrollLeft = sl - d;
+  });
+  function release() {
+    if (!down) return;
+    down = false;
+    view.classList.remove('drag');
+    goTo(nearest());
+  }
+  view.addEventListener('pointerup', release);
+  view.addEventListener('pointercancel', release);
+
+  // panah kiri / kanan
+  addEventListener('keydown', e => {
+    if (!$('#sheet').hidden) return;
+    const r = $('#s3').getBoundingClientRect();
+    if (r.top > innerHeight * .6 || r.bottom < innerHeight * .4) return;
+    if (e.key === 'ArrowLeft')  { e.preventDefault(); goTo(cur - 1); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); goTo(cur + 1); }
+  });
+
+  paint(0);
 
   /* ---------- 004 · PRAKTIK ---------- */
   $('#practice').innerHTML = D.practice.map(p => `<p class="rv">${p}</p>`).join('');

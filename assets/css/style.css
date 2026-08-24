@@ -168,64 +168,107 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 .wk__story{margin-top:22px;display:grid;gap:14px}
 .wk__story p{color:var(--soft);font-size:14px;max-width:52ch}
 
-/* ---------- 003 · STUDI ---------- */
-.studies{display:grid;gap:12px}
+/* ---------- 003 · STUDI (galeri geser) ---------- */
+.sec--gal{padding-inline:0}
+.sec--gal .sec__bar,
+.sec--gal .gal__head,
+.sec--gal .gal__cap,
+.sec--gal .gal__foot,
+.sec--gal .hint{padding-inline:var(--pad)}
 
-.st{
-  border:1px solid var(--line);background:var(--ash);
-  overflow:hidden;transition:border-color .4s var(--e);
+.gal__head{
+  display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+  margin-bottom:14px;
 }
-.st.open{border-color:var(--line2)}
+.gal__no{
+  font-family:var(--mono);font-size:34px;font-weight:500;
+  letter-spacing:-.02em;line-height:1;color:var(--pure);
+  font-variant-numeric:tabular-nums;
+}
 
-.st__btn{
-  display:block;width:100%;text-align:left;position:relative;
+/* jendela geser */
+.gal__view{
+  overflow-x:auto;overflow-y:hidden;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;-ms-overflow-style:none;
+  cursor:grab;
 }
-.st__fig{position:relative;overflow:hidden}
-.st__fig img{
-  aspect-ratio:4/3;object-fit:cover;
-  filter:grayscale(1) brightness(.72) contrast(1.08);
-  transition:filter .6s var(--e),transform 1s var(--e);
-}
-.st.open .st__fig img{filter:grayscale(1) brightness(1) contrast(1);transform:scale(1.02)}
+.gal__view::-webkit-scrollbar{display:none}
+.gal__view.drag{cursor:grabbing;scroll-snap-type:none}
 
-.st__no{
+.gal__track{
+  display:flex;gap:10px;
+  padding-inline:var(--pad);
+  width:max-content;
+}
+
+.gs{
+  scroll-snap-align:center;
+  width:calc(100vw - (var(--pad) * 2) - 42px);
+  max-width:420px;flex-shrink:0;
+}
+.gs__fig{
+  position:relative;overflow:hidden;background:var(--ash);
+  border:1px solid var(--line);aspect-ratio:3/4;
+}
+.gs__fig img{
+  width:100%;height:100%;object-fit:cover;
+  filter:grayscale(1) brightness(.6) contrast(1.05);
+  transform:scale(1.04);
+  transition:filter .6s var(--e),transform .8s var(--e);
+}
+.gs.on .gs__fig{border-color:var(--line2)}
+.gs.on .gs__fig img{filter:grayscale(1) brightness(1) contrast(1.02);transform:scale(1)}
+
+.gs__i{
   position:absolute;top:0;left:0;z-index:2;
   background:var(--pure);color:var(--void);
   font-family:var(--mono);font-size:10px;letter-spacing:.14em;
   padding:6px 9px;
 }
-.st__tag{
-  position:absolute;top:0;right:0;z-index:2;
-  background:rgba(0,0,0,.72);backdrop-filter:blur(6px);
-  font-family:var(--mono);font-size:9px;letter-spacing:.16em;color:var(--soft);
-  padding:6px 9px;
+
+/* keterangan */
+.gal__cap{
+  min-height:96px;
+  padding-top:16px;margin-top:16px;
+  border-top:1px solid var(--line);
+}
+.gal__ttl{
+  font-size:clamp(26px,8vw,46px);font-weight:600;
+  letter-spacing:-.04em;line-height:1.02;
+}
+.gal__note{
+  color:var(--soft);font-size:14px;max-width:44ch;margin-top:8px;
+}
+.gal__cap.sw .gal__ttl,
+.gal__cap.sw .gal__note{opacity:0;transform:translateY(7px)}
+.gal__ttl,.gal__note{
+  transition:opacity .28s var(--e),transform .28s var(--e);
 }
 
-.st__row{
-  display:flex;justify-content:space-between;align-items:center;gap:12px;
-  padding:13px 14px;min-height:52px;
+/* kaki */
+.gal__foot{
+  display:flex;align-items:center;gap:16px;
+  margin-top:18px;
 }
-.st__ttl{font-size:16px;font-weight:500;letter-spacing:-.02em}
-.st__pm{
-  width:22px;height:22px;flex-shrink:0;position:relative;
-  border:1px solid var(--line2);border-radius:50%;
+.gal__bar{flex:1;height:1px;background:var(--line)}
+.gal__bar i{
+  display:block;height:100%;width:12.5%;background:var(--pure);
+  transition:width .35s var(--e),transform .35s var(--e);
 }
-.st__pm::before,.st__pm::after{
-  content:'';position:absolute;inset:50% 5px auto;height:1px;background:var(--soft);
-  transition:transform .35s var(--e);
+.gal__nav{display:flex;gap:8px;flex-shrink:0}
+.gal__b{
+  width:44px;height:44px;flex-shrink:0;
+  border:1px solid var(--line2);
+  display:grid;place-content:center;
+  font-size:15px;color:var(--soft);
+  transition:background .25s,color .25s,border-color .25s,opacity .25s;
 }
-.st__pm::after{transform:rotate(90deg)}
-.st.open .st__pm::after{transform:rotate(0)}
+.gal__b:active{background:var(--pure);color:var(--void);border-color:var(--pure)}
+.gal__b[disabled]{opacity:.28}
 
-.st__note{
-  overflow:hidden;max-height:0;
-  transition:max-height .45s var(--e);
-}
-.st.open .st__note{max-height:220px}
-.st__note p{
-  padding:0 14px 15px;color:var(--soft);font-size:14px;
-  border-top:1px solid var(--line);padding-top:13px;margin:0 0 0;
-}
+.sec--gal .hint{margin:14px 0 0}
 
 /* ---------- 005 · KONTAK ---------- */
 .slab{
@@ -274,7 +317,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 @media (min-width:720px){
   :root{--pad:40px}
   .sec{padding-top:104px}
-  .studies{grid-template-columns:1fr 1fr;gap:16px}
+  .gs{width:min(46vw,400px)}
   .wk__body{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start}
   .wk__story{margin-top:0}
   .prose{grid-template-columns:1fr 1fr;gap:32px}
@@ -293,7 +336,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
   .dock__p{top:auto;bottom:-1px}
   .hero{padding-top:calc(var(--dock) + 32px)}
   .sec__bar{top:var(--dock)}
-  .studies{grid-template-columns:repeat(3,1fr)}
+  .gs{width:min(30vw,420px)}
+  .gal__no{font-size:44px}
   .sec{max-width:1400px;margin-inline:auto}
   .hero{max-width:1400px;margin-inline:auto}
 }

@@ -13,9 +13,9 @@ Alasan setiap keputusan ada di **[`CONCEPT.md`](CONCEPT.md)**.
 Dirancang pada lebar **360px** lebih dulu. Layar besar hanyalah pelebaran.
 
 - **Navigasi di bawah** — zona jangkauan ibu jari, bukan pojok atas
-- **Ketuk, bukan hover** — nol aturan `hover` di seluruh CSS; setiap catatan
-  studi dibuka dengan ketukan
-- **Gulir vertikal saja** — tanpa seret mendatar atau gestur yang perlu dipelajari
+- **Nol aturan `hover`** di seluruh CSS — tidak ada isi yang tersembunyi
+- **Galeri geser** pada bagian `003` — snap ke tengah, keterangan berganti
+  mengikuti kartu aktif, lengkap dengan tombol panah sebagai cadangan
 - **Sasaran sentuh ≥ 44px**
 - **`100dvh`** agar tidak terpotong bilah alamat peramban
 - **`safe-area-inset`** dihormati untuk ponsel berponi
@@ -32,7 +32,7 @@ Berbeda dari **Concept Archive** — dan bukan tiruan **huyml.co**.
 | Aksen | Cinnabar merah | — | **Tanpa warna** — inversi blok putih |
 | Aksara | 中文 | — | **Tanpa CJK** |
 | Navigasi | — | Baris tengah | **Bilah bawah tetap** |
-| Galeri | — | Seret mendatar | **Tumpukan vertikal** |
+| Galeri | — | Seret mendatar | **Geser + snap tengah** |
 | Indeks | `01—06` | `01/19` | **`001 / 005`** |
 
 Aksennya bukan warna, melainkan **inversi**: blok putih penuh dengan teks hitam.
@@ -46,7 +46,7 @@ Lebih tegas, dan tidak mungkin tertukar dengan Concept Archive.
 |---|---|
 | `001` | Pembuka — nama besar, status, jam |
 | `002` | Karya — Concept Archive |
-| `003` | Studi — 8 kartu, ketuk untuk catatan |
+| `003` | Studi — galeri geser, 8 kartu |
 | `004` | Praktik |
 | `005` | Kontak |
 
@@ -86,6 +86,8 @@ Semua isi terpusat di **`assets/js/data.js`**:
 { no:'009', title:'Judul', tag:'FORM', img:'st-09',
   note:'Satu kalimat catatan.' }
 ```
+
+Galeri, penghitung, dan bilah kemajuan menyesuaikan sendiri.
 
 Taruh `st-09.webp` dan `st-09.jpg` di `assets/img/`.
 
