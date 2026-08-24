@@ -106,8 +106,10 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 
 .hero__meta{display:flex;justify-content:space-between;gap:12px}
 
-/* blok tengah: wordmark + kalimat, didorong ke bawah */
-.hero__mid{margin-top:auto}
+/* blok tengah: wordmark + kalimat.
+   Jarak proporsional dari atas — bukan margin-top:auto, sebab auto
+   menumpuk seluruh sisa ruang di atas dan mendorong headline turun. */
+.hero__mid{margin-top:clamp(24px,16vh,150px)}
 
 .wordmark{
   font-size:clamp(52px,17.5vw,168px);
@@ -132,7 +134,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 
 .hero__foot{
   display:flex;justify-content:space-between;align-items:center;gap:10px;
-  padding-top:14px;margin-top:20px;border-top:1px solid var(--line);
+  padding-top:14px;margin-top:auto;border-top:1px solid var(--line);
   opacity:0;animation:fade .8s var(--e) .7s forwards;
 }
 .hero__spec{
@@ -163,7 +165,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 
 .void__sub{
   position:absolute;left:var(--pad);right:var(--pad);
-  top:50%;transform:translateY(-50%);
+  top:62%;
   text-align:center;
   transition:opacity .6s var(--e);
   animation:hintPulse 3.4s ease-in-out infinite;
