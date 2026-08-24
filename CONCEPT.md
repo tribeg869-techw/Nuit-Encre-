@@ -219,7 +219,27 @@ karena itulah yang dulu membuat judul melorot ke tengah.
 
 ---
 
-## 9. Layar pembuka
+## 9. Satu bahasa
+
+Situs ini **hanya Bahasa Indonesia**, tanpa pengganti bahasa. Keputusan ini
+sengaja: tekstur multibahasa adalah salah satu hal yang membuat versi pertama
+terbaca sebagai tiruan Concept Archive.
+
+Konsekuensinya pada tata letak: label lokasi di pojok kanan hero ditulis
+**`INDONESIA`**, bukan `IDN`. Singkatan tiga huruf di pojok atas adalah
+konvensi kuat untuk tombol pengganti bahasa — pemilik situs sendiri sempat
+mengetuknya dan mengira rusak. Kata penuh menghilangkan salah baca itu tanpa
+menambah elemen apa pun.
+
+Bila suatu saat EN dibutuhkan: seluruh teks sudah terpusat (**32 potong** di
+`data.js`, **6** di `index.html`), jadi tinggal diubah jadi `{ id, en }`.
+Kerjakan **setelah** teks Indonesianya final — catatan studi dan cerita
+Concept Archive masih placeholder, dan menerjemahkan teks yang belum final
+berarti kerja dua kali.
+
+---
+
+## 10. Layar pembuka
 
 Situs ini ringan; tidak ada yang benar-benar perlu ditunggu. Jadi layar pembuka
 bukan bar kemajuan, melainkan **adegan** — dan sengaja dibedakan sifatnya dari
