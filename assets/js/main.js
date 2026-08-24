@@ -1,166 +1,151 @@
 /* ==========================================================================
-   NUIT-ENCRE — interaksi
+   NUIT-ENCRE — interaksi (mobile first, tanpa hover)
    ========================================================================== */
 (function () {
   'use strict';
 
   const $  = (s, c = document) => c.querySelector(s);
   const $$ = (s, c = document) => [...c.querySelectorAll(s)];
-  const D  = window.NE_DATA;
+  const D  = window.NE;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const pic = (name, alt, extra = '') =>
+  const pic = (n, alt) =>
     `<picture>
-       <source srcset="assets/img/${name}.webp" type="image/webp">
-       <img src="assets/img/${name}.jpg" alt="${alt}" loading="lazy" decoding="async" ${extra}>
+       <source srcset="assets/img/${n}.webp" type="image/webp">
+       <img src="assets/img/${n}.jpg" alt="${alt}" loading="lazy" decoding="async">
      </picture>`;
 
-  /* ---------- 1. RENDER: MEJA ---------- */
-  $('#deskTrack').innerHTML = D.artifacts.map(a => `
-    <article class="art">
-      <div class="art__fig">
-        <span class="art__kind">${a.kind}</span>
-        ${pic(a.img, a.title)}
-        ${a.note ? `<p class="art__note">${a.note}</p>` : ''}
-      </div>
-      <div class="art__meta">
-        <span class="art__id">${a.id}</span>
-        <span class="art__date">${a.date}</span>
-      </div>
-      <h3 class="art__title">${a.title}</h3>
-      <p class="art__tags">${a.tags}</p>
-    </article>`).join('');
-
-  $('#deskCount').textContent = String(D.artifacts.length).padStart(2, '0') + ' ARTEFAK';
-
-  /* ---------- 2. RENDER: YANG SELESAI ---------- */
+  /* ---------- 002 · KARYA ---------- */
   const w = D.work;
   $('#work').innerHTML = `
-    <div class="work__top rv">
-      <span class="work__no">${w.index}</span>
-      <span class="work__yr">${w.year}</span>
-      <span class="work__kind">${w.kind}</span>
+    <div class="wk__top rv">
+      <span class="mono">${w.no}</span>
+      <span class="mono dim">${w.kind} · ${w.year}</span>
     </div>
-    <h3 class="work__title rv">${w.title}<span class="work__cjk">${w.cjk}</span></h3>
-    <a class="work__fig rv" href="${w.url}" target="_blank" rel="noopener">
-      ${pic(w.cover, w.title + ' — tangkapan layar')}
+    <h2 class="wk__title rv">${w.title}</h2>
+    <p class="wk__lede rv">${w.lede}</p>
+    <a class="wk__fig rv" href="${w.url}" target="_blank" rel="noopener">
+      ${pic(w.cover, w.title)}
+      <span class="wk__go">Kunjungi <span>↗</span></span>
     </a>
-    <div class="work__body">
-      <p class="work__lede rv">${w.lede}</p>
-      <div class="work__story rv">
+    <div class="wk__body">
+      <dl class="wk__facts rv">
+        ${w.facts.map(f => `<div><dt>${f.k}</dt><dd>${f.v}</dd></div>`).join('')}
+      </dl>
+      <div class="wk__story rv">
         ${w.story.map(p => `<p>${p}</p>`).join('')}
-        <a class="work__go" href="${w.url}" target="_blank" rel="noopener">
-          Kunjungi situs <span>↗</span>
-        </a>
       </div>
     </div>`;
 
-  /* ---------- 3. RENDER: KOLOFON + META ---------- */
-  $('#colo').innerHTML = D.colophon
-    .map(c => `<div class="rv"><dt>${c.k}</dt><dd>${c.v}</dd></div>`).join('');
+  /* ---------- 003 · STUDI (ketuk, bukan hover) ---------- */
+  $('#studies').innerHTML = D.studies.map((s, i) => `
+    <article class="st rv">
+      <button class="st__btn" aria-expanded="false" aria-controls="n${i}">
+        <span class="st__fig">
+          <span class="st__no">${s.no}</span>
+          <span class="st__tag">${s.tag}</span>
+          ${pic(s.img, s.title)}
+        </span>
+        <span class="st__row">
+          <span class="st__ttl">${s.title}</span>
+          <span class="st__pm"></span>
+        </span>
+      </button>
+      <div class="st__note" id="n${i}"><p>${s.note}</p></div>
+    </article>`).join('');
 
-  $('#hudStatus').textContent = D.meta.status;
-  const mail = $('#mail');
-  mail.href = 'mailto:' + D.meta.email;
-  mail.textContent = D.meta.email;
+  $('#stCount').textContent = String(D.studies.length).padStart(2, '0');
+
+  $$('.st__btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const card = btn.closest('.st');
+      const open = card.classList.toggle('open');
+      btn.setAttribute('aria-expanded', String(open));
+    });
+  });
+
+  /* ---------- 004 · PRAKTIK ---------- */
+  $('#practice').innerHTML = D.practice.map(p => `<p class="rv">${p}</p>`).join('');
+
+  /* ---------- META ---------- */
+  $('#heroStatus').textContent = D.meta.status;
+  $('#slabMail').textContent = D.meta.email;
+  $('#slab').href = 'mailto:' + D.meta.email;
+  const sm = $('#sheetMail');
+  sm.textContent = D.meta.email;
+  sm.href = 'mailto:' + D.meta.email;
   $('#yr').textContent = new Date().getFullYear();
 
-  /* ---------- 4. INTRO ---------- */
-  const intro = $('#intro'), bar = $('#introBar'), count = $('#introCount');
-  let p = 0;
-  const dur = reduced ? 240 : 1500;
+  /* ---------- BOOT ---------- */
+  const boot = $('#boot'), bBar = $('#bootBar'), bPct = $('#bootPct');
+  const dur = reduced ? 200 : 1100;
   const t0 = performance.now();
-
-  (function tick(now) {
-    p = Math.min(1, (now - t0) / dur);
-    bar.style.width = (p * 100).toFixed(1) + '%';
-    count.textContent = String(Math.round(p * 100)).padStart(2, '0');
-    if (p < 1) return requestAnimationFrame(tick);
-    setTimeout(() => {
-      intro.classList.add('gone');
-      document.body.style.overflow = '';
-    }, reduced ? 0 : 320);
-  })(t0);
   document.body.style.overflow = 'hidden';
 
-  /* ---------- 5. JAM ---------- */
-  const clock = $('#hudClock');
+  (function step(now) {
+    const p = Math.min(1, (now - t0) / dur);
+    bBar.style.width = (p * 100).toFixed(1) + '%';
+    bPct.textContent = String(Math.round(p * 100)).padStart(3, '0');
+    if (p < 1) return requestAnimationFrame(step);
+    setTimeout(() => {
+      boot.classList.add('off');
+      document.body.style.overflow = '';
+    }, reduced ? 0 : 220);
+  })(t0);
+
+  /* ---------- JAM ---------- */
+  const clock = $('#heroClock');
   (function run() {
     clock.textContent = new Intl.DateTimeFormat('id-ID', {
-      timeZone: 'Asia/Jakarta', hour12: false,
-      hour: '2-digit', minute: '2-digit', second: '2-digit'
-    }).format(new Date());
-    setTimeout(run, 1000);
+      timeZone: 'Asia/Jakarta', hour12: false, hour: '2-digit', minute: '2-digit'
+    }).format(new Date()) + ' WIB';
+    setTimeout(run, 15000);
   })();
 
-  /* ---------- 6. REVEAL ---------- */
-  const io = new IntersectionObserver((es) => {
-    es.forEach(e => {
-      if (!e.isIntersecting) return;
-      e.target.classList.add('in');
-      io.unobserve(e.target);
-    });
-  }, { threshold: .12, rootMargin: '0px 0px -6% 0px' });
+  /* ---------- MENU ---------- */
+  const sheet = $('#sheet'), dockB = $('#dockB');
+  const setSheet = on => {
+    sheet.hidden = !on;
+    document.body.style.overflow = on ? 'hidden' : '';
+    dockB.textContent = on ? 'TUTUP' : 'MENU';
+  };
+  dockB.addEventListener('click', () => setSheet(sheet.hidden));
+  $('#sheetX').addEventListener('click', () => setSheet(false));
+  $$('.sheet__nav a').forEach(a => a.addEventListener('click', () => setSheet(false)));
+  addEventListener('keydown', e => { if (e.key === 'Escape' && !sheet.hidden) setSheet(false); });
 
-  $$('.rv, .art, .s05').forEach((el, i) => {
-    el.style.transitionDelay = (i % 5) * 60 + 'ms';
+  /* ---------- REVEAL ---------- */
+  const io = new IntersectionObserver(es => {
+    es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: .1, rootMargin: '0px 0px -5% 0px' });
+  $$('.rv').forEach((el, i) => {
+    el.style.transitionDelay = (i % 4) * 55 + 'ms';
     io.observe(el);
   });
 
-  /* ---------- 7. SCROLL: rail + penanda bagian ---------- */
-  const rail = $('#railFill');
-  const secEl = $('#hudSec');
-  const secs = $$('[data-sec]');
-  let tick2 = false;
+  /* ---------- SCROLL ---------- */
+  const prog = $('#dockP'), dockI = $('#dockI');
+  const secs = $$('[data-i]');
+  let t = false;
 
   function onScroll() {
-    const y = window.scrollY;
+    const y = scrollY;
     const max = document.documentElement.scrollHeight - innerHeight;
-    rail.style.height = (max > 0 ? (y / max) * 100 : 0) + '%';
+    prog.style.width = (max > 0 ? (y / max) * 100 : 0) + '%';
 
-    let cur = '00';
-    secs.forEach(s => { if (y >= s.offsetTop - innerHeight * .4) cur = s.dataset.sec; });
-    secEl.textContent = cur + ' / 05';
-    tick2 = false;
+    let cur = '001';
+    secs.forEach(s => { if (y >= s.offsetTop - innerHeight * .45) cur = s.dataset.i; });
+    dockI.textContent = cur + '/005';
+    t = false;
   }
-  addEventListener('scroll', () => {
-    if (!tick2) { requestAnimationFrame(onScroll); tick2 = true; }
-  }, { passive: true });
+  addEventListener('scroll', () => { if (!t) { requestAnimationFrame(onScroll); t = true; } }, { passive: true });
   onScroll();
 
-  /* ---------- 8. MEJA: seret & gulir mendatar ---------- */
-  const desk = $('#desk');
-  let down = false, sx = 0, sl = 0, moved = 0;
-
-  desk.addEventListener('pointerdown', e => {
-    if (e.pointerType === 'touch') return;      // sentuh: biarkan native
-    down = true; moved = 0;
-    sx = e.clientX; sl = desk.scrollLeft;
-    desk.classList.add('grabbing');
-  });
-  addEventListener('pointerup', () => { down = false; desk.classList.remove('grabbing'); });
-  addEventListener('pointermove', e => {
-    if (!down) return;
-    const d = e.clientX - sx;
-    moved += Math.abs(d);
-    desk.scrollLeft = sl - d;
-  });
-  // cegah klik tak sengaja setelah menyeret
-  desk.addEventListener('click', e => { if (moved > 8) { e.preventDefault(); e.stopPropagation(); } }, true);
-
-  // roda vertikal → gulir mendatar, hanya jika masih ada sisa
-  desk.addEventListener('wheel', e => {
-    if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
-    const max = desk.scrollWidth - desk.clientWidth;
-    const next = desk.scrollLeft + e.deltaY;
-    if (next > 0 && next < max) { e.preventDefault(); desk.scrollLeft = next; }
-  }, { passive: false });
-
-  /* ---------- 9. GULIR HALUS ---------- */
+  /* ---------- GULIR HALUS ---------- */
   $$('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
-    const t = $(a.getAttribute('href'));
-    if (!t) return;
+    const el = $(a.getAttribute('href'));
+    if (!el) return;
     e.preventDefault();
-    t.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
+    el.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
   }));
 })();

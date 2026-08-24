@@ -1,236 +1,131 @@
-# NUIT ENCRE — Dokumen Konsep
+# NUIT-ENCRE — Dokumen Konsep
 
-> Status: **perencanaan**. Belum ada kode yang ditulis.
-> Versi 0.1 · disusun sebelum desain dimulai.
-
----
-
-## 0. Keputusan yang sudah diambil
-
-| Hal | Keputusan |
-|---|---|
-| Posisi | **Visual / Concept Designer** — bentuk, ruang, tipografi, atmosfer |
-| Peran situs | **Induk.** Concept Archive adalah salah satu karya di dalamnya |
-| Tujuan | **Etalase pribadi.** Kartu nama digital, bukan mesin konversi |
-| Arah konsep | **C — Meja Kerja Larut Malam**, dengan pinjaman dari A (palet) dan B (satu cerita mendalam) |
+> Versi 0.3 · **mobile-first**, identitas terpisah dari Concept Archive.
 
 ---
 
-## 1. Masalah inti yang harus dipecahkan desain ini
+## 0. Koreksi arah (v0.2 → v0.3)
 
-**Karya jadi baru satu.**
+Versi sebelumnya salah arah. Dokumen v0.1 memerintahkan untuk **mewarisi**
+sistem tipografi, aksen cinnabar, dan dwibahasa 中文 dari Concept Archive.
+Akibatnya situs induk terlihat seperti kembaran anaknya, sementara acuan yang
+diminta — huyml.co — hanya terambil kulit luarnya.
 
-Jika situs disusun per-project, kekosongan itu langsung terbaca. Maka situs ini
-**tidak disusun per-project**. Ia disusun **per-artefak**: sketsa, uji palet,
-spesimen huruf, layout yang dibuang, catatan.
+Ditambah satu fakta yang sebelumnya tidak diketahui: **pemilik situs bekerja
+sepenuhnya dari ponsel.** Versi lama menaruh isi penting di balik interaksi
+*hover*, yang tidak pernah bisa diakses di layar sentuh.
 
-Dengan begitu:
-
-- Ada puluhan hal untuk dipajang sejak hari pertama.
-- Concept Archive berdiri sebagai **satu-satunya yang lulus** menjadi karya utuh
-  — posisinya justru menguat, bukan melemah.
-- Situs tetap jujur. Tidak ada project fiktif.
-- Isinya tumbuh alami setiap kali ada eksperimen baru.
-
-Kekurangan diubah menjadi narasi.
+Kedua hal ini membatalkan v0.2 secara menyeluruh.
 
 ---
 
-## 2. Hubungan dengan Concept Archive
+## 1. Tiga aturan yang mengikat
 
-Keduanya harus terasa dari **satu tangan**, tapi punya **peran berbeda**.
+**Aturan 1 — Mobile-first, harfiah.**
+Dirancang pada lebar 360px lebih dulu. Layar besar hanyalah pelebaran, bukan
+tujuan. Tidak ada satu pun isi yang bergantung pada *hover* atau seret mouse.
 
-| | Concept Archive (anak) | Nuit Encre (induk) |
+**Aturan 2 — Jangan menyerupai Concept Archive.**
+Situs induk harus punya suara sendiri. Semua penanda khas Archive dilepas.
+
+**Aturan 3 — Terinspirasi huyml.co, bukan menirunya.**
+Ambil sikapnya: berani, tipografi besar, metadata teknis, ruang kosong.
+Jangan ambil bentuknya.
+
+---
+
+## 2. Pemisahan dari Concept Archive
+
+| Unsur | Concept Archive | Nuit-Encre |
 |---|---|---|
-| Perangkat penyusun | **Taksonomi** — `01—06`, kategori, indeks | **Kronologi** — catatan bertanggal |
-| Keadaan | Sudah dikurasi, selesai, tenang | Sedang berjalan, berantakan, hidup |
-| Suasana | Siang · kertas · galeri | Malam · tinta · meja kerja |
-| Motif | `墨` | `夜墨` |
+| Latar | Kertas hangat terang | **Hitam murni** `#000000` |
+| Aksen | Cinnabar `#C8402F` | **Tidak ada warna.** Aksen = pembalikan blok putih–hitam |
+| Aksara | 中文 sebagai tekstur | **Dilepas sepenuhnya** — tanpa CJK |
+| Huruf | Serif kontras tinggi | **Grotesque padat**, serif hanya satu kata sesekali |
+| Penyusun | Taksonomi `01—06` | **Indeks tiga digit** `008 / 001` |
+| Suasana | Galeri yang tenang | Ruang gelap, sinyal, laboratorium |
 
-Yang **diwariskan** (agar terbaca satu tangan): sistem tipografi, aksen merah
-cinnabar, label teknis, dwibahasa Indonesia + 中文.
+Motif `夜墨` juga **dibuang**. Itu tadinya jembatan ke `墨` milik Archive —
+justru penyebab keduanya terasa satu benda.
 
-Yang **dibedakan** (agar tidak terasa duplikat): latar, perangkat penyusun,
-ritme, dan cara konten bertambah.
+### Kenapa monokrom penuh
 
-### Motif `夜墨`
-
-`Nuit Encre` secara harfiah berarti *malam tinta*. Concept Archive sudah memakai
-`墨` (tinta). Induknya cukup menambahkan `夜` (malam) di depannya. Hubungan
-keduanya terbaca tanpa perlu satu kalimat penjelasan pun.
+Archive sudah memiliki satu warna aksen yang kuat. Cara paling tegas untuk
+berdiri terpisah bukanlah memilih warna lain, melainkan **menolak warna sama
+sekali**. Aksennya diganti perangkat lain: **inversi** — blok putih penuh
+dengan teks hitam. Lebih berani, dan tidak bisa tertukar dengan Archive.
 
 ---
 
-## 3. Identitas visual
+## 3. Pemisahan dari huyml.co
 
-### Palet — usulan
+| Unsur | huyml.co | Nuit-Encre |
+|---|---|---|
+| Latar | Abu terang | Hitam |
+| Navigasi | Baris di tengah halaman | **Bilah bawah tetap** — zona jempol |
+| Galeri | Seret mendatar | **Tumpukan vertikal** — arah alami ibu jari |
+| Metadata | Empat sudut layar | Bilah bawah + label lengket per bagian |
+| Huruf display | Serif italic mendominasi | Grotesque mendominasi, serif italic sangat jarang |
+| Jumlah karya | 19 | 1 — maka strukturnya wajib berbeda |
 
-Hitam **hangat**, bukan hitam kebiruan. Ini penting: kertas Concept Archive
-hangat, jadi tintanya pun harus hangat agar terasa keluarga.
+Yang **diambil**: keberanian ukuran tipografi, label teknis monospace, indeks
+bernomor, ruang kosong yang lapang, ketelitian metadata.
+
+---
+
+## 4. Keputusan mobile
+
+Bekerja dari ponsel berarti keputusan berikut bukan tambahan, melainkan dasar.
+
+- **Navigasi di bawah.** Bagian atas layar ponsel sulit dijangkau ibu jari.
+- **Ketuk, bukan hover.** Setiap kartu studi dibuka dengan ketukan. Tidak ada
+  isi yang tersembunyi di balik hover.
+- **Sasaran sentuh minimal 44px.**
+- **Gulir vertikal saja.** Tanpa seret mendatar, tanpa gestur yang perlu
+  dipelajari.
+- **`100dvh`**, bukan `100vh` — agar tidak terpotong bilah alamat peramban.
+- **`safe-area-inset`** dihormati untuk ponsel berponi.
+- **Tipografi diuji pada 360px** — bukan diperkecil dari desktop.
+
+---
+
+## 5. Palet & tipografi
 
 ```
---nuit      #0C0A09   latar utama, hitam kehangatan
---encre     #14110F   permukaan, kartu, panel
---paper     #F2EDE4   teks utama — warna kertas yang sama dengan Archive
---beige     #C9BEA9   teks sekunder
---mute      #7A736B   label, metadata
---cinnabar  #C8402F   aksen tunggal — benang merah dengan Archive
+--void   #000000   latar
+--ash    #0A0A0A   permukaan
+--line   #1F1F1F   garis
+--dim    #6E6E6E   metadata
+--soft   #A8A8A8   teks sekunder
+--pure   #FAFAFA   teks utama & blok inversi
 ```
 
-Aturan main: **cinnabar hanya boleh muncul sedikit.** Satu garis, satu tanda,
-satu kata. Begitu dipakai berlebihan, kaitannya dengan Archive putus.
-
-### Tipografi
-
-Gunakan **sistem yang sama** dengan Concept Archive — ini sinyal terkuat bahwa
-keduanya satu tangan.
-
-- **Display** — serif dengan kontras tinggi, untuk kalimat manifesto
-- **Teks** — grotesque netral, ukuran kecil, jarak lega
-- **Label** — monospace huruf besar, spasi huruf lebar: `NE—014 / 12.08.2026`
-- **CJK** — Noto Serif SC untuk `夜墨` dan label 中文
-
-### Nada bicara
-
-Sudah terbentuk di Concept Archive: **tenang, deklaratif, sedikit puitis, tanpa
-jargon.** Contoh yang sudah ada — *"Tidak semua ide perlu berteriak."*
-
-Nuit Encre memakai nada yang sama, tetapi lebih **personal dan tidak selesai** —
-karena ini meja kerja, bukan galeri. Boleh ada keraguan. Boleh ada yang gagal.
+- **Display & teks** — Inter, sangat rapat (`-0.04em`), berat 400–600
+- **Label** — JetBrains Mono, huruf besar, spasi lebar, sangat kecil
+- **Serif italic** — Instrument Serif, dipakai maksimal **satu kata per bagian**
 
 ---
 
-## 4. Arsitektur halaman
+## 6. Susunan halaman
 
-Satu halaman. Enam bagian. Disusun sebagai **catatan bertanggal**, bukan indeks.
+| | Bagian | Isi |
+|---|---|---|
+| `001` | Pembuka | Nama besar, status, indeks |
+| `002` | Karya | Concept Archive — satu-satunya yang selesai |
+| `003` | Studi | 8 studi visual, tumpukan vertikal, ketuk untuk buka |
+| `004` | Praktik | Dua paragraf posisi |
+| `005` | Kontak | Satu alamat, blok inversi |
 
-### `00` PEMBUKA
-Layar penuh. `夜墨` besar. Satu kalimat posisi. Jam dan tanggal berjalan —
-menegaskan ini catatan yang hidup, bukan brosur cetak.
-
-### `01` PRAKTIK — *siapa dan kenapa*
-Dua paragraf. Bukan CV. Menjawab: apa yang kamu kejar, dan kenapa lewat
-bentuk-ruang-tipografi.
-
-### `02` MEJA — *inti situs*
-Dinding artefak. Setiap benda punya label teknis dan tanggal:
-
-```
-NE—014   UJI PALET        12.08.2026   paper / ink / cinnabar
-NE—013   SPESIMEN HURUF   09.08.2026   kontras tinggi, studi 1
-NE—012   LAYOUT DIBUANG   03.08.2026   terlalu ramai
-```
-
-Beberapa hanya gambar. Beberapa punya satu kalimat. Tidak semua perlu
-dijelaskan — justru itu yang membuatnya terasa seperti meja kerja sungguhan.
-
-**Ini bagian yang paling sering kamu perbarui.** Situs ini hidup dari sini.
-
-### `03` YANG SELESAI — *Concept Archive*
-Satu entri besar, diperlakukan berbeda dari yang lain. Diberi ruang paling
-lapang di seluruh halaman.
-
-Di sinilah pinjaman dari arah B masuk: **cerita singkat di baliknya** — dari
-mana idenya, kenapa palet itu, apa yang dibuang. Cukup 4–6 paragraf, ditutup
-tautan keluar ke situsnya.
-
-Kontras yang menguntungkan: dari halaman gelap ini, thumbnail Archive yang
-terang akan **menyala seperti jendela**.
-
-### `04` KOLOFON
-Alat yang dipakai, huruf yang dipakai, cara situs ini dibangun. Bagian pendek
-yang justru sangat dihargai sesama desainer.
-
-### `05` PENUTUP
-Satu kalimat. Satu alamat email. Tidak ada formulir — ini etalase, bukan corong
-penjualan.
+Bilah bawah tetap: nama · indeks bagian berjalan · tombol menu.
 
 ---
 
-## 5. Interaksi
-
-Sedikit, tetapi tepat. Situs seorang visual designer dinilai dari **selera
-menahan diri**, bukan dari jumlah animasi.
-
-- Artefak muncul perlahan saat digulir — jangan serempak
-- Hover pada artefak: metadata muncul, bukan gambar membesar
-- Tanpa jejak kursor, tanpa partikel, tanpa preloader panjang
-- `prefers-reduced-motion` dihormati penuh
-
----
-
-## 6. Bahasa
-
-Mengikuti Concept Archive: **Indonesia sebagai bahasa utama**, dengan label
-`中文` dan `ENGLISH` sebagai lapisan tekstur — bukan terjemahan penuh.
-
-Jangan pasang tombol ganti bahasa. Di Concept Archive, campuran bahasa itu
-adalah **elemen visual**, bukan fitur aksesibilitas. Menjadikannya sakelar
-justru merusak efeknya.
-
----
-
-## 7. Yang perlu kamu siapkan
-
-Ini yang tidak bisa aku buatkan — dan yang paling menentukan hasil akhir.
+## 7. Yang masih perlu kamu isi
 
 | Kebutuhan | Keterangan |
 |---|---|
-| **Nama tampil** | Nama asli, atau cukup Nuit Encre saja? |
-| **Kalimat posisi** | Satu kalimat: kamu mengejar apa |
-| **Artefak nyata** | Foto sketsa, tangkapan layar proses, uji warna, coretan |
-| **Cerita Archive** | Dari mana idenya, apa yang dibuang, apa yang dipelajari |
-| **Kontak** | Email yang benar-benar kamu pakai |
+| **Gambar studi** | 8 gambar sekarang adalah placeholder AI |
+| **Cerita Concept Archive** | Aku menebak dari situsnya — tolong dikoreksi |
+| **Email** | Masih dummy |
 
-Tanpa artefak nyata, bagian `02` — jantung situs ini — akan kosong.
-**Ini prioritas nomor satu.**
-
----
-
-## 8. Keputusan akhir
-
-| Pertanyaan | Keputusan |
-|---|---|
-| Nama tampil | **Nuit-Encre** — tanpa nama pribadi |
-| Palet | **Gelap hangat** — sesuai usulan bagian 3 |
-| Isi | **Concept Archive dulu** sebagai satu-satunya karya jadi; artefak memakai placeholder yang bisa diganti |
-| Teknologi | **HTML + CSS + JS murni** — tanpa build step, tanpa dependency |
-| Acuan visual | **huyml.co** — editorial, tipografi display besar, metadata sudut, galeri seret |
-
-### Alasan memilih HTML/CSS/JS murni
-
-Astro sempat dipertimbangkan agar artefak bisa ditulis sebagai berkas Markdown.
-Ditolak karena: situs ini satu halaman, kamu seorang desainer (bukan developer)
-sehingga menambah build step justru menambah gesekan, dan tanpa dependency
-berarti situs ini akan tetap bisa dibuka sepuluh tahun lagi tanpa perlu
-`npm install`.
-
-Sebagai gantinya, seluruh isi artefak dipusatkan dalam satu berkas data
-(`assets/js/data.js`). Menambah artefak baru cukup menambah satu objek.
-
-### Yang diambil dari huyml.co
-
-- Metadata terkunci di sudut layar — peran, tahun, status
-- Nav bernomor `01 02 03 04` sebagai baris, bukan menu
-- Display raksasa yang mencampur **serif italic** dengan **sans**
-- Galeri horizontal yang diseret, dikelompokkan per periode
-- Label monospace huruf besar berukuran sangat kecil
-- Ruang kosong yang berani
-
-### Yang **tidak** diambil
-
-huyml.co punya 19 karya. Kita punya satu. Maka galeri seret dipakai untuk
-**artefak**, bukan project — persis seperti keputusan di bagian 1.
-
----
-
-## 9. Arah yang ditolak, dan alasannya
-
-Disimpan agar keputusan ini tidak dibongkar ulang di kemudian hari.
-
-| Arah | Alasan ditolak |
-|---|---|
-| **D — Situs berperilaku seperti aplikasi** | Posisi akhir adalah visual designer, bukan mobile UI |
-| **A — Saudara sejajar** | Nuit Encre diputuskan sebagai induk, bukan kembaran |
-| **B — Sepenuhnya studi kasus** | Alat untuk melamar dan berjualan; tujuannya hanya etalase. Diambil sebagiannya saja di bagian `03` |
-| **Grid enam karya** | Karya jadi baru satu. Grid seperti itu akan terbaca bohong |
+Semua terpusat di `assets/js/data.js`.

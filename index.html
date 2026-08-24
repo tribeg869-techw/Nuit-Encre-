@@ -2,171 +2,116 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Nuit-Encre — Visual / Concept Designer</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>NUIT-ENCRE — Visual / Concept Designer</title>
 
-<meta name="description" content="Nuit-Encre 夜墨 — meja kerja seorang visual designer. Arsip artefak, studi, dan karya tentang bentuk, ruang, dan tipografi." />
-<meta name="theme-color" content="#0C0A09" />
+<meta name="description" content="NUIT-ENCRE — Visual / Concept Designer. Studi tentang bentuk, ruang, dan atmosfer." />
+<meta name="theme-color" content="#000000" />
 
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Nuit-Encre — Visual / Concept Designer" />
-<meta property="og:description" content="Meja kerja seorang visual designer. Bentuk, ruang, tipografi." />
-<meta property="og:image" content="assets/img/archive-cover.jpg" />
+<meta property="og:title" content="NUIT-ENCRE — Visual / Concept Designer" />
+<meta property="og:description" content="Studi tentang bentuk, ruang, dan atmosfer." />
+<meta property="og:image" content="assets/img/st-01.jpg" />
 <meta name="twitter:card" content="summary_large_image" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&family=Noto+Serif+SC:wght@300;400&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Instrument+Serif:ital@1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="assets/css/style.css" />
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%230C0A09'/><text y='.85em' x='.5em' text-anchor='middle' font-size='72' fill='%23F2EDE4' font-family='serif'>夜</text></svg>" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='%23000'/><rect x='14' y='14' width='36' height='36' fill='%23FAFAFA'/></svg>" />
 </head>
 
 <body>
 
-<!-- ══════════ INTRO ══════════ -->
-<div class="intro" id="intro">
-  <div class="intro__bar"><i id="introBar"></i></div>
-  <span class="intro__cjk">夜墨</span>
-  <span class="intro__label">NUIT—ENCRE</span>
-  <span class="intro__count" id="introCount">00</span>
+<!-- ═══════ INTRO ═══════ -->
+<div class="boot" id="boot">
+  <div class="boot__row">
+    <span class="mono">NUIT-ENCRE</span>
+    <span class="mono" id="bootPct">000</span>
+  </div>
+  <div class="boot__bar"><i id="bootBar"></i></div>
 </div>
 
-<div class="grain" aria-hidden="true"></div>
+<!-- ═══════ MENU ═══════ -->
+<div class="sheet" id="sheet" hidden>
+  <button class="sheet__x" id="sheetX" aria-label="Tutup">Tutup</button>
+  <nav class="sheet__nav">
+    <a href="#s1"><em>001</em> Pembuka</a>
+    <a href="#s2"><em>002</em> Karya</a>
+    <a href="#s3"><em>003</em> Studi</a>
+    <a href="#s4"><em>004</em> Praktik</a>
+    <a href="#s5"><em>005</em> Kontak</a>
+  </nav>
+  <a class="sheet__mail" id="sheetMail" href="#">—</a>
+</div>
 
-<!-- ══════════ CORNERS ══════════ -->
-<header class="hud">
-  <div class="hud__tl">
-    <a href="#s00" class="hud__mark">夜墨</a>
-    <span class="hud__sub">NUIT—ENCRE</span>
+<main>
+
+<!-- ═══════ 001 · PEMBUKA ═══════ -->
+<section class="hero" id="s1" data-i="001">
+  <div class="hero__meta">
+    <span class="mono dim">Visual / Concept Designer</span>
+    <span class="mono dim">IDN</span>
   </div>
 
-  <div class="hud__tr">
-    <span class="dot"></span>
-    <span id="hudStatus">Terbuka untuk percakapan</span>
-  </div>
-
-  <div class="hud__bl">
-    <span id="hudClock">--:--:--</span>
-    <span class="hud__dim" id="hudZone">WIB</span>
-  </div>
-
-  <div class="hud__br">
-    <span class="hud__dim">SCROLL</span>
-    <span id="hudSec">00 / 05</span>
-  </div>
-</header>
-
-<div class="rail" aria-hidden="true"><i id="railFill"></i></div>
-
-<!-- ══════════ 00 · PEMBUKA ══════════ -->
-<section class="s00" id="s00" data-sec="00">
-  <div class="s00__top">
-    <span class="lab">Visual / Concept Designer</span>
-    <span class="lab lab--dim">视觉设计 · Indonesia</span>
-  </div>
-
-  <h1 class="giant">
-    <span class="giant__row"><span class="up">Nuit</span></span>
-    <span class="giant__row"><span class="up it">Encre</span></span>
+  <h1 class="wordmark">
+    <span class="wm__l"><span>NUIT</span></span>
+    <span class="wm__l"><span>ENCRE</span></span>
   </h1>
 
-  <div class="s00__bot">
-    <p class="s00__lede">
-      Meja kerja, bukan galeri. Di sini bentuk, ruang, dan tipografi
-      masih dalam proses menjadi sesuatu.
-    </p>
-    <nav class="idx">
-      <a href="#s01"><span>01</span> Praktik</a>
-      <a href="#s02"><span>02</span> Meja</a>
-      <a href="#s03"><span>03</span> Yang Selesai</a>
-      <a href="#s04"><span>04</span> Kolofon</a>
-    </nav>
+  <p class="hero__say">
+    Studi tentang bentuk, ruang, dan <em class="ser">atmosfer.</em>
+  </p>
+
+  <div class="hero__foot">
+    <span class="tick"><i></i><span class="mono" id="heroStatus">—</span></span>
+    <span class="mono dim" id="heroClock">--:--</span>
   </div>
 </section>
 
-<!-- ══════════ 01 · PRAKTIK ══════════ -->
-<section class="sec" id="s01" data-sec="01">
-  <div class="sec__head">
-    <span class="lab">01 — Praktik</span>
-    <span class="lab lab--dim">关于创作</span>
-  </div>
+<!-- ═══════ 002 · KARYA ═══════ -->
+<section class="sec" id="s2" data-i="002">
+  <div class="sec__bar"><span class="mono">002 — KARYA</span><span class="mono dim">01</span></div>
+  <div id="work"><!-- js --></div>
+</section>
 
-  <h2 class="head">
-    Tidak semua ide perlu <span class="it">selesai</span>
-    untuk layak dilihat.
-  </h2>
+<!-- ═══════ 003 · STUDI ═══════ -->
+<section class="sec" id="s3" data-i="003">
+  <div class="sec__bar"><span class="mono">003 — STUDI</span><span class="mono dim" id="stCount">—</span></div>
+  <p class="hint mono dim">KETUK UNTUK MEMBUKA CATATAN</p>
+  <div class="studies" id="studies"><!-- js --></div>
+</section>
 
-  <div class="cols">
-    <p>
-      Aku bekerja dengan bentuk, ruang, tipografi, dan atmosfer. Sebagian besar
-      waktuku habis bukan untuk membuat, melainkan untuk mengamati — sampai
-      sebuah gagasan cukup jelas untuk diberi wujud.
-    </p>
-    <p>
-      Halaman ini sengaja tidak disusun sebagai etalase karya. Ia disusun
-      sebagai meja: ada yang sudah jadi, banyak yang belum, beberapa sudah
-      dibuang tapi tetap disimpan karena mengajarkan sesuatu.
-    </p>
+<!-- ═══════ 004 · PRAKTIK ═══════ -->
+<section class="sec" id="s4" data-i="004">
+  <div class="sec__bar"><span class="mono">004 — PRAKTIK</span></div>
+  <h2 class="big">Tidak semua ide perlu <em class="ser">selesai</em> untuk layak dilihat.</h2>
+  <div class="prose" id="practice"><!-- js --></div>
+</section>
+
+<!-- ═══════ 005 · KONTAK ═══════ -->
+<section class="sec" id="s5" data-i="005">
+  <div class="sec__bar"><span class="mono">005 — KONTAK</span></div>
+  <a class="slab" id="slab" href="#">
+    <span class="slab__t">Mari bicara</span>
+    <span class="slab__m mono" id="slabMail">—</span>
+    <span class="slab__a">↗</span>
+  </a>
+  <div class="end">
+    <span class="mono dim">© <span id="yr">2026</span> NUIT-ENCRE</span>
+    <a href="#s1" class="mono dim">KE ATAS ↑</a>
   </div>
 </section>
 
-<!-- ══════════ 02 · MEJA ══════════ -->
-<section class="sec sec--wide" id="s02" data-sec="02">
-  <div class="sec__head">
-    <span class="lab">02 — Meja</span>
-    <span class="lab lab--dim" id="deskCount">— artefak</span>
-  </div>
+</main>
 
-  <h2 class="head head--sm">
-    Sebelum menjadi karya, sebuah ide <span class="it">harus diberi ruang.</span>
-  </h2>
-
-  <div class="desk" id="desk">
-    <div class="desk__track" id="deskTrack"><!-- js --></div>
-  </div>
-
-  <div class="desk__foot">
-    <span class="lab lab--dim">SERET ATAU GULIR MENDATAR</span>
-    <span class="lab lab--dim">拖动查看</span>
-  </div>
-</section>
-
-<!-- ══════════ 03 · YANG SELESAI ══════════ -->
-<section class="sec" id="s03" data-sec="03">
-  <div class="sec__head">
-    <span class="lab">03 — Yang Selesai</span>
-    <span class="lab lab--dim">已完成</span>
-  </div>
-
-  <article class="work" id="work"><!-- js --></article>
-</section>
-
-<!-- ══════════ 04 · KOLOFON ══════════ -->
-<section class="sec" id="s04" data-sec="04">
-  <div class="sec__head">
-    <span class="lab">04 — Kolofon</span>
-    <span class="lab lab--dim">版本说明</span>
-  </div>
-  <dl class="colo" id="colo"><!-- js --></dl>
-</section>
-
-<!-- ══════════ 05 · PENUTUP ══════════ -->
-<footer class="s05" id="s05" data-sec="05">
-  <span class="lab">05 — Penutup</span>
-
-  <h2 class="giant giant--end">
-    <span class="giant__row"><span class="up">Punya sesuatu</span></span>
-    <span class="giant__row"><span class="up it">yang ingin dilihat?</span></span>
-  </h2>
-
-  <a class="mail" id="mail" href="#">—</a>
-
-  <div class="s05__bot">
-    <span>© <span id="yr">2026</span> Nuit-Encre</span>
-    <span class="hud__dim">夜墨 · Indonesia</span>
-    <a href="#s00">Ke atas ↑</a>
-  </div>
-</footer>
+<!-- ═══════ BILAH BAWAH ═══════ -->
+<nav class="dock">
+  <a href="#s1" class="dock__id mono">NUIT-ENCRE</a>
+  <span class="dock__i mono" id="dockI">001/005</span>
+  <button class="dock__b mono" id="dockB">MENU</button>
+  <i class="dock__p" id="dockP"></i>
+</nav>
 
 <script src="assets/js/data.js"></script>
 <script src="assets/js/main.js"></script>

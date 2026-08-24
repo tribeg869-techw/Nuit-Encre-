@@ -1,48 +1,54 @@
-# Nuit-Encre 夜墨
+# NUIT-ENCRE
 
-> Meja kerja seorang **Visual / Concept Designer** — bukan galeri.
+> **Visual / Concept Designer** — studi tentang bentuk, ruang, dan atmosfer.
 
-Situs satu halaman bertema gelap hangat, dibangun tanpa framework.
-Induk dari [Concept Archive](https://concept-archive.pages.dev/).
+Situs satu halaman, **mobile-first**, monokrom penuh, tanpa framework.
 
-Perencanaan lengkap beserta alasan setiap keputusan ada di **[`CONCEPT.md`](CONCEPT.md)**.
-
----
-
-## Gagasan
-
-Karya yang sudah jadi baru satu. Maka situs ini **tidak disusun per-project** —
-ia disusun **per-artefak**: uji palet, studi tinta, spesimen huruf, layout yang
-dibuang, catatan.
-
-Concept Archive lalu berdiri sebagai **satu-satunya yang lulus** menjadi karya
-utuh. Posisinya justru menguat, bukan melemah. Kekurangan diubah jadi narasi.
+Alasan setiap keputusan ada di **[`CONCEPT.md`](CONCEPT.md)**.
 
 ---
 
-## Susunan halaman
+## Dibangun untuk ponsel, bukan diperkecil dari desktop
 
-| | Bagian | Isi |
-|---|---|---|
-| `00` | Pembuka | `Nuit Encre` raksasa, indeks bernomor |
-| `01` | Praktik | Dua paragraf posisi — bukan CV |
-| `02` | **Meja** | Dinding artefak yang diseret mendatar — **jantung situs** |
-| `03` | Yang Selesai | Concept Archive + cerita di baliknya |
-| `04` | Kolofon | Alat, huruf, dan cara situs ini dibangun |
-| `05` | Penutup | Satu kalimat, satu alamat |
+Dirancang pada lebar **360px** lebih dulu. Layar besar hanyalah pelebaran.
+
+- **Navigasi di bawah** — zona jangkauan ibu jari, bukan pojok atas
+- **Ketuk, bukan hover** — nol aturan `hover` di seluruh CSS; setiap catatan
+  studi dibuka dengan ketukan
+- **Gulir vertikal saja** — tanpa seret mendatar atau gestur yang perlu dipelajari
+- **Sasaran sentuh ≥ 44px**
+- **`100dvh`** agar tidak terpotong bilah alamat peramban
+- **`safe-area-inset`** dihormati untuk ponsel berponi
 
 ---
 
-## Detail
+## Identitasnya sendiri
 
-- **Gelap hangat** — `#0C0A09`, bukan hitam kebiruan, agar sekeluarga dengan kertas hangat Concept Archive
-- **Cinnabar `#C8402F`** — satu-satunya aksen, sengaja dipakai sangat sedikit
-- **`夜墨`** — Concept Archive memakai `墨`; induknya menambahkan `夜`
-- **Kronologi, bukan taksonomi** — anak memakai indeks `01—06`, induk memakai catatan bertanggal
-- **HUD sudut** — jam Jakarta berjalan, status, penanda bagian
-- **Meja bisa diseret** — pointer drag, roda mouse, dan sentuh
-- **Dwibahasa sebagai tekstur** — Indonesia + 中文 tanpa tombol ganti bahasa, mengikuti Concept Archive
-- Aset di bawah 1 MB pada muat pertama · `prefers-reduced-motion` dihormati
+Berbeda dari **Concept Archive** — dan bukan tiruan **huyml.co**.
+
+| | Concept Archive | huyml.co | **NUIT-ENCRE** |
+|---|---|---|---|
+| Latar | Kertas terang | Abu terang | **Hitam murni** |
+| Aksen | Cinnabar merah | — | **Tanpa warna** — inversi blok putih |
+| Aksara | 中文 | — | **Tanpa CJK** |
+| Navigasi | — | Baris tengah | **Bilah bawah tetap** |
+| Galeri | — | Seret mendatar | **Tumpukan vertikal** |
+| Indeks | `01—06` | `01/19` | **`001 / 005`** |
+
+Aksennya bukan warna, melainkan **inversi**: blok putih penuh dengan teks hitam.
+Lebih tegas, dan tidak mungkin tertukar dengan Concept Archive.
+
+---
+
+## Susunan
+
+| | Bagian |
+|---|---|
+| `001` | Pembuka — nama besar, status, jam |
+| `002` | Karya — Concept Archive |
+| `003` | Studi — 8 kartu, ketuk untuk catatan |
+| `004` | Praktik |
+| `005` | Kontak |
 
 ---
 
@@ -50,14 +56,14 @@ utuh. Posisinya justru menguat, bukan melemah. Kekurangan diubah jadi narasi.
 
 ```
 .
-├── CONCEPT.md              # dokumen konsep & alasan keputusan
-├── index.html              # kerangka — hampir seluruh isi dari data.js
+├── CONCEPT.md
+├── index.html
 └── assets/
     ├── css/style.css
     ├── js/
-    │   ├── data.js         # ← SEMUA ISI ADA DI SINI
-    │   └── main.js         # interaksi
-    └── img/                # .webp + .jpg
+    │   ├── data.js      ← SEMUA ISI ADA DI SINI
+    │   └── main.js
+    └── img/             # .webp + .jpg
 ```
 
 ---
@@ -72,30 +78,22 @@ Tanpa build step, tanpa dependency.
 
 ---
 
-## Menambah artefak
+## Menambah studi
 
-Semua isi terpusat di **`assets/js/data.js`**. Tambahkan satu objek di urutan
-paling atas `artifacts`:
+Semua isi terpusat di **`assets/js/data.js`**:
 
 ```js
-{
-  id: 'NE—015', date: '20.08.2026', period: '2026',
-  title: 'Judul artefak', kind: 'SKETCH',
-  tags: 'keterangan singkat',
-  img: 'artifact-08',          // taruh artifact-08.webp + .jpg di assets/img/
-  note: ''                     // boleh kosong — tidak semua perlu dijelaskan
-}
+{ no:'009', title:'Judul', tag:'FORM', img:'st-09',
+  note:'Satu kalimat catatan.' }
 ```
 
-Ganti pula email dan status di objek `meta`.
+Taruh `st-09.webp` dan `st-09.jpg` di `assets/img/`.
 
-> **Gambar saat ini adalah placeholder hasil generasi AI.** Ganti dengan foto
-> artefak asli — sketsa, uji warna, screenshot proses. Tanpa itu, bagian `02`
-> kehilangan seluruh maknanya.
+> **Gambar sekarang placeholder AI.** Ganti dengan studi asli kamu.
+> Email dan cerita Concept Archive juga masih perlu dikoreksi.
 
 ---
 
 ## Deploy
 
-Cloudflare Pages atau GitHub Pages, langsung dari root. Tidak ada yang perlu
-dikompilasi.
+Cloudflare Pages atau GitHub Pages, langsung dari root.
