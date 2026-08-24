@@ -25,7 +25,7 @@
     <h2 class="wk__title rv">${w.title}</h2>
     <p class="wk__lede rv">${w.lede}</p>
     <a class="wk__fig rv" href="${w.url}" target="_blank" rel="noopener">
-      ${pic(w.cover, w.title)}
+      ${pic(w.cover, w.coverAlt || w.title)}
       <span class="wk__go">Kunjungi <span>↗</span></span>
     </a>
     <div class="wk__body">
@@ -46,7 +46,7 @@
     <figure class="gs${i === 0 ? ' on' : ''}" data-n="${i}">
       <div class="gs__fig">
         <span class="gs__i">${s.no}</span>
-        ${pic(s.img, s.title)}
+        ${pic(s.img, s.alt || s.title)}
       </div>
     </figure>`).join('');
 

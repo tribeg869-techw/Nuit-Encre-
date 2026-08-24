@@ -53,6 +53,15 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 ::selection{background:var(--pure);color:var(--void)}
 :focus-visible{outline:1px solid var(--pure);outline-offset:3px}
 
+/* tautan lompat — tersembunyi sampai difokus lewat keyboard */
+.skip{
+  position:absolute;left:-9999px;top:0;z-index:300;
+  background:var(--pure);color:var(--void);
+  font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  padding:14px 18px;
+}
+.skip:focus{left:0}
+
 .mono{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;line-height:1.4}
 .dim{color:var(--dim)}
 /* Instrument Serif hanya punya bobot 400. Di dalam paragraf Inter 400 itu
