@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="ink">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Nuit Encre — Mobile UI Designer</title>
+
+<meta name="description" content="Nuit Encre — portofolio seorang Mobile UI Designer. Desain antarmuka mobile yang gelap, elegan, dan penuh karakter." />
+<meta name="author" content="Nuit Encre" />
+<meta name="theme-color" content="#07070b" />
+
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Nuit Encre — Mobile UI Designer" />
+<meta property="og:description" content="Desain antarmuka mobile yang gelap, elegan, dan penuh karakter." />
+<meta property="og:image" content="assets/img/work-01.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="assets/css/style.css" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌙</text></svg>" />
+</head>
+
+<body>
+
+<!-- ============ PRELOADER ============ -->
+<div class="preloader" id="preloader">
+  <svg class="preloader__mark" viewBox="0 0 320 120" aria-hidden="true">
+    <path class="ink-stroke" d="M20,95 L20,25 L75,95 L75,25" />
+    <path class="ink-stroke" d="M105,25 L105,70 Q105,95 130,95 Q155,95 155,70 L155,25" />
+    <path class="ink-stroke" d="M185,95 L185,25 M185,25 Q225,25 225,50 Q225,72 190,72" />
+    <circle class="ink-dot" cx="270" cy="60" r="9" />
+  </svg>
+  <span class="preloader__label">NUIT ENCRE</span>
+</div>
+
+<!-- ============ AMBIENT LAYERS ============ -->
+<div class="grain" aria-hidden="true"></div>
+<div class="ink-bloom" aria-hidden="true"></div>
+<canvas class="ink-canvas" id="inkCanvas" aria-hidden="true"></canvas>
+<div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+<!-- ============ NAV ============ -->
+<header class="nav" id="nav">
+  <a class="nav__brand" href="#hero">
+    <span class="nav__brand-mark">NE</span>
+    <span class="nav__brand-text">Nuit&nbsp;Encre</span>
+  </a>
+
+  <nav class="nav__links" id="navLinks">
+    <a href="#work"    data-i18n="nav.work">Karya</a>
+    <a href="#about"   data-i18n="nav.about">Tentang</a>
+    <a href="#process" data-i18n="nav.process">Proses</a>
+    <a href="#craft"   data-i18n="nav.craft">Keahlian</a>
+    <a href="#contact" data-i18n="nav.contact">Kontak</a>
+  </nav>
+
+  <div class="nav__tools">
+    <button class="lang-toggle" id="langToggle" aria-label="Ganti bahasa">
+      <span class="lang-toggle__opt is-active" data-lang="id">ID</span>
+      <span class="lang-toggle__sep"></span>
+      <span class="lang-toggle__opt" data-lang="en">EN</span>
+    </button>
+    <button class="nav__burger" id="navBurger" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="hero">
+  <div class="hero__inner">
+    <p class="eyebrow reveal" data-i18n="hero.eyebrow">Mobile UI Designer · Indonesia</p>
+
+    <h1 class="hero__title">
+      <span class="line"><span class="line__in">Nuit</span></span>
+      <span class="line"><span class="line__in hero__title-em">Encre</span></span>
+    </h1>
+
+    <p class="hero__lede reveal" data-i18n="hero.lede">
+      Aku merancang antarmuka mobile yang bernapas dalam gelap — tenang,
+      tegas, dan menyisakan kesan setelah layar dimatikan.
+    </p>
+
+    <div class="hero__cta reveal">
+      <a class="btn btn--primary" href="#work">
+        <span data-i18n="hero.ctaWork">Lihat Karya</span>
+        <svg viewBox="0 0 24 24" class="btn__arrow"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a class="btn btn--ghost" href="#contact" data-i18n="hero.ctaTalk">Mari Bicara</a>
+    </div>
+
+    <dl class="hero__stats reveal">
+      <div><dt>06+</dt><dd data-i18n="hero.stat1">Tahun mendesain</dd></div>
+      <div><dt>40+</dt><dd data-i18n="hero.stat2">Produk mobile</dd></div>
+      <div><dt>12</dt><dd data-i18n="hero.stat3">Rilis di store</dd></div>
+    </dl>
+  </div>
+
+  <div class="hero__phone" aria-hidden="true">
+    <div class="phone">
+      <div class="phone__glow"></div>
+      <div class="phone__frame">
+        <div class="phone__notch"></div>
+        <picture>
+          <source srcset="assets/img/work-01.webp" type="image/webp" id="phoneScreenSrc" />
+          <img src="assets/img/work-01.jpg" alt="" class="phone__screen" id="phoneScreen" />
+        </picture>
+      </div>
+    </div>
+  </div>
+
+  <a class="hero__scroll" href="#work">
+    <span data-i18n="hero.scroll">Gulir</span>
+    <span class="hero__scroll-line"></span>
+  </a>
+</section>
+
+<!-- ============ MARQUEE ============ -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee__track">
+    <span>Mobile UI · iOS · Android · Design System · Prototyping · Dark Interface · Micro-interaction · Accessibility ·&nbsp;</span>
+    <span>Mobile UI · iOS · Android · Design System · Prototyping · Dark Interface · Micro-interaction · Accessibility ·&nbsp;</span>
+  </div>
+</div>
+
+<!-- ============ WORK ============ -->
+<section class="section" id="work">
+  <div class="section__head reveal">
+    <span class="section__num">01</span>
+    <h2 class="section__title" data-i18n="work.title">Karya Pilihan</h2>
+    <p class="section__sub" data-i18n="work.sub">Enam layar yang paling mewakili caraku berpikir tentang gelap, ruang, dan sentuhan.</p>
+  </div>
+
+  <div class="work-grid">
+
+    <article class="work reveal" data-tilt>
+      <div class="work__media">
+        <picture>
+          <source srcset="assets/img/work-01.webp" type="image/webp" />
+          <img src="assets/img/work-01.jpg" alt="Nightfall — aplikasi meditasi" loading="lazy" decoding="async" width="810" height="1400" />
+        </picture>
+        <span class="work__badge">2026</span>
+      </div>
+      <div class="work__meta">
+        <h3>Nightfall</h3>
+        <p data-i18n="work.p1">Aplikasi meditasi malam. Hierarki dibangun dari cahaya, bukan garis.</p>
+        <ul class="tags"><li>iOS</li><li data-i18n="tag.wellness">Wellness</li><li data-i18n="tag.ds">Design System</li></ul>
+      </div>
+    </article>
+
+    <article class="work reveal" data-tilt>
+      <div class="work__media">
+        <picture>
+          <source srcset="assets/img/work-02.webp" type="image/webp" />
+          <img src="assets/img/work-02.jpg" alt="Obsidian Wallet — aplikasi dompet digital" loading="lazy" decoding="async" width="810" height="1400" />
+        </picture>
+        <span class="work__badge">2025</span>
+      </div>
+      <div class="work__meta">
+        <h3>Obsidian Wallet</h3>
+        <p data-i18n="work.p2">Dompet digital premium. Angka jadi tipografi utama, sisanya diam.</p>
+        <ul class="tags"><li>Fintech</li><li data-i18n="tag.crossplat">Cross-platform</li><li>Motion</li></ul>
+      </div>
+    </article>
+
+    <article class="work reveal" data-tilt>
+      <div class="work__media">
+        <picture>
+          <source srcset="assets/img/work-03.webp" type="image/webp" />
+          <img src="assets/img/work-03.jpg" alt="Maison Noir — aplikasi belanja fesyen" loading="lazy" decoding="async" width="810" height="1400" />
+        </picture>
+        <span class="work__badge">2025</span>
+      </div>
+      <div class="work__meta">
+        <h3>Maison Noir</h3>
+        <p data-i18n="work.p3">E-commerce fesyen. Ruang kosong dipakai sebagai barang mewah.</p>
+        <ul class="tags"><li>E-commerce</li><li data-i18n="tag.editorial">Editorial</li><li>Android</li></ul>
+      </div>
+    </article>
+
+    <article class="work reveal" data-tilt>
+      <div class="work__media">
+        <picture>
+          <source srcset="assets/img/work-04.webp" type="image/webp" />
+          <img src="assets/img/work-04.jpg" alt="Lumen — pemutar musik" loading="lazy" decoding="async" width="810" height="1400" />
+        </picture>
+        <span class="work__badge">2024</span>
+      </div>
+      <div class="work__meta">
+        <h3>Lumen</h3>
+        <p data-i18n="work.p4">Pemutar musik. Visualiser jadi satu-satunya elemen yang bergerak.</p>
+        <ul class="tags"><li>Audio</li><li data-i18n="tag.micro">Micro-interaction</li><li>iOS</li></ul>
+      </div>
+    </article>
+
+    <article class="work reveal" data-tilt>
+      <div class="work__media">
+        <picture>
+          <source srcset="assets/img/work-05.webp" type="image/webp" />
+          <img src="assets/img/work-05.jpg" alt="Pulse — aplikasi kebugaran" loading="lazy" decoding="async" width="810" height="1400" />
+        </picture>
+        <span class="work__badge">2024</span>
+      </div>
+      <div class="work__meta">
+        <h3>Pulse</h3>
+        <p data-i18n="work.p5">Pelacak kebugaran. Data padat, tapi tetap terasa lapang.</p>
+        <ul class="tags"><li>Health</li><li data-i18n="tag.dataviz">Data Viz</li><li>Watch</li></ul>
+      </div>
+    </article>
+
+    <article class="work reveal" data-tilt>
+      <div class="work__media">
+        <picture>
+          <source srcset="assets/img/work-06.webp" type="image/webp" />
+          <img src="assets/img/work-06.jpg" alt="Vesper — aplikasi perjalanan" loading="lazy" decoding="async" width="810" height="1400" />
+        </picture>
+        <span class="work__badge">2023</span>
+      </div>
+      <div class="work__meta">
+        <h3>Vesper</h3>
+        <p data-i18n="work.p6">Aplikasi perjalanan. Foto diberi ruang, teks tahu diri.</p>
+        <ul class="tags"><li>Travel</li><li data-i18n="tag.booking">Booking</li><li data-i18n="tag.crossplat">Cross-platform</li></ul>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section class="section about" id="about">
+  <div class="about__portrait reveal">
+    <picture>
+      <source srcset="assets/img/portrait.webp" type="image/webp" />
+      <img src="assets/img/portrait.jpg" alt="Potret Nuit Encre" loading="lazy" decoding="async" />
+    </picture>
+    <div class="about__portrait-glow"></div>
+  </div>
+
+  <div class="about__body">
+    <div class="section__head section__head--left reveal">
+      <span class="section__num">02</span>
+      <h2 class="section__title" data-i18n="about.title">Tentang Aku</h2>
+    </div>
+
+    <p class="reveal" data-i18n="about.p1">
+      Aku mendesain hanya untuk satu layar: layar yang kamu genggam. Enam tahun
+      terakhir kuhabiskan mendalami satu pertanyaan — bagaimana sebuah antarmuka
+      bisa terasa tenang tanpa jadi membosankan.
+    </p>
+    <p class="reveal" data-i18n="about.p2">
+      Jawabanku selalu kembali ke gelap. Latar pekat memberi ruang bagi satu
+      sorot cahaya untuk memimpin mata. Tidak ada yang berteriak, tapi semuanya
+      terbaca. Itu sebabnya studio kecilku bernama <em>Nuit Encre</em> — malam tinta.
+    </p>
+    <p class="reveal" data-i18n="about.p3">
+      Di luar Figma, aku menggambar dengan pena, mengoleksi tipografi tua, dan
+      berjalan kaki di kota saat lampu-lampu baru dinyalakan.
+    </p>
+
+    <ul class="facts reveal">
+      <li><span data-i18n="about.f1k">Berbasis di</span><strong data-i18n="about.f1v">Jakarta, Indonesia</strong></li>
+      <li><span data-i18n="about.f2k">Fokus</span><strong data-i18n="about.f2v">Mobile UI · iOS &amp; Android</strong></li>
+      <li><span data-i18n="about.f3k">Status</span><strong class="is-open" data-i18n="about.f3v">Terbuka untuk proyek</strong></li>
+      <li><span data-i18n="about.f4k">Bahasa</span><strong data-i18n="about.f4v">Indonesia · Inggris</strong></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ PROCESS ============ -->
+<section class="section" id="process">
+  <div class="section__head reveal">
+    <span class="section__num">03</span>
+    <h2 class="section__title" data-i18n="process.title">Cara Kerja</h2>
+    <p class="section__sub" data-i18n="process.sub">Empat tahap. Tidak ada yang dilewati, tidak ada yang dipanjangkan tanpa alasan.</p>
+  </div>
+
+  <ol class="process">
+    <li class="process__step reveal">
+      <span class="process__idx">01</span>
+      <h3 data-i18n="process.s1t">Menyelam</h3>
+      <p data-i18n="process.s1p">Memahami produk, pengguna, dan batasan teknis sebelum satu piksel pun digambar.</p>
+    </li>
+    <li class="process__step reveal">
+      <span class="process__idx">02</span>
+      <h3 data-i18n="process.s2t">Menyusun</h3>
+      <p data-i18n="process.s2p">Alur pengguna, arsitektur informasi, dan wireframe kasar yang cepat diuji.</p>
+    </li>
+    <li class="process__step reveal">
+      <span class="process__idx">03</span>
+      <h3 data-i18n="process.s3t">Menghidupkan</h3>
+      <p data-i18n="process.s3p">Visual, sistem komponen, dan gerak. Di sinilah karakter produk lahir.</p>
+    </li>
+    <li class="process__step reveal">
+      <span class="process__idx">04</span>
+      <h3 data-i18n="process.s4t">Menyerahkan</h3>
+      <p data-i18n="process.s4p">Handoff rapi untuk developer, plus pendampingan sampai rilis di store.</p>
+    </li>
+  </ol>
+</section>
+
+<!-- ============ CRAFT ============ -->
+<section class="section" id="craft">
+  <div class="section__head reveal">
+    <span class="section__num">04</span>
+    <h2 class="section__title" data-i18n="craft.title">Keahlian</h2>
+    <p class="section__sub" data-i18n="craft.sub">Alat hanyalah alat — tapi ini yang kupakai setiap hari.</p>
+  </div>
+
+  <div class="craft">
+    <div class="craft__col reveal">
+      <h3 data-i18n="craft.c1">Desain</h3>
+      <ul class="bars">
+        <li data-v="96"><span>Figma</span><i></i></li>
+        <li data-v="88"><span data-i18n="craft.ds">Design System</span><i></i></li>
+        <li data-v="84"><span data-i18n="craft.proto">Prototyping</span><i></i></li>
+        <li data-v="80"><span data-i18n="craft.motion">Motion &amp; Micro-interaction</span><i></i></li>
+      </ul>
+    </div>
+    <div class="craft__col reveal">
+      <h3 data-i18n="craft.c2">Platform</h3>
+      <ul class="bars">
+        <li data-v="93"><span>iOS Human Interface</span><i></i></li>
+        <li data-v="90"><span>Material Design 3</span><i></i></li>
+        <li data-v="78"><span data-i18n="craft.a11y">Aksesibilitas (WCAG)</span><i></i></li>
+        <li data-v="72"><span data-i18n="craft.handoff">Dev Handoff</span><i></i></li>
+      </ul>
+    </div>
+    <div class="craft__col reveal">
+      <h3 data-i18n="craft.c3">Pendukung</h3>
+      <ul class="chips">
+        <li>Figma</li><li>Framer</li><li>Rive</li><li>After Effects</li>
+        <li>Illustrator</li><li>Blender</li><li>Notion</li><li>Maze</li>
+        <li>Lottie</li><li>Spline</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIAL ============ -->
+<section class="quote-band">
+  <blockquote class="reveal">
+    <p data-i18n="quote.text">“Dia tidak menambahkan apa pun sampai benar-benar perlu. Hasilnya, aplikasi kami terasa dua kali lebih mahal.”</p>
+    <footer><span data-i18n="quote.who">Rani Prameswari — Product Lead, Obsidian</span></footer>
+  </blockquote>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="section contact" id="contact">
+  <div class="section__head reveal">
+    <span class="section__num">05</span>
+    <h2 class="section__title" data-i18n="contact.title">Mari Bicara</h2>
+    <p class="section__sub" data-i18n="contact.sub">Punya produk mobile yang perlu wajah baru? Ceritakan sedikit — aku balas dalam 1×24 jam.</p>
+  </div>
+
+  <div class="contact__wrap">
+    <form class="form reveal" id="contactForm" novalidate>
+      <div class="field">
+        <input type="text" id="fName" name="name" required placeholder=" " />
+        <label for="fName" data-i18n="form.name">Nama</label>
+      </div>
+      <div class="field">
+        <input type="email" id="fMail" name="email" required placeholder=" " />
+        <label for="fMail" data-i18n="form.email">Email</label>
+      </div>
+      <div class="field">
+        <textarea id="fMsg" name="message" rows="5" required placeholder=" "></textarea>
+        <label for="fMsg" data-i18n="form.msg">Ceritakan proyekmu</label>
+      </div>
+      <button type="submit" class="btn btn--primary btn--full">
+        <span data-i18n="form.send">Kirim Pesan</span>
+        <svg viewBox="0 0 24 24" class="btn__arrow"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+      <p class="form__note" id="formNote" role="status"></p>
+    </form>
+
+    <aside class="contact__side reveal">
+      <a class="contact__mail" href="mailto:halo@nuitencre.design">halo@nuitencre.design</a>
+      <p class="contact__hint" data-i18n="contact.hint">Atau temukan aku di sini —</p>
+      <ul class="socials">
+        <li><a href="#" target="_blank" rel="noopener">Dribbble</a></li>
+        <li><a href="#" target="_blank" rel="noopener">Behance</a></li>
+        <li><a href="#" target="_blank" rel="noopener">LinkedIn</a></li>
+        <li><a href="#" target="_blank" rel="noopener">Instagram</a></li>
+      </ul>
+      <a class="btn btn--ghost btn--sm" href="#" download>
+        <span data-i18n="contact.cv">Unduh CV (PDF)</span>
+      </a>
+    </aside>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <span>© <span id="year">2026</span> Nuit Encre</span>
+  <span class="footer__mid" data-i18n="footer.made">Dirancang &amp; dibangun di Jakarta, larut malam.</span>
+  <a href="#hero" class="footer__top" data-i18n="footer.top">Ke atas ↑</a>
+</footer>
+
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
