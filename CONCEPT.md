@@ -187,13 +187,40 @@ Tanpa artefak nyata, bagian `02` — jantung situs ini — akan kosong.
 
 ---
 
-## 8. Yang belum diputuskan
+## 8. Keputusan akhir
 
-- [ ] Nama tampil dan kalimat posisi
-- [ ] Palet: gelap hangat (usulan di atas) atau justru terang seperti Archive?
-- [ ] Artefak: sudah punya bahan nyata, atau perlu placeholder dulu?
-- [ ] Teknologi: HTML/CSS/JS murni, atau Astro agar artefak bisa ditulis
-      sebagai berkas Markdown?
+| Pertanyaan | Keputusan |
+|---|---|
+| Nama tampil | **Nuit-Encre** — tanpa nama pribadi |
+| Palet | **Gelap hangat** — sesuai usulan bagian 3 |
+| Isi | **Concept Archive dulu** sebagai satu-satunya karya jadi; artefak memakai placeholder yang bisa diganti |
+| Teknologi | **HTML + CSS + JS murni** — tanpa build step, tanpa dependency |
+| Acuan visual | **huyml.co** — editorial, tipografi display besar, metadata sudut, galeri seret |
+
+### Alasan memilih HTML/CSS/JS murni
+
+Astro sempat dipertimbangkan agar artefak bisa ditulis sebagai berkas Markdown.
+Ditolak karena: situs ini satu halaman, kamu seorang desainer (bukan developer)
+sehingga menambah build step justru menambah gesekan, dan tanpa dependency
+berarti situs ini akan tetap bisa dibuka sepuluh tahun lagi tanpa perlu
+`npm install`.
+
+Sebagai gantinya, seluruh isi artefak dipusatkan dalam satu berkas data
+(`assets/js/data.js`). Menambah artefak baru cukup menambah satu objek.
+
+### Yang diambil dari huyml.co
+
+- Metadata terkunci di sudut layar — peran, tahun, status
+- Nav bernomor `01 02 03 04` sebagai baris, bukan menu
+- Display raksasa yang mencampur **serif italic** dengan **sans**
+- Galeri horizontal yang diseret, dikelompokkan per periode
+- Label monospace huruf besar berukuran sangat kecil
+- Ruang kosong yang berani
+
+### Yang **tidak** diambil
+
+huyml.co punya 19 karya. Kita punya satu. Maka galeri seret dipakai untuk
+**artefak**, bukan project — persis seperti keputusan di bagian 1.
 
 ---
 
