@@ -1,6 +1,6 @@
 # NUIT-ENCRE — Dokumen Konsep
 
-> Versi 0.3 · **mobile-first**, identitas terpisah dari Concept Archive.
+> Versi 0.4 · **mobile-first**, identitas terpisah dari Concept Archive.
 
 ---
 
@@ -133,10 +133,14 @@ Semua terpusat di `assets/js/data.js`.
 
 ---
 
-## 8. Void — bagian 001
+## 8. Void — latar hero
 
 Hero semula menyisakan **58% layar kosong** karena `space-between` dengan isi
 sedikit. Ruang itu tidak diisi dengan tambalan, melainkan **dijadikan karya**.
+
+Void kini **bukan kotak kecil di dalam hero** — ia mengisi seluruh hero sebagai
+latar (`position:absolute; inset:0`), dengan teks mengambang di atasnya. Judul
+dan jam diberi `text-shadow` gelap agar tetap terbaca di atas tinta.
 
 Tiga lapis yang menceritakan satu hal:
 
@@ -145,6 +149,55 @@ Tiga lapis yang menceritakan satu hal:
 | **Spesimen** | Bentuk tinta dibangkitkan acak tiap kunjungan. Diberi kode `SPESIMEN 4A7F—2147` — tak pernah terulang. Situsnya sendiri menjadi studi konsep. |
 | **Kamar gelap** | Bentuk itu hanya tersingkap oleh cahaya yang mengikuti jari. Diam = gelap. "Malam" jadi kondisi, bukan sekadar warna. |
 | **Gravitasi** | Miringkan ponsel, tinta bergeser mengikuti. Lapisan opsional — bila sensor tidak ada, tak ada yang rusak. |
+
+### Bentuk tinta: dari debu ke serat
+
+Bentuknya melewati dua perbaikan besar, keduanya berangkat dari keluhan yang
+sama — tinta tidak terbaca sebagai **satu massa cair**.
+
+**Ronde 1 — dari gumpalan melayang ke filamen.** Versi awal memakai blob bulat
+yang tersebar; hasilnya terbaca sebagai *debu mengambang*, bukan tinta. Diganti
+dengan **untai mengalir**: 4–6 filamen yang berjalan simpul demi simpul,
+menipis di ujung tapi tak pernah hilang.
+
+**Ronde 2 — menambah serat.** Untai saja masih terlalu bersih. Tiap simpul
+induk kini berpeluang **menumbuhkan cabang** — lebih pendek, lebih tipis, dan
+meliuk lebih liar daripada induknya.
+
+| | sebelum | filamen | + cabang (kini) |
+|---|---|---|---|
+| Simpul | 90 | 103 | **230** |
+| Jari-jari median | 14px | 30px | 18px |
+| Simpul tak bersentuhan | 53% | 5% | **13%** |
+| Cakupan tinggi hero | 70% | 94% | **96%** |
+| Bagian berserat | 0% | 0% | **47%** |
+
+### Batas yang ditemukan lewat pengujian
+
+Tiga hal yang **sudah dicoba dan ditolak** — jangan diulang:
+
+- **Cabang bertingkat** (cucu, `maxGen ≥ 2`) — simpul meledak ke 612, jari-jari
+  median anjlok ke 5px, celah melonjak ke 42%. Kembali jadi debu. Percabangan
+  dikunci **satu tingkat**.
+- **Memperbanyak percikan** — hanya menambah titik lepas yang mengambang.
+  Serat harus **menempel** pada untainya, bukan berdiri sendiri.
+- **Filamen terlalu tebal** (3–4 untai gemuk) — jadi beberapa cacing besar,
+  cakupan turun ke 83%.
+
+### Anggaran kecerahan
+
+Kanvas memakai `globalCompositeOperation = 'lighter'`, jadi **tumpukan simpul
+menaikkan terang secara non-linier**. Setiap kali jumlah simpul berubah, dua
+titik gradien harus disetel ulang. Sasarannya rata-rata **0,85–0,93**; di atas
+1,0 layar berisiko memutih rata.
+
+| Simpul | Titik gradien | Rata-rata |
+|---|---|---|
+| 103 | `.78` / `.30` | 0,85 |
+| **230** | **`.58` / `.22`** | **0,88** |
+
+Tidak ada peramban headless di lingkungan ini, jadi kecerahan **hanya bisa
+disimulasikan** — mata di ponsel asli tetap pemutus akhir.
 
 ### Jaring pengaman
 
@@ -159,3 +212,49 @@ Tiga lapis yang menceritakan satu hal:
 `.hero` setinggi `100dvh` berakhir tepat di dasar layar, sementara dock `56px`
 melayang di atasnya — sehingga `.hero__foot` (status + jam) **tidak pernah
 terlihat di ponsel**. Tinggi hero kini dikurangi setinggi dock.
+
+Judul juga sempat **terdorong turun** karena slack menumpuk di atasnya.
+`.hero__mid` memakai `margin-top:clamp(24px,16vh,150px)` — **jangan** `auto`,
+karena itulah yang dulu membuat judul melorot ke tengah.
+
+---
+
+## 9. Layar pembuka
+
+Situs ini ringan; tidak ada yang benar-benar perlu ditunggu. Jadi layar pembuka
+bukan bar kemajuan, melainkan **adegan** — dan sengaja dibedakan sifatnya dari
+hero, supaya dua layar beruntun tidak terasa sama:
+
+> **Pembuka = tinta bergerak. Hero = tinta mengendap.**
+> Satu cerita: ditumpahkan, lalu diam.
+
+| Waktu | Kejadian |
+|---|---|
+| 0–0,4s | Setetes tinta putih jatuh, memanjang makin cepat |
+| 0,4–1,2s | Mendarat, lalu merembes **naik** memenuhi layar; tepinya bergelombang |
+| ~0,7s | **Sulur berserat** menjalar keluar mendahului rembesan |
+| 1,26–2,1s | Layar putih **dibelah tiga**, didorong keluar bergantian arah, beruntun 0,11s |
+| 2,16s | Hero tersingkap |
+
+Gabungan dua gagasan: tinta tertumpah (permintaan pemilik situs) dan gestur
+"benda yang didorong" ala huyml.co — tapi dijalankan dengan bahan sendiri.
+Sulurnya memakai **mesin filamen yang sama** dengan hero, jadi seratnya satu
+bahasa.
+
+### Detail yang menentukan
+
+- **Teks tetap terbaca** sepanjang adegan lewat `mix-blend-mode:difference` —
+  `NUIT-ENCRE` dan angka otomatis membalik jadi hitam saat tinta putih lewat,
+  tanpa logika tambahan.
+- **Tinta dilebihkan 60px** ke atas layar (`OVER`), karena gelombang tepi
+  menyisakan celah hitam di puncak saat seharusnya sudah "penuh".
+- **Rembesan mulai setelah tetes mendarat**, bukan bersamaan — awalnya tinta
+  sudah naik 29% sebelum tetesnya menyentuh dasar.
+- **Boot ditutup di 2,16s**, sesudah panel terakhir bersih di 2,1s. Kalau
+  durasi dorongan diubah, angka ini harus ikut diperiksa atau panel terpotong.
+
+### Jaring pengaman
+
+- `getContext` mengembalikan `null` → adegan dilewati, boot langsung tersingkap
+- `prefers-reduced-motion` → tanpa adegan, singkap dalam 200ms
+- `body` dikunci `overflow:hidden` selama boot, dilepas di **semua** jalur keluar

@@ -13,8 +13,11 @@ Alasan setiap keputusan ada di **[`CONCEPT.md`](CONCEPT.md)**.
 Dirancang pada lebar **360px** lebih dulu. Layar besar hanyalah pelebaran.
 
 - **Navigasi di bawah** — zona jangkauan ibu jari, bukan pojok atas
-- **Void yang disingkap sentuhan** di bagian `001` — bentuk tinta acak
-  (`SPESIMEN 4A7F—2147`) yang hanya muncul mengikuti jari, dan bergeser saat
+- **Layar pembuka beranimasi** — setetes tinta putih jatuh, merembes naik
+  memenuhi layar, lalu dibelah tiga dan didorong keluar mengungkap hero (2,16s)
+- **Void yang disingkap sentuhan** — mengisi **seluruh latar hero**, bukan
+  kotak tersendiri. Tinta berserat yang dibangkitkan acak tiap kunjungan
+  (`SPESIMEN 4A7F—2147`), hanya muncul mengikuti jari, dan bergeser saat
   ponsel dimiringkan
 - **Nol aturan `hover`** di seluruh CSS — tidak ada isi yang tersembunyi
 - **Galeri geser** pada bagian `003` — snap ke tengah, keterangan berganti
@@ -41,13 +44,16 @@ Berbeda dari **Concept Archive** — dan bukan tiruan **huyml.co**.
 Aksennya bukan warna, melainkan **inversi**: blok putih penuh dengan teks hitam.
 Lebih tegas, dan tidak mungkin tertukar dengan Concept Archive.
 
+Gerakannya pun dibedakan: **pembuka = tinta bergerak, hero = tinta mengendap**.
+Keduanya memakai mesin filamen yang sama, jadi seratnya satu bahasa.
+
 ---
 
 ## Susunan
 
 | | Bagian |
 |---|---|
-| `001` | Pembuka — nama besar + **void** generatif, status, jam |
+| `001` | Pembuka — nama besar di atas **void** generatif setinggi layar, status, jam |
 | `002` | Karya — Concept Archive |
 | `003` | Studi — galeri geser, 8 kartu |
 | `004` | Praktik |
