@@ -130,3 +130,32 @@ Bilah bawah tetap: nama · indeks bagian berjalan · tombol menu.
 | **Email** | Masih dummy |
 
 Semua terpusat di `assets/js/data.js`.
+
+---
+
+## 8. Void — bagian 001
+
+Hero semula menyisakan **58% layar kosong** karena `space-between` dengan isi
+sedikit. Ruang itu tidak diisi dengan tambalan, melainkan **dijadikan karya**.
+
+Tiga lapis yang menceritakan satu hal:
+
+| Lapis | Gagasan |
+|---|---|
+| **Spesimen** | Bentuk tinta dibangkitkan acak tiap kunjungan. Diberi kode `SPESIMEN 4A7F—2147` — tak pernah terulang. Situsnya sendiri menjadi studi konsep. |
+| **Kamar gelap** | Bentuk itu hanya tersingkap oleh cahaya yang mengikuti jari. Diam = gelap. "Malam" jadi kondisi, bukan sekadar warna. |
+| **Gravitasi** | Miringkan ponsel, tinta bergeser mengikuti. Lapisan opsional — bila sensor tidak ada, tak ada yang rusak. |
+
+### Jaring pengaman
+
+- Tanpa `getContext` → seluruh blok berhenti diam-diam
+- Tanpa sensor → sentuhan saja sudah cukup
+- Tidak disentuh 2,6 detik → menyingkap pelan sendiri
+- `prefers-reduced-motion` → tampil penuh, tanpa gerak
+- iOS 13+ izin sensor hanya diminta setelah pengguna menyentuh
+
+### Bug yang sekalian diperbaiki
+
+`.hero` setinggi `100dvh` berakhir tepat di dasar layar, sementara dock `56px`
+melayang di atasnya — sehingga `.hero__foot` (status + jam) **tidak pernah
+terlihat di ponsel**. Tinggi hero kini dikurangi setinggi dock.

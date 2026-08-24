@@ -88,8 +88,9 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 
 /* ---------- 001 · PEMBUKA ---------- */
 .hero{
-  min-height:100dvh;
-  display:flex;flex-direction:column;justify-content:space-between;
+  /* dikurangi tinggi dock agar .hero__foot tidak tertutup */
+  min-height:calc(100dvh - var(--dock) - var(--safe));
+  display:flex;flex-direction:column;
   padding:calc(var(--pad) + 8px) var(--pad) var(--pad);
 }
 .hero__meta{display:flex;justify-content:space-between;gap:12px}
@@ -97,7 +98,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 .wordmark{
   font-size:clamp(52px,17.5vw,168px);
   font-weight:600;line-height:.82;letter-spacing:-.055em;
-  margin:auto 0 0;
+  margin:0;
 }
 .wm__l{display:block;overflow:hidden}
 .wm__l span{display:block;transform:translateY(102%);animation:rise 1s var(--e) forwards}
@@ -106,7 +107,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 
 .hero__say{
   font-size:15px;color:var(--soft);max-width:26ch;
-  margin-top:18px;
+  margin-top:14px;
   opacity:0;animation:fade .8s var(--e) .5s forwards;
 }
 .hero__say .ser{color:var(--pure)}
@@ -114,7 +115,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 
 .hero__foot{
   display:flex;justify-content:space-between;align-items:center;gap:12px;
-  padding-top:16px;margin-top:28px;border-top:1px solid var(--line);
+  padding-top:14px;margin-top:18px;border-top:1px solid var(--line);
   opacity:0;animation:fade .8s var(--e) .7s forwards;
 }
 .tick{display:flex;align-items:center;gap:8px;color:var(--soft)}
@@ -123,6 +124,40 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
   animation:pulse 2.4s infinite;flex-shrink:0;
 }
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
+
+/* ---------- VOID · kamar gelap + spesimen ---------- */
+.void{
+  position:relative;
+  flex:1 1 auto;
+  min-height:180px;
+  margin:18px calc(var(--pad) * -1) 20px;
+  overflow:hidden;
+  touch-action:pan-y;
+}
+.void__c{
+  display:block;width:100%;height:100%;
+  opacity:0;transition:opacity 1.2s var(--e) .35s;
+}
+.void.lit .void__c{opacity:1}
+
+.void__ui{
+  position:absolute;left:var(--pad);right:var(--pad);bottom:0;
+  display:flex;justify-content:space-between;align-items:flex-end;gap:12px;
+  pointer-events:none;
+}
+.void__id{
+  color:var(--soft);
+  opacity:0;transform:translateY(6px);
+  transition:opacity .7s var(--e),transform .7s var(--e);
+}
+.void.lit .void__id{opacity:1;transform:none}
+.void__sub{
+  text-align:right;
+  transition:opacity .6s var(--e);
+  animation:hintPulse 3.4s ease-in-out infinite;
+}
+.void.lit .void__sub{opacity:0;animation:none}
+@keyframes hintPulse{0%,100%{opacity:.45}50%{opacity:.85}}
 
 /* ---------- SECTION ---------- */
 .sec{padding:64px var(--pad) 0}
@@ -334,7 +369,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
     border-top:0;border-bottom:1px solid var(--line);
   }
   .dock__p{top:auto;bottom:-1px}
-  .hero{padding-top:calc(var(--dock) + 32px)}
+  .hero{padding-top:calc(var(--dock) + 32px);min-height:100dvh}
   .sec__bar{top:var(--dock)}
   .gal__no{font-size:44px}
   .sec{max-width:1400px;margin-inline:auto}
@@ -350,4 +385,6 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
   .wm__l span{transform:none}
   .hero__say,.hero__foot{opacity:1}
   .rv{opacity:1;transform:none}
+  .void__c{opacity:1}
+  .void__sub{animation:none}
 }

@@ -225,6 +225,175 @@
     $$('.rv').forEach(el => el.classList.add('in'));
   }
 
+  /* ---------- VOID · kamar gelap + spesimen generatif ----------
+     Tiga lapis yang bercerita satu hal:
+       03 · spesimen  — bentuk tinta acak, tak pernah sama dua kali
+       02 · kamar gelap — hanya tersingkap oleh cahaya yang mengikuti jari
+       01 · gravitasi  — miringkan HP, tinta ikut bergeser (opsional)
+  --------------------------------------------------------------- */
+  (function voidRoom() {
+    const wrap = $('#void');
+    const cv   = $('#voidC');
+    if (!wrap || !cv || !cv.getContext) return;
+
+    const ctx = cv.getContext('2d');
+    let W = 0, H = 0, dpr = 1;
+
+    /* — benih: satu kunjungan, satu spesimen — */
+    const seed = (Date.now() ^ (Math.random() * 0xFFFFFF)) >>> 0;
+    let rs = seed || 1;
+    const rnd = () => {                       // mulberry32
+      rs |= 0; rs = rs + 0x6D2B79F5 | 0;
+      let t = Math.imul(rs ^ rs >>> 15, 1 | rs);
+      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+    const code = seed.toString(16).toUpperCase().padStart(8, '0').slice(0, 4)
+               + '—' + seed.toString(36).toUpperCase().slice(-4);
+    $('#voidId').textContent = 'SPESIMEN ' + code;
+
+    /* — bentuk tinta: gumpalan yang saling bertaut — */
+    const N = 44 + Math.floor(rnd() * 26);
+    const blobs = [];
+    const armA = rnd() * Math.PI * 2;
+    const armK = 2 + Math.floor(rnd() * 3);
+    const sway = .55 + rnd() * .9;
+
+    for (let i = 0; i < N; i++) {
+      const t = i / N;
+      const ang = armA + t * Math.PI * armK * 2;
+      const rad = Math.pow(t, .62) * (.34 + rnd() * .12);
+      blobs.push({
+        bx: .5 + Math.cos(ang) * rad * sway,
+        by: .5 + Math.sin(ang) * rad,
+        r : .012 + Math.pow(rnd(), 2.1) * .1,
+        p : rnd() * Math.PI * 2,
+        s : .25 + rnd() * .5,
+        d : .35 + rnd() * .65
+      });
+    }
+
+    function size() {
+      const r = wrap.getBoundingClientRect();
+      if (!r.width || !r.height) return;
+      dpr = Math.min(devicePixelRatio || 1, 2);
+      W = r.width; H = r.height;
+      cv.width = W * dpr; cv.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    size();
+    addEventListener('resize', size, { passive: true });
+
+    /* — cahaya: mengikuti jari, memudar bila diam — */
+    const light = { x: .5, y: .5, on: 0, want: 0 };
+    let lit = false, t0 = performance.now();
+    let gx = 0, gy = 0, tgx = 0, tgy = 0;      // gravitasi
+
+    function touch(cx, cy) {
+      const r = wrap.getBoundingClientRect();
+      light.x = (cx - r.left) / r.width;
+      light.y = (cy - r.top) / r.height;
+      light.want = 1;
+      if (!lit) { lit = true; wrap.classList.add('lit'); }
+    }
+
+    wrap.addEventListener('pointermove', e => touch(e.clientX, e.clientY), { passive: true });
+    wrap.addEventListener('pointerdown', e => touch(e.clientX, e.clientY), { passive: true });
+    wrap.addEventListener('touchmove', e => {
+      const t = e.touches[0];
+      if (t) touch(t.clientX, t.clientY);
+    }, { passive: true });
+    wrap.addEventListener('pointerleave', () => { light.want = 0; });
+    wrap.addEventListener('touchend',    () => { light.want = 0; });
+
+    /* — giroskop: lapisan bonus, tidak wajib — */
+    function gyro(e) {
+      const g = e.gamma, b = e.beta;
+      if (g == null || b == null) return;
+      tgx = Math.max(-1, Math.min(1, g / 38));
+      tgy = Math.max(-1, Math.min(1, (b - 42) / 38));
+      if (!lit) { lit = true; wrap.classList.add('lit'); }
+    }
+    if (window.DeviceOrientationEvent) {
+      const need = typeof DeviceOrientationEvent.requestPermission === 'function';
+      if (!need) {
+        addEventListener('deviceorientation', gyro, { passive: true });
+      } else {
+        // iOS 13+ : hanya boleh diminta dari gestur pengguna
+        wrap.addEventListener('pointerdown', function ask() {
+          wrap.removeEventListener('pointerdown', ask);
+          DeviceOrientationEvent.requestPermission()
+            .then(r => { if (r === 'granted') addEventListener('deviceorientation', gyro, { passive: true }); })
+            .catch(() => {});
+        }, { once: true });
+      }
+    }
+
+    /* — tanpa sentuhan & tanpa sensor: singkap pelan sendiri — */
+    setTimeout(() => {
+      if (lit) return;
+      lit = true; wrap.classList.add('lit');
+      light.want = .34;
+    }, 2600);
+
+    if (reduced) {
+      lit = true; wrap.classList.add('lit');
+      light.want = .5; light.on = .5;
+    }
+
+    /* — gambar — */
+    function frame(now) {
+      requestAnimationFrame(frame);
+      if (!W || !H) { size(); return; }
+
+      const t = (now - t0) / 1000;
+      light.on += (light.want - light.on) * .06;
+      if (light.want > 0 && light.want < 1) light.want *= .999;
+      gx += (tgx - gx) * .05;
+      gy += (tgy - gy) * .05;
+
+      ctx.clearRect(0, 0, W, H);
+      if (light.on < .01) return;
+
+      const lx = (light.x + gx * .16) * W;
+      const ly = (light.y + gy * .1) * H;
+      const reach = Math.max(W, H) * (reduced ? .95 : .58);
+      const drift = reduced ? 0 : 1;
+
+      ctx.globalCompositeOperation = 'lighter';
+
+      for (const b of blobs) {
+        const x = (b.bx + Math.sin(t * b.s + b.p) * .012 * drift + gx * .07 * b.d) * W;
+        const y = (b.by + Math.cos(t * b.s * .8 + b.p) * .012 * drift + gy * .05 * b.d) * H;
+        const r = b.r * Math.min(W, H);
+
+        const d = Math.hypot(x - lx, y - ly);
+        let f = 1 - d / reach;
+        if (f <= 0) continue;
+        f = f * f * light.on;
+
+        const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+        g.addColorStop(0,   `rgba(250,250,250,${(.5 * f).toFixed(4)})`);
+        g.addColorStop(.45, `rgba(190,190,190,${(.16 * f).toFixed(4)})`);
+        g.addColorStop(1,   'rgba(0,0,0,0)');
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(x, y, r, 0, 6.283);
+        ctx.fill();
+      }
+
+      // sapuan cahaya itu sendiri
+      const halo = ctx.createRadialGradient(lx, ly, 0, lx, ly, reach * .5);
+      halo.addColorStop(0, `rgba(250,250,250,${(.05 * light.on).toFixed(4)})`);
+      halo.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = halo;
+      ctx.fillRect(0, 0, W, H);
+
+      ctx.globalCompositeOperation = 'source-over';
+    }
+    requestAnimationFrame(frame);
+  })();
+
   /* ---------- SCROLL ---------- */
   const prog = $('#dockP'), dockI = $('#dockI');
   const secs = $$('[data-i]');

@@ -13,6 +13,9 @@ Alasan setiap keputusan ada di **[`CONCEPT.md`](CONCEPT.md)**.
 Dirancang pada lebar **360px** lebih dulu. Layar besar hanyalah pelebaran.
 
 - **Navigasi di bawah** — zona jangkauan ibu jari, bukan pojok atas
+- **Void yang disingkap sentuhan** di bagian `001` — bentuk tinta acak
+  (`SPESIMEN 4A7F—2147`) yang hanya muncul mengikuti jari, dan bergeser saat
+  ponsel dimiringkan
 - **Nol aturan `hover`** di seluruh CSS — tidak ada isi yang tersembunyi
 - **Galeri geser** pada bagian `003` — snap ke tengah, keterangan berganti
   mengikuti kartu aktif, lengkap dengan tombol panah sebagai cadangan
@@ -44,7 +47,7 @@ Lebih tegas, dan tidak mungkin tertukar dengan Concept Archive.
 
 | | Bagian |
 |---|---|
-| `001` | Pembuka — nama besar, status, jam |
+| `001` | Pembuka — nama besar + **void** generatif, status, jam |
 | `002` | Karya — Concept Archive |
 | `003` | Studi — galeri geser, 8 kartu |
 | `004` | Praktik |
