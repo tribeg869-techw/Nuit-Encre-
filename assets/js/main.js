@@ -253,7 +253,7 @@
     $('#voidId').textContent = 'SPESIMEN ' + code;
 
     /* — bentuk tinta: gumpalan yang saling bertaut — */
-    const N = 44 + Math.floor(rnd() * 26);
+    const N = 58 + Math.floor(rnd() * 32);
     const blobs = [];
     const armA = rnd() * Math.PI * 2;
     const armK = 2 + Math.floor(rnd() * 3);
@@ -357,7 +357,7 @@
 
       const lx = (light.x + gx * .16) * W;
       const ly = (light.y + gy * .1) * H;
-      const reach = Math.max(W, H) * (reduced ? .95 : .58);
+      const reach = Math.max(W, H) * (reduced ? .95 : .65);
       const drift = reduced ? 0 : 1;
 
       ctx.globalCompositeOperation = 'lighter';
@@ -373,8 +373,10 @@
         f = f * f * light.on;
 
         const g = ctx.createRadialGradient(x, y, 0, x, y, r);
-        g.addColorStop(0,   `rgba(250,250,250,${(.5 * f).toFixed(4)})`);
-        g.addColorStop(.45, `rgba(190,190,190,${(.16 * f).toFixed(4)})`);
+        // .38 (bukan .5) mengimbangi gumpalan yang lebih rapat + jangkauan
+        // lebih luas; mode 'lighter' menumpuk, tanpa ini pusatnya jadi putih pol
+        g.addColorStop(0,   `rgba(250,250,250,${(.38 * f).toFixed(4)})`);
+        g.addColorStop(.45, `rgba(190,190,190,${(.12 * f).toFixed(4)})`);
         g.addColorStop(1,   'rgba(0,0,0,0)');
         ctx.fillStyle = g;
         ctx.beginPath();
