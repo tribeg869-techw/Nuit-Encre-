@@ -8,9 +8,61 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Instrument+Serif:ital@1&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,100..900,0..100,0..1&family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet" />
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+<link rel="preconnect" href="https://cdn.statically.io" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet" />
 
 <style>
+/* ============ FONT KANDIDAT ============
+   Ketiganya SIL OFL 1.1 — bebas komersial.
+   Dimuat dari CDN publik untuk perbandingan ini saja;
+   kalau nanti dipakai, berkasnya akan di-self-host di repo. */
+
+/* 1 · Apfel Grotezk — Collletttivo */
+@font-face{
+  font-family:'Apfel Grotezk';
+  src:url('https://cdn.jsdelivr.net/gh/collletttivo/apfel-grotezk@main/fonts/ApfelGrotezk-Regular.woff2') format('woff2');
+  font-weight:400;font-display:swap;
+}
+@font-face{
+  font-family:'Apfel Grotezk';
+  src:url('https://cdn.jsdelivr.net/gh/collletttivo/apfel-grotezk@main/fonts/ApfelGrotezk-Fett.woff2') format('woff2');
+  font-weight:700;font-display:swap;
+}
+/* gaya "Brukt" — versi rusak/terdistorsi, ini yang paling berkarakter */
+@font-face{
+  font-family:'Apfel Brukt';
+  src:url('https://cdn.jsdelivr.net/gh/collletttivo/apfel-grotezk@main/fonts/ApfelGrotezk-Brukt.woff2') format('woff2');
+  font-weight:400;font-display:swap;
+}
+
+/* 2 · Mattone — Collletttivo */
+@font-face{
+  font-family:'Mattone';
+  src:url('https://cdn.jsdelivr.net/gh/collletttivo/mattone@main/fonts/Mattone-Regular.woff2') format('woff2');
+  font-weight:400;font-display:swap;
+}
+@font-face{
+  font-family:'Mattone';
+  src:url('https://cdn.jsdelivr.net/gh/collletttivo/mattone@main/fonts/Mattone-Bold.woff2') format('woff2');
+  font-weight:700;font-display:swap;
+}
+@font-face{
+  font-family:'Mattone';
+  src:url('https://cdn.jsdelivr.net/gh/collletttivo/mattone@main/fonts/Mattone-Black.woff2') format('woff2');
+  font-weight:900;font-display:swap;
+}
+
+/* 3 · Le Murmure — Velvetyne (hanya satu bobot)
+   Lewat CDN Statically, bukan gitlab.com/raw: raw GitLab tidak
+   mengirim header CORS, sehingga font akan ditolak browser.
+   Cabangnya 'main', bukan 'master'. */
+@font-face{
+  font-family:'Le Murmure';
+  src:url('https://cdn.statically.io/gl/velvetyne/murmure/main/fonts/webfonts/LeMurmure-Regular.woff2') format('woff2');
+  font-weight:400;font-display:swap;
+}
+
 :root{
   --void:#000; --line:#1F1F1F; --line2:#2E2E2E;
   --dim:#6E6E6E; --soft:#A8A8A8; --pure:#FAFAFA;
@@ -25,21 +77,19 @@ body{
   background:var(--void);color:var(--pure);
   font-family:var(--inter);line-height:1.5;
   overflow-x:hidden;-webkit-font-smoothing:antialiased;
-  padding-bottom:100px;
+  padding-bottom:90px;
 }
 .mono{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;line-height:1.4}
 .dim{color:var(--dim)}
 
-/* ---------- kepala ---------- */
 .top{padding:calc(var(--pad) + 8px) var(--pad) 0}
-.top__row{display:flex;justify-content:space-between;gap:12px;margin-bottom:28px}
-.top h1{font-size:26px;font-weight:600;letter-spacing:-.03em;line-height:1.15;max-width:16ch}
+.top__row{display:flex;justify-content:space-between;gap:12px;margin-bottom:26px}
+.top h1{font-size:25px;font-weight:600;letter-spacing:-.03em;line-height:1.15;max-width:16ch}
 .top p{color:var(--soft);font-size:14px;margin-top:12px;max-width:46ch}
 
-/* ---------- pengganti ---------- */
 .pick{
   position:sticky;top:0;z-index:30;background:var(--void);
-  padding:16px var(--pad) 12px;margin-top:26px;
+  padding:14px var(--pad) 12px;margin-top:24px;
   border-bottom:1px solid var(--line);
 }
 .pick__lbl{color:var(--dim);margin-bottom:10px}
@@ -53,89 +103,80 @@ body{
 }
 .pick__b.on{background:var(--pure);color:var(--void);border-color:var(--pure)}
 
-/* ---------- panggung ---------- */
-.stage{padding:34px var(--pad) 40px;border-bottom:1px solid var(--line)}
+/* panggung meniru hero asli */
+.stage{padding:32px var(--pad) 38px;border-bottom:1px solid var(--line)}
 .stage__wm{line-height:.82;margin:0;font-size:clamp(52px,17.5vw,168px)}
 .wm__l{display:block}
 .stage__say{font-size:15px;color:var(--soft);max-width:26ch;margin-top:16px}
 .stage__say em{font-family:'Instrument Serif',Georgia,serif;font-style:italic;color:var(--pure)}
 .stage__meta{display:flex;justify-content:space-between;gap:12px;
-  padding-top:14px;margin-top:26px;border-top:1px solid var(--line)}
-.stage__ttl{font-size:clamp(34px,10.5vw,88px);line-height:.95;margin-top:34px}
-.stage__big{font-size:clamp(26px,7.6vw,54px);line-height:1.08;margin-top:26px;max-width:17ch}
+  padding-top:14px;margin-top:24px;border-top:1px solid var(--line)}
+.stage__ttl{font-size:clamp(34px,10.5vw,88px);line-height:.95;margin-top:32px}
+.stage__big{font-size:clamp(26px,7.6vw,54px);line-height:1.08;margin-top:24px;max-width:17ch}
 .stage__body{color:var(--soft);font-size:15px;margin-top:20px;max-width:52ch}
 
-/* ---------- catatan ---------- */
-.note{padding:26px var(--pad);border-bottom:1px solid var(--line);background:#050505}
+.note{padding:24px var(--pad);border-bottom:1px solid var(--line);background:#050505}
 .note dl{display:grid;grid-template-columns:auto 1fr;gap:8px 16px;margin-top:14px}
 .note dt{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);white-space:nowrap}
 .note dd{font-size:14px;color:var(--soft)}
 .note__why{font-size:14px;color:var(--soft);margin-top:14px;max-width:52ch}
+.note__warn{font-size:13px;color:var(--dim);margin-top:12px;max-width:52ch;
+  border-left:1px solid var(--line2);padding-left:12px}
 
-/* ---------- tumpuk ---------- */
-.stack{padding:40px var(--pad) 0}
-.stack h2{font-size:20px;font-weight:600;letter-spacing:-.02em}
+.stack{padding:38px var(--pad) 0}
+.stack h2{font-size:19px;font-weight:600;letter-spacing:-.02em}
 .stack p{color:var(--soft);font-size:14px;margin-top:10px;max-width:46ch}
-.row{padding:26px 0;border-bottom:1px solid var(--line)}
+.row{padding:24px 0;border-bottom:1px solid var(--line)}
 .row__lbl{display:flex;justify-content:space-between;gap:12px;margin-bottom:14px}
-.row__wm{font-size:clamp(40px,13.5vw,110px);line-height:.84;margin:0}
+.row__wm{font-size:clamp(38px,13vw,104px);line-height:.84;margin:0}
 
-/* ---------- font tiap kandidat ---------- */
-.f-inter .stage__wm,.f-inter .stage__ttl,.f-inter .stage__big,
-.r-inter .row__wm{
-  font-family:var(--inter);font-weight:600;letter-spacing:-.055em;
-}
-.f-bric .stage__wm,.f-bric .stage__ttl,.f-bric .stage__big,
-.r-bric .row__wm{
-  font-family:'Bricolage Grotesque',var(--inter);
-  font-weight:800;font-variation-settings:'opsz' 96,'wdth' 100;
-  letter-spacing:-.04em;
-}
-.f-frau .stage__wm,.f-frau .stage__ttl,.f-frau .stage__big,
-.r-frau .row__wm{
-  font-family:'Fraunces',Georgia,serif;
-  font-weight:900;font-variation-settings:'opsz' 144,'SOFT' 0,'WONK' 1;
-  letter-spacing:-.03em;
-}
-.f-arch .stage__wm,.f-arch .stage__ttl,.f-arch .stage__big,
-.r-arch .row__wm{
-  font-family:'Archivo',var(--inter);
-  font-weight:900;font-variation-settings:'wdth' 125;
-  letter-spacing:-.045em;
-}
+/* ---- pemetaan font per kandidat ---- */
+.f-inter .stage__wm,.f-inter .stage__ttl,.f-inter .stage__big,.r-inter .row__wm{
+  font-family:var(--inter);font-weight:600;letter-spacing:-.055em}
+
+.f-apfel .stage__wm,.f-apfel .stage__ttl,.f-apfel .stage__big,.r-apfel .row__wm{
+  font-family:'Apfel Grotezk',var(--inter);font-weight:700;letter-spacing:-.035em}
+
+.f-brukt .stage__wm,.f-brukt .stage__ttl,.f-brukt .stage__big,.r-brukt .row__wm{
+  font-family:'Apfel Brukt','Apfel Grotezk',var(--inter);font-weight:400;letter-spacing:-.02em}
+
+.f-matt .stage__wm,.f-matt .stage__ttl,.f-matt .stage__big,.r-matt .row__wm{
+  font-family:'Mattone',var(--inter);font-weight:900;letter-spacing:-.03em}
+
+.f-murm .stage__wm,.f-murm .stage__ttl,.f-murm .stage__big,.r-murm .row__wm{
+  font-family:'Le Murmure',var(--inter);font-weight:400;letter-spacing:-.01em}
 
 @media (min-width:720px){
   :root{--pad:40px}
-  body{padding-bottom:120px}
 }
 </style>
 </head>
-<body class="f-bric">
+<body class="f-apfel">
 
 <header class="top">
   <div class="top__row">
-    <span class="mono">BANDING FONT</span>
+    <span class="mono">BANDING FONT · BABAK 2</span>
     <span class="mono dim">SEMENTARA</span>
   </div>
-  <h1>Mana yang paling berani?</h1>
+  <h1>Tiga pilihanmu, di situsmu sendiri</h1>
   <p>
-    Semua kandidat berlisensi <strong>SIL OFL 1.1</strong> — bebas dipakai komersial,
-    boleh di-<em>self-host</em>, tanpa biaya. Ketuk nama font untuk menukar
-    contoh di bawah. Teks, ukuran, dan latar dibuat persis seperti situs asli.
+    Semua <strong>SIL OFL 1.1</strong> — bebas komersial. Ketuk nama font
+    untuk menukar contoh. Ukuran, teks, dan latarnya persis seperti situs asli,
+    jadi yang kamu lihat memang hasil akhirnya.
   </p>
 </header>
 
 <div class="pick">
   <div class="mono pick__lbl">GANTI FONT JUDUL</div>
   <div class="pick__row" id="pick">
+    <button class="pick__b on" data-f="f-apfel">Apfel Grotezk</button>
+    <button class="pick__b" data-f="f-brukt">Apfel <span class="dim">Brukt</span></button>
+    <button class="pick__b" data-f="f-matt">Mattone</button>
+    <button class="pick__b" data-f="f-murm">Le Murmure</button>
     <button class="pick__b" data-f="f-inter">Inter <span class="dim">· kini</span></button>
-    <button class="pick__b on" data-f="f-bric">Bricolage</button>
-    <button class="pick__b" data-f="f-frau">Fraunces</button>
-    <button class="pick__b" data-f="f-arch">Archivo</button>
   </div>
 </div>
 
-<!-- panggung: meniru hero asli -->
 <section class="stage">
   <h2 class="stage__wm">
     <span class="wm__l">NUIT</span>
@@ -150,13 +191,12 @@ body{
   </div>
 
   <h3 class="stage__ttl">Concept Archive</h3>
-
   <p class="stage__big">Tidak semua ide perlu berteriak.</p>
 
   <p class="stage__body">
-    Contoh badan teks. Ukurannya 15px, sama seperti paragraf di situs asli.
-    Perhatikan apakah judul di atas masih terasa satu keluarga dengan teks ini,
-    atau justru bertabrakan.
+    Contoh badan teks, 15px, sama seperti paragraf di situs asli. Perhatikan
+    apakah judul di atas masih terasa satu keluarga dengan teks ini — atau
+    justru bertabrakan.
   </p>
 </section>
 
@@ -164,77 +204,93 @@ body{
 
 <section class="stack">
   <h2>Bersebelahan</h2>
-  <p>Wordmark yang sama, empat font, satu layar. Ini cara tercepat melihat bedanya.</p>
+  <p>Wordmark yang sama, lima versi, satu layar. Cara tercepat melihat bedanya.</p>
+
+  <div class="row r-apfel">
+    <div class="row__lbl"><span class="mono">APFEL GROTEZK FETT</span><span class="mono dim">CLT</span></div>
+    <p class="row__wm">NUIT<br>ENCRE</p>
+  </div>
+
+  <div class="row r-brukt">
+    <div class="row__lbl"><span class="mono">APFEL GROTEZK BRUKT</span><span class="mono dim">CLT</span></div>
+    <p class="row__wm">NUIT<br>ENCRE</p>
+  </div>
+
+  <div class="row r-matt">
+    <div class="row__lbl"><span class="mono">MATTONE BLACK</span><span class="mono dim">CLT</span></div>
+    <p class="row__wm">NUIT<br>ENCRE</p>
+  </div>
+
+  <div class="row r-murm">
+    <div class="row__lbl"><span class="mono">LE MURMURE</span><span class="mono dim">VTF</span></div>
+    <p class="row__wm">NUIT<br>ENCRE</p>
+  </div>
 
   <div class="row r-inter">
     <div class="row__lbl"><span class="mono">INTER</span><span class="mono dim">KINI</span></div>
-    <p class="row__wm">NUIT<br>ENCRE</p>
-  </div>
-
-  <div class="row r-bric">
-    <div class="row__lbl"><span class="mono">BRICOLAGE GROTESQUE</span><span class="mono dim">OFL</span></div>
-    <p class="row__wm">NUIT<br>ENCRE</p>
-  </div>
-
-  <div class="row r-frau">
-    <div class="row__lbl"><span class="mono">FRAUNCES</span><span class="mono dim">OFL</span></div>
-    <p class="row__wm">NUIT<br>ENCRE</p>
-  </div>
-
-  <div class="row r-arch">
-    <div class="row__lbl"><span class="mono">ARCHIVO</span><span class="mono dim">OFL</span></div>
     <p class="row__wm">NUIT<br>ENCRE</p>
   </div>
 </section>
 
 <script>
 const INFO = {
+  'f-apfel': {
+    nama:'Apfel Grotezk Fett', oleh:'Collletttivo · Luigi Gorlero', lis:'SIL OFL 1.1',
+    bobot:'4 gaya — Regular, Mittel, Satt, Fett, plus Brukt',
+    why:'Grotesk hangat dengan bentuk agak membulat dan sedikit ganjil di beberapa huruf. Berkarakter tapi tidak berteriak. Paling luwes dari tiga pilihanmu — cukup bobotnya untuk dipakai judul sekaligus badan teks kalau nanti mau.',
+    warn:null
+  },
+  'f-brukt': {
+    nama:'Apfel Grotezk Brukt', oleh:'Collletttivo · Luigi Gorlero', lis:'SIL OFL 1.1',
+    bobot:'Satu gaya',
+    why:'Versi "rusak" dari Apfel — hurufnya sengaja dipotong dan digeser. Ini kartu paling berani di meja. Sangat cocok untuk situs bertema tinta dan malam, tapi hanya untuk judul, jangan pernah untuk paragraf.',
+    warn:'Bentuknya ekstrem. Kalau situsmu dipakai melamar kerja ke studio korporat, ini bisa jadi penghalang. Untuk portofolio desainer konsep, justru nilai plus.'
+  },
+  'f-matt': {
+    nama:'Mattone Black', oleh:'Collletttivo', lis:'SIL OFL 1.1',
+    bobot:'3 bobot — Regular, Bold, Black',
+    why:'Namanya berarti "bata" dalam bahasa Italia, dan memang begitu rasanya: padat, berat, bersudut. Wordmark jadi blok tinta pekat. Paling keras dan paling tegas dari ketiganya.',
+    warn:null
+  },
+  'f-murm': {
+    nama:'Le Murmure', oleh:'Jérémy Landes · Velvetyne', lis:'SIL OFL 1.1',
+    bobot:'HANYA SATU bobot (Regular)',
+    why:'Display kurus-tinggi yang sangat editorial, dibuat untuk agensi desain Murmure. Pemenang Red Dot Grand Prix 2018. Proporsi rampingnya membuat NUIT ENCRE terbaca seperti judul sampul majalah.',
+    warn:'Hanya ada satu bobot, jadi wordmark tidak bisa dibuat tebal — kalau kamu pilih ini, kekuatannya harus datang dari ukuran besar, bukan dari ketebalan.'
+  },
   'f-inter': {
-    nama: 'Inter', pencipta: 'Rasmus Andersson', lisensi: 'SIL OFL 1.1',
-    sifat: 'Netral, default desain web modern',
-    why: 'Yang dipakai sekarang. Sempurna secara teknis, tapi tidak mengatakan apa-apa — inilah alasan kamu merasa fontnya kurang berani.'
-  },
-  'f-bric': {
-    nama: 'Bricolage Grotesque', pencipta: 'Mathieu Triay', lisensi: 'SIL OFL 1.1',
-    sifat: 'Grotesk ber-ink-trap, variable (opsz · wdth · wght)',
-    why: 'Punya takik di sudut huruf — warisan cetak koran. Terbaca editorial dan sedikit nyeleneh tanpa jadi aneh. Paling dekat ke register huyml.co, dan paling seimbang dari ketiganya.'
-  },
-  'f-frau': {
-    nama: 'Fraunces', pencipta: 'Undercase Type', lisensi: 'SIL OFL 1.1',
-    sifat: 'Serif kontras tinggi, variable (opsz · SOFT · WONK)',
-    why: 'Sumbu WONK membuat bentuknya makin liar saat dinaikkan. Wordmark jadi terasa seperti sampul majalah, dan menguatkan Instrument Serif yang sudah dipakai di kata "atmosfer".'
-  },
-  'f-arch': {
-    nama: 'Archivo', pencipta: 'Omnibus-Type', lisensi: 'SIL OFL 1.1',
-    sifat: 'Grotesk variable dengan sumbu lebar (62–125)',
-    why: 'Dipakai pada lebar maksimum, wordmark memenuhi layar seperti papan nama. Paling brutal dan paling sedikit hiasan — cocok kalau kamu ingin situsnya terasa keras, bukan halus.'
+    nama:'Inter', oleh:'Rasmus Andersson', lis:'SIL OFL 1.1',
+    bobot:'Variable, semua bobot',
+    why:'Yang dipakai sekarang. Sempurna secara teknis, tapi tidak mengatakan apa-apa — inilah alasan kamu merasa fontnya kurang berani.',
+    warn:null
   }
 };
 
 const note = document.getElementById('note');
-function render(k) {
+function render(k){
   const i = INFO[k];
   note.innerHTML =
     '<span class="mono dim">CATATAN</span>' +
     '<dl>' +
       '<dt>Nama</dt><dd>' + i.nama + '</dd>' +
-      '<dt>Pencipta</dt><dd>' + i.pencipta + '</dd>' +
-      '<dt>Lisensi</dt><dd>' + i.lisensi + ' — bebas komersial</dd>' +
-      '<dt>Sifat</dt><dd>' + i.sifat + '</dd>' +
+      '<dt>Oleh</dt><dd>' + i.oleh + '</dd>' +
+      '<dt>Lisensi</dt><dd>' + i.lis + ' — bebas komersial</dd>' +
+      '<dt>Bobot</dt><dd>' + i.bobot + '</dd>' +
     '</dl>' +
-    '<p class="note__why">' + i.why + '</p>';
+    '<p class="note__why">' + i.why + '</p>' +
+    (i.warn ? '<p class="note__warn">' + i.warn + '</p>' : '');
 }
 
 document.getElementById('pick').addEventListener('click', e => {
   const b = e.target.closest('.pick__b');
-  if (!b) return;
+  if(!b) return;
   document.querySelectorAll('.pick__b').forEach(x => x.classList.remove('on'));
   b.classList.add('on');
   document.body.className = b.dataset.f;
   render(b.dataset.f);
 });
 
-render('f-bric');
+render('f-apfel');
 </script>
 </body>
 </html>
