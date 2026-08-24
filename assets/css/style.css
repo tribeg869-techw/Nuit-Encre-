@@ -107,7 +107,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 
 .hero__say{
   font-size:15px;color:var(--soft);max-width:26ch;
-  margin-top:14px;
+  margin-top:14px;margin-bottom:18px;
   opacity:0;animation:fade .8s var(--e) .5s forwards;
 }
 .hero__say .ser{color:var(--pure)}
@@ -115,7 +115,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 
 .hero__foot{
   display:flex;justify-content:space-between;align-items:center;gap:12px;
-  padding-top:14px;margin-top:18px;border-top:1px solid var(--line);
+  padding-top:14px;margin-top:auto;border-top:1px solid var(--line);
   opacity:0;animation:fade .8s var(--e) .7s forwards;
 }
 .tick{display:flex;align-items:center;gap:8px;color:var(--soft)}
@@ -128,9 +128,11 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 /* ---------- VOID · kamar gelap + spesimen ---------- */
 .void{
   position:relative;
+  /* dibatasi agar tidak menelan sisa ruang — headline tetap tinggi */
   flex:1 1 auto;
-  min-height:180px;
-  margin:18px calc(var(--pad) * -1) 20px;
+  min-height:170px;
+  max-height:40dvh;
+  margin:16px calc(var(--pad) * -1) 18px;
   overflow:hidden;
   touch-action:pan-y;
 }
