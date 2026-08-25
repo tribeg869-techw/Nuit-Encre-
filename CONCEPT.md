@@ -487,6 +487,19 @@ Sumber `st-10.png` diproses dengan
 `st-03.jpg` + `st-03.webp`; alt dan catatannya disetujui pemilik sebelum tayang.
 
 
+### Audit kosmetik galeri (2026-08-25)
+
+Audit dilakukan setelah galeri lengkap 3/3. Keputusan pemilik:
+
+- **Ritme keterangan:** pertahankan tinggi alami; jangan kunci `min-height`
+  untuk menyamakan panjang catatan.
+- **Snap:** satu gestur berhenti di satu kartu; `.gs` memakai
+  `scroll-snap-stop:always` di samping snap tengah yang sudah ada.
+- **Tombol:** garis normal `#2E2E2E` sengaja tetap redup.
+- **Tepi lencana 003:** blok putih boleh menyatu dengan bidang putih saat
+  kartu aktif; jangan tambah garis pembatas.
+
+
 ### Utang kosmetik yang diketahui
 
 - **001 Wordmark:** varian jpg+webp asli dibuat (2026-08-25) lewat
