@@ -314,7 +314,8 @@ body.ready .hero__foot{animation:fade .9s var(--e) 1s forwards}
 .prose p{color:var(--soft);font-size:15px;max-width:52ch}
 
 /* ---------- 002 · KARYA ---------- */
-.work-card{border-bottom:1px solid var(--line)}
+.work-card{border-bottom:1px solid var(--line);overflow-anchor:none}
+#work{overflow-anchor:none}
 .work-card:first-child{border-top:1px solid var(--line)}
 .work-card__summary{width:100%;min-height:68px;display:grid;grid-template-columns:42px 1fr auto;align-items:center;gap:12px;text-align:left;color:var(--pure);padding:12px 0;font:inherit}
 .work-card__no{color:var(--dim);align-self:start;padding-top:4px}
