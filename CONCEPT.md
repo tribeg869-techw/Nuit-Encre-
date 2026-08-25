@@ -452,6 +452,8 @@ GitHub di ponsel pemilik situs**:
 
 
 **Periksa dulu apakah kamu bisa push.** Kalau bisa, abaikan seluruh bagian ini.
+*(Ronde 2026-08-25: agen **bisa** push — branch sementara dites lalu
+dihapus. Rute manual di bawah kini hanya cadangan.)*
 Kalau tidak, pola di atas terbukti jalan — tapi hemat permintaanmu: pemilik
 situs mengetik di ponsel dan gugup menyentuh kode. Utamakan rute tanpa
 penyuntingan; kalau terpaksa, satu berkas dalam satu waktu, `data.js` dulu
@@ -466,7 +468,10 @@ tidak ada. Bandingkan dengan berkas yang pasti ada untuk memastikan.
 ### Utang kosmetik yang diketahui
 
 
-- Studi `007` masih PNG mentah tanpa varian webp asli — kedua berkas identik.
-- Sumbernya 1152×1600 (rasio 0,72), dipangkas tengah ke 3:4 (±4% terbuang).
-- **Bercak putih di kiri atas huruf N menabrak lencana `.gs__i`.** Perlu ekspor
-  ulang dari pemilik situs untuk benar-benar beres.
+- Studi `007`: varian jpg+webp asli **sudah dibuat** (2026-08-25) lewat
+  `tools/add-study.py` dari sumber `st-02-wordmark.png` — utang teknis beres.
+- **Ekspor ulang 007 tetap dibutuhkan.** Hasil ukur: zona lencana kiri atas
+  sebenarnya **bersih** (0% piksel terang). Masalah desainnya adalah
+  **garis diagonal putih + gagang kotak kecil** di bagian atas — sisa elemen
+  Canva yang ikut terekspor — plus komposisi yang bisa lebih kuat.
+  `tools/kanvas-panduan.png` disiapkan sebagai lapisan bantu di Canva.

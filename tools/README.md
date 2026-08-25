@@ -1,5 +1,33 @@
 # tools
 
+## add-study.py
+
+Menyiapkan gambar studi mentah (ekspor Canva, foto, apa pun) menjadi
+pasangan berkas siap tayang:
+
+    python3 tools/add-study.py <gambar> <slot>
+
+- potong tengah ke rasio 3:4, ubah ukuran ke **1200×1600**, paksa
+  hitam-putih;
+- tulis `assets/img/st-0N.jpg` + `st-0N.webp` (slot `7`/`07`/`st-07`
+  sama saja);
+- peringatan kalau >10% gambar terbuang saat potong (ekspor Canva
+  idealnya langsung 3:4), kalau gambar terlalu gelap (kartu tidak
+  aktif dipakai `brightness .6`), atau kalau kiri atas menabrak zona
+  lencana `.gs__i` (115×75 px).
+
+Ambang peringatan dikalibrasi dari delapan studi yang ada
+(2026-08-25): rata-rata terang < 12 atau massa terang < 2% dianggap
+terlalu gelap; zona lencana > 1% piksel terang dianggap menabrak.
+
+**Butuh Pillow:** `python3 -m pip install --break-system-packages pillow`.
+
+### kanvas-panduan.png
+
+Kanvas 1200×1600 hitam dengan **garis putus di kiri atas** menandai
+zona lencana dan silang samar di tengah. Opsional: jadikan lapisan
+dasar di Canva untuk menata komposisi, **hapus sebelum mengekspor**.
+
 ## make-og-card.py
 
 Membuat ulang `assets/img/og-cover.jpg` — kartu berbagi 1200×630 yang
