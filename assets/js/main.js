@@ -443,7 +443,7 @@
        menjalar keluar seperti tinta merembes di air. Cabang inilah
        yang memberi kesan berserat; percikan saja hanya jadi debu.  */
     const blobs = [];
-    const strands = 8 + Math.floor(rnd() * 3);
+    const strands = 10 + Math.floor(rnd() * 3);
     const flowA = rnd() * Math.PI * 2;
 
     function grow(px, py, dir, nodes, step, thick, gen) {
