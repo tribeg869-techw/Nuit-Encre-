@@ -323,9 +323,8 @@ body.ready .hero__foot{animation:fade .9s var(--e) 1s forwards}
 .work-card__brief .mono{font-size:10px}
 .work-card__mark{font-size:22px;color:var(--dim);transition:transform .45s var(--e),color .45s var(--e)}
 .work-card.is-open .work-card__mark{color:var(--pure);transform:rotate(45deg)}
-.work-card__detail{display:grid;grid-template-rows:0fr;overflow:hidden;opacity:0;transform:translateY(-10px);transition:grid-template-rows .7s var(--e),opacity .45s var(--e),transform .7s var(--e)}
-.work-card__detail>*{min-height:0}
-.work-card.is-open .work-card__detail{grid-template-rows:1fr;opacity:1;transform:none;padding:10px 0 34px}
+.work-card__detail{max-height:0;overflow:hidden;opacity:0;transform:translateY(-10px);transition:max-height .7s var(--e),opacity .45s var(--e),transform .7s var(--e)}
+.work-card.is-open .work-card__detail{max-height:3000px;opacity:1;transform:none;padding:10px 0 34px}
 .work-card.is-open .work-card__detail .wk__title,.work-card.is-open .work-card__detail .wk__lede,.work-card.is-open .work-card__detail .wk__fig,.work-card.is-open .work-card__detail .wk__body{animation:workIn .7s var(--e) both}
 .work-card.is-open .work-card__detail .wk__lede{animation-delay:.06s}
 .work-card.is-open .work-card__detail .wk__fig{animation-delay:.12s}
