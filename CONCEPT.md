@@ -123,7 +123,7 @@ index.html            markup, meta OG, kredit
 assets/css/style.css  seluruh gaya
 assets/js/data.js     SELURUH ISI — ubah situs dari sini
 assets/js/main.js     animasi, galeri, jam
-assets/fonts/         Apfel Grotezk (woff2) + lisensi OFL
+assets/fonts/         seluruh keluarga huruf (woff2) + lisensi OFL
 assets/img/           sampul, studi, kartu berbagi
 tools/                pembangkit kartu berbagi + penyiap gambar studi
 ```
@@ -158,6 +158,11 @@ tools/                pembangkit kartu berbagi + penyiap gambar studi
 **Apfel Grotezk** oleh Luigi Gorlero / [Collletttivo](https://www.collletttivo.it/typefaces/apfel-grotezk),
 **SIL OFL 1.1**, di-hosting sendiri di `assets/fonts/`. Kreditnya **wajib
 tetap ada** di bagian kolofon — itu syarat lisensi, bukan hiasan.
+
+Font pendamping juga di-hosting sendiri: Inter 400, JetBrains Mono 400/500,
+dan Instrument Serif italic 400. WOFF2 dibuat dari sumber resmi repositori
+`google/fonts`; lisensi OFL tiap keluarga disimpan di `assets/fonts/`. Tidak
+ada lagi permintaan ke Google Fonts saat halaman dibuka.
 
 
 Serif di dalam Apfel 700: `font-size:1.06em; letter-spacing:.005em`.
@@ -498,6 +503,26 @@ Audit dilakukan setelah galeri lengkap 3/3. Keputusan pemilik:
 - **Tombol:** garis normal `#2E2E2E` sengaja tetap redup.
 - **Tepi lencana 003:** blok putih boleh menyatu dengan bidang putih saat
   kartu aktif; jangan tambah garis pembatas.
+
+
+### Pemolesan landing page (2026-08-25)
+
+Ronde ini hanya memperindah; tidak menambah fitur atau isi. Keputusan pemilik:
+
+- **Galeri ultra-lebar:** tepi track dihitung dari kontainer maksimum 1400px,
+  bukan `100vw`, agar kartu ujung tetap di pusat monitor lebar.
+- **Sasaran sentuh:** kontrol mandiri minimal 44px; dock, email menu, dan
+  tautan `KE ATAS` ikut kontrak mobile-first ini.
+- **Pecah baris:** judul memakai `text-wrap:balance`, teks panjang memakai
+  `text-wrap:pretty`; keduanya tetap aman-gagal di peramban lama.
+- **Kontak:** slab inversi full-bleed hanya di bawah 720px; mulai tablet
+  kembali inset.
+- **Napas bagian:** selain batas hero → 002 yang tetap 16px, jarak memakai
+  `clamp(64px, calc(44px + 5.5vw), 104px)` agar tidak melompat di 720px.
+- **Respons ketuk:** kontrol turun 1px; panah tautan utama bergerak 2px ke
+  kanan-atas. Hanya `:active`, tetap nol `:hover`, durasi 140ms.
+- **Font:** semua keluarga di-host sendiri; hanya bobot yang benar-benar
+  dipakai yang disediakan.
 
 
 ### Utang kosmetik yang diketahui
