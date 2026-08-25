@@ -443,7 +443,7 @@
        menjalar keluar seperti tinta merembes di air. Cabang inilah
        yang memberi kesan berserat; percikan saja hanya jadi debu.  */
     const blobs = [];
-    const strands = 4 + Math.floor(rnd() * 3);
+    const strands = 6 + Math.floor(rnd() * 3);
     const flowA = rnd() * Math.PI * 2;
 
     function grow(px, py, dir, nodes, step, thick, gen) {
@@ -467,7 +467,7 @@
         });
 
         // tumbuhkan cabang — hanya satu tingkat, agar tidak jadi debu
-        if (gen < 1 && rnd() < .17) {
+        if (gen < 1 && rnd() < .22) {
           grow(px, py,
                dir + (rnd() < .5 ? 1 : -1) * (.5 + rnd() * .7),
                Math.max(3, Math.floor(nodes * .45)),
@@ -593,7 +593,7 @@
 
       const lx = (light.x + gx * .16) * W;
       const ly = (light.y + gy * .1) * H;
-      const reach = S * (reduced ? 1.5 : .65);
+      const reach = S * (reduced ? 1.5 : .72);
       const drift = reduced ? 0 : 1;
 
       ctx.globalCompositeOperation = 'lighter';
