@@ -11,13 +11,16 @@
 
   /* Kontrak pic(): slug ('st-02') → pasangan webp+jpg;
      nama berekstensi ('foto.png') → berkas apa adanya, tanpa varian webp. */
-  const pic = (n, alt) =>
-    /\.[a-z0-9]{2,4}$/i.test(n)
-      ? `<img src="assets/img/${n}" alt="${alt}" loading="lazy" decoding="async">`
+  const pic = (n, alt, eager = false) => {
+    const loading = eager ? 'eager' : 'lazy';
+    const priority = eager ? ' fetchpriority="high"' : '';
+    return /\.[a-z0-9]{2,4}$/i.test(n)
+      ? `<img src="assets/img/${n}" alt="${alt}" loading="${loading}" decoding="async"${priority} width="1200" height="1600">`
       : `<picture>
            <source srcset="assets/img/${n}.webp" type="image/webp">
-           <img src="assets/img/${n}.jpg" alt="${alt}" loading="lazy" decoding="async">
+           <img src="assets/img/${n}.jpg" alt="${alt}" loading="${loading}" decoding="async"${priority} width="1200" height="1600">
          </picture>`;
+  };
 
   /* ---------- 002 · KARYA ---------- */
   const w = D.work;
@@ -168,6 +171,13 @@
 
   /* ---------- 004 · PRAKTIK ---------- */
   $('#practice').innerHTML = D.practice.map(p => `<p class="rv">${p}</p>`).join('');
+  $('#practiceIndex').innerHTML = `
+    <p class="practice-index__label mono">INDEKS PRAKTIK</p>
+    <ol>${D.practiceIndex.map(item => `
+      <li class="practice-index__item rv">
+        <span class="practice-index__no mono">${item.no}</span>
+        <div><h3>${item.title}</h3><p>${item.note}</p></div>
+      </li>`).join('')}</ol>`;
 
   /* ---------- META ---------- */
   $('#heroStatus').textContent = D.meta.status;

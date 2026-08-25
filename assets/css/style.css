@@ -234,6 +234,8 @@ body.ready .wm__l:nth-child(2) span{animation-delay:.16s}
 }
 body.ready .hero__say{animation:fade .9s var(--e) .75s forwards}
 .hero__say .ser{color:var(--pure)}
+.hero__scope{margin-top:12px;color:var(--dim);font-size:10px;letter-spacing:.08em;line-height:1.5;max-width:34ch;opacity:0}
+body.ready .hero__scope{animation:fade .9s var(--e) .9s forwards}
 @keyframes fade{to{opacity:1}}
 
 .hero__foot{
@@ -462,7 +464,17 @@ body.ready .hero__foot{animation:fade .9s var(--e) 1s forwards}
 
 .sec--gal .hint{margin:14px 0 0}
 
+/* ---------- INDEKS PRAKTIK ---------- */
+.practice-index{margin-top:clamp(44px,8vw,72px);border-top:1px solid var(--line)}
+.practice-index__label{color:var(--dim);padding:14px 0;border-bottom:1px solid var(--line)}
+.practice-index ol{list-style:none;margin:0;padding:0}
+.practice-index__item{display:grid;grid-template-columns:42px 1fr;gap:12px;padding:16px 0;border-bottom:1px solid var(--line);transform:none}
+.practice-index__no{color:var(--dim);padding-top:3px}
+.practice-index__item h3{font-family:var(--disp);font-size:clamp(20px,5vw,30px);font-weight:700;line-height:1.05;margin:0 0 5px;text-transform:uppercase}
+.practice-index__item p{color:var(--soft);margin:0;line-height:1.5;max-width:38ch;text-wrap:pretty}
+
 /* ---------- 005 · KONTAK ---------- */
+.contact__intro{max-width:38ch;color:var(--soft);margin:0 0 18px;line-height:1.55;text-wrap:pretty}
 .slab{
   display:grid;grid-template-columns:1fr auto;gap:6px 14px;align-items:center;
   background:var(--pure);color:var(--void);
