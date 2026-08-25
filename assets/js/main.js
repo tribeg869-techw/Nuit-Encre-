@@ -9,11 +9,15 @@
   const D  = window.NE;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  /* Kontrak pic(): slug ('st-02') → pasangan webp+jpg;
+     nama berekstensi ('foto.png') → berkas apa adanya, tanpa varian webp. */
   const pic = (n, alt) =>
-    `<picture>
-       <source srcset="assets/img/${n}.webp" type="image/webp">
-       <img src="assets/img/${n}.jpg" alt="${alt}" loading="lazy" decoding="async">
-     </picture>`;
+    /\.[a-z0-9]{2,4}$/i.test(n)
+      ? `<img src="assets/img/${n}" alt="${alt}" loading="lazy" decoding="async">`
+      : `<picture>
+           <source srcset="assets/img/${n}.webp" type="image/webp">
+           <img src="assets/img/${n}.jpg" alt="${alt}" loading="lazy" decoding="async">
+         </picture>`;
 
   /* ---------- 002 · KARYA ---------- */
   const w = D.work;
