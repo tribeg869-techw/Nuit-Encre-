@@ -1,36 +1,51 @@
 # NUIT-ENCRE — Dokumen Konsep
 
-> Versi 0.4 · **mobile-first**, identitas terpisah dari Concept Archive.
+> Versi 1.0 · situs sudah tayang. Dokumen ini adalah **peta kerja** —
+> baca sampai habis sebelum mengubah apa pun.
+
+**Tayang di:** https://tribeg869-techw.github.io/Nuit-Encre-/
 
 ---
 
-## 0. Koreksi arah (v0.2 → v0.3)
+## 0. Baca ini dulu
 
-Versi sebelumnya salah arah. Dokumen v0.1 memerintahkan untuk **mewarisi**
-sistem tipografi, aksen cinnabar, dan dwibahasa 中文 dari Concept Archive.
-Akibatnya situs induk terlihat seperti kembaran anaknya, sementara acuan yang
-diminta — huyml.co — hanya terambil kulit luarnya.
+Pemilik situs bekerja **sepenuhnya dari ponsel** dan **tidak menulis kode**.
+Dua fakta itu membentuk hampir setiap keputusan di bawah. Kalau kamu agen baru
+yang meneruskan proyek ini, empat hal berikut yang paling sering salah dipahami:
 
-Ditambah satu fakta yang sebelumnya tidak diketahui: **pemilik situs bekerja
-sepenuhnya dari ponsel.** Versi lama menaruh isi penting di balik interaksi
-*hover*, yang tidak pernah bisa diakses di layar sentuh.
-
-Kedua hal ini membatalkan v0.2 secara menyeluruh.
+1. **Berbahasa Indonesia.** Pemilik situs orang Indonesia. Semua percakapan,
+   komentar kode, dan pesan commit memakai Bahasa Indonesia.
+2. **Jangan langsung membangun.** Bahas arah dulu, minta persetujuan, baru
+   kerjakan. Ini permintaan eksplisit pemilik situs.
+3. **Nol aturan `:hover`.** Bukan preferensi — keharusan. Pemilik situs tidak
+   punya mouse. Setiap kali menyentuh CSS, jalankan `grep -c ':hover'` dan
+   pastikan hasilnya **0**.
+4. **Fase sekarang: memperindah, bukan menambah.** Tidak ada konten baru,
+   bagian baru, atau fitur baru kecuali diminta.
 
 ---
 
-## 1. Tiga aturan yang mengikat
+## 1. Apa ini
 
-**Aturan 1 — Mobile-first, harfiah.**
-Dirancang pada lebar 360px lebih dulu. Layar besar hanyalah pelebaran, bukan
-tujuan. Tidak ada satu pun isi yang bergantung pada *hover* atau seret mouse.
+Kartu nama digital seorang **Visual / Concept Designer**. Bukan portofolio
+lengkap, bukan etalase jasa.
 
-**Aturan 2 — Jangan menyerupai Concept Archive.**
-Situs induk harus punya suara sendiri. Semua penanda khas Archive dilepas.
+- **Tidak ada** unduhan CV, daftar harga, atau formulir brief.
+- **Nama tampil `Nuit-Encre`.** Pemilik situs sengaja tidak memakai nama
+  pribadi. Jangan menambahkannya.
+- **Nuit Encre adalah induk.** [Concept Archive](https://concept-archive.pages.dev/)
+  adalah salah satu karya **di dalamnya**, bukan saudaranya.
 
-**Aturan 3 — Terinspirasi huyml.co, bukan menirunya.**
-Ambil sikapnya: berani, tipografi besar, metadata teknis, ruang kosong.
-Jangan ambil bentuknya.
+### Tiga aturan yang mengikat
+
+**Aturan 1 — Mobile-first, harfiah.** Dirancang pada 360px lebih dulu. Layar
+besar hanyalah pelebaran. Sasaran sentuh minimal 44px.
+
+**Aturan 2 — Jangan menyerupai Concept Archive.** Situs induk harus punya
+suara sendiri.
+
+**Aturan 3 — Terinspirasi huyml.co, bukan menirunya.** Ambil sikapnya: berani,
+tipografi besar, metadata teknis, ruang kosong. Jangan ambil bentuknya.
 
 ---
 
@@ -38,81 +53,29 @@ Jangan ambil bentuknya.
 
 | Unsur | Concept Archive | Nuit-Encre |
 |---|---|---|
-| Latar | Kertas hangat terang | **Hitam murni** `#000000` |
-| Aksen | Cinnabar `#C8402F` | **Tidak ada warna.** Aksen = pembalikan blok putih–hitam |
-| Aksara | 中文 sebagai tekstur | **Dilepas sepenuhnya** — tanpa CJK |
-| Huruf | Serif kontras tinggi | **Grotesque padat**, serif hanya satu kata sesekali |
+| Latar | Kertas hangat terang | **Hitam** `#000000` |
+| Aksen | Cinnabar `#C8402F` | **Tidak ada warna.** Aksen = inversi blok putih–hitam |
+| Aksara | 中文 sebagai tekstur | **Dilepas** — tanpa CJK |
+| Huruf | Serif kontras tinggi | **Grotesque padat**, serif hanya sesekali |
 | Penyusun | Taksonomi `01—06` | **Indeks tiga digit** `008 / 001` |
 | Suasana | Galeri yang tenang | Ruang gelap, sinyal, laboratorium |
 
-Motif `夜墨` juga **dibuang**. Itu tadinya jembatan ke `墨` milik Archive —
-justru penyebab keduanya terasa satu benda.
+Motif `夜墨` **dibuang** — itu justru penyebab keduanya terasa satu benda.
 
-### Kenapa monokrom penuh
-
-Archive sudah memiliki satu warna aksen yang kuat. Cara paling tegas untuk
-berdiri terpisah bukanlah memilih warna lain, melainkan **menolak warna sama
-sekali**. Aksennya diganti perangkat lain: **inversi** — blok putih penuh
-dengan teks hitam. Lebih berani, dan tidak bisa tertukar dengan Archive.
+**Kenapa monokrom penuh.** Archive sudah punya satu aksen warna yang kuat.
+Cara paling tegas berdiri terpisah bukan memilih warna lain, melainkan
+**menolak warna sama sekali**.
 
 ---
 
-## 3. Pemisahan dari huyml.co
+## 3. Susunan halaman
 
-| Unsur | huyml.co | Nuit-Encre |
-|---|---|---|
-| Latar | Abu terang | Hitam |
-| Navigasi | Baris di tengah halaman | **Bilah bawah tetap** — zona jempol |
-| Galeri | Seret mendatar, banyak kartu terlihat | **Geser + snap tengah** — satu kartu fokus, keterangan berganti di bawah |
-| Metadata | Empat sudut layar | Bilah bawah + label lengket per bagian |
-| Huruf display | Serif italic mendominasi | Grotesque mendominasi, serif italic sangat jarang |
-| Jumlah karya | 19 | 1 — maka strukturnya wajib berbeda |
-
-Yang **diambil**: keberanian ukuran tipografi, label teknis monospace, indeks
-bernomor, ruang kosong yang lapang, ketelitian metadata.
-
----
-
-## 4. Keputusan mobile
-
-Bekerja dari ponsel berarti keputusan berikut bukan tambahan, melainkan dasar.
-
-- **Navigasi di bawah.** Bagian atas layar ponsel sulit dijangkau ibu jari.
-- **Ketuk, bukan hover.** Setiap kartu studi dibuka dengan ketukan. Tidak ada
-  isi yang tersembunyi di balik hover.
-- **Sasaran sentuh minimal 44px.**
-- **Geser pada galeri.** Gestur paling alami di ponsel. Memakai
-  `scroll-snap` bawaan peramban, sehingga momentumnya terasa seperti aplikasi
-  dan tetap ringan. Tombol panah disediakan sebagai cadangan.
-- **`100dvh`**, bukan `100vh` — agar tidak terpotong bilah alamat peramban.
-- **`safe-area-inset`** dihormati untuk ponsel berponi.
-- **Tipografi diuji pada 360px** — bukan diperkecil dari desktop.
-
----
-
-## 5. Palet & tipografi
-
-```
---void   #000000   latar
---ash    #0A0A0A   permukaan
---line   #1F1F1F   garis
---dim    #6E6E6E   metadata
---soft   #A8A8A8   teks sekunder
---pure   #FAFAFA   teks utama & blok inversi
-```
-
-- **Display & teks** — Inter, sangat rapat (`-0.04em`), berat 400–600
-- **Label** — JetBrains Mono, huruf besar, spasi lebar, sangat kecil
-- **Serif italic** — Instrument Serif, dipakai maksimal **satu kata per bagian**
-
----
-
-## 6. Susunan halaman
+Satu halaman, lima bagian:
 
 | | Bagian | Isi |
 |---|---|---|
-| `001` | Pembuka | Nama besar, status, indeks |
-| `002` | Karya | Concept Archive — satu-satunya yang selesai |
+| `001` | Pembuka | Wordmark besar, status, jam Jakarta langsung |
+| `002` | Karya | Concept Archive — satu-satunya yang selesai, plus ceritanya |
 | `003` | Studi | 8 studi visual, galeri geser dengan snap ke tengah |
 | `004` | Praktik | Dua paragraf posisi |
 | `005` | Kontak | Satu alamat, blok inversi |
@@ -121,129 +84,103 @@ Bilah bawah tetap: nama · indeks bagian berjalan · tombol menu.
 
 ---
 
-## 7. Yang masih perlu kamu isi
+## 4. Tumpukan teknis
 
-| Kebutuhan | Keterangan |
-|---|---|
-| **Gambar studi** | 8 gambar sekarang adalah placeholder AI |
-| **Cerita Concept Archive** | Aku menebak dari situsnya — tolong dikoreksi |
-| **Email** | Masih dummy |
+**HTML + CSS + JS murni. Nol dependensi. Tanpa build step.** Simpan seperti
+itu — pemilik situs harus bisa mengunggah berkas lewat antarmuka web GitHub
+dari ponsel dan langsung melihat hasilnya.
 
-Semua terpusat di `assets/js/data.js`.
+```
+index.html            markup, meta OG, kredit
+assets/css/style.css  seluruh gaya
+assets/js/data.js     SELURUH ISI — ubah situs dari sini
+assets/js/main.js     animasi, galeri, jam
+assets/fonts/         Apfel Grotezk (woff2) + lisensi OFL
+assets/img/           sampul, studi, kartu berbagi
+tools/                pembangkit kartu berbagi + penyiap gambar studi
+```
+
+### Palet
+
+```
+--void   #000000   latar
+--ash    #0A0A0A   permukaan
+--line   #1F1F1F   garis
+--line2  #2E2E2E   garis aktif
+--dim    #6E6E6E   metadata
+--soft   #A8A8A8   teks sekunder
+--pure   #FAFAFA   teks utama & blok inversi
+--e      cubic-bezier(.22,1,.36,1)
+```
+
+### Tipografi — satu ukuran, satu huruf
+
+| Peran | Huruf | Ukuran |
+|---|---|---|
+| Display | **Apfel Grotezk Fett** 700 | ≥26px |
+| Badan | Inter 400 | 15px |
+| Meta | JetBrains Mono | 10–11px |
+| Aksen | Instrument Serif italic | jarang |
+
+**Apfel Grotezk** oleh Luigi Gorlero / [Collletttivo](https://www.collletttivo.it/typefaces/apfel-grotezk),
+**SIL OFL 1.1**, di-hosting sendiri di `assets/fonts/`. Kreditnya **wajib
+tetap ada** di bagian kolofon — itu syarat lisensi, bukan hiasan.
+
+Serif di dalam Apfel 700: `font-size:1.06em; letter-spacing:.005em`.
+**Jangan pernah ditebalkan.**
 
 ---
 
-## 8. Void — latar hero
+## 5. Void — latar hero
 
-Hero semula menyisakan **58% layar kosong** karena `space-between` dengan isi
-sedikit. Ruang itu tidak diisi dengan tambalan, melainkan **dijadikan karya**.
-
-Void kini **bukan kotak kecil di dalam hero** — ia mengisi seluruh hero sebagai
-latar (`position:absolute; inset:0`), dengan teks mengambang di atasnya. Judul
-dan jam diberi `text-shadow` gelap agar tetap terbaca di atas tinta.
-
-Tiga lapis yang menceritakan satu hal:
-
-| Lapis | Gagasan |
-|---|---|
-| **Spesimen** | Bentuk tinta dibangkitkan acak tiap kunjungan. Diberi kode `SPESIMEN 4A7F—2147` — tak pernah terulang. Situsnya sendiri menjadi studi konsep. |
-| **Kamar gelap** | Bentuk itu hanya tersingkap oleh cahaya yang mengikuti jari. Diam = gelap. "Malam" jadi kondisi, bukan sekadar warna. |
-| **Gravitasi** | Miringkan ponsel, tinta bergeser mengikuti. Lapisan opsional — bila sensor tidak ada, tak ada yang rusak. |
+Hero semula menyisakan 58% layar kosong. Ruang itu tidak ditambal, melainkan
+**dijadikan karya**: tinta yang dibangkitkan acak tiap kunjungan, hanya
+tersingkap oleh cahaya yang mengikuti jari.
 
 ### Bentuk tinta: dari debu ke serat
 
-Bentuknya melewati dua perbaikan besar, keduanya berangkat dari keluhan yang
-sama — tinta tidak terbaca sebagai **satu massa cair**.
+Melewati dua perbaikan besar, keduanya dari keluhan sama — tinta tidak terbaca
+sebagai **satu massa cair**.
 
-**Ronde 1 — dari gumpalan melayang ke filamen.** Versi awal memakai blob bulat
-yang tersebar; hasilnya terbaca sebagai *debu mengambang*, bukan tinta. Diganti
-dengan **untai mengalir**: 4–6 filamen yang berjalan simpul demi simpul,
-menipis di ujung tapi tak pernah hilang.
+**Ronde 1** — blob bulat tersebar terbaca sebagai *debu mengambang*. Diganti
+**untai mengalir**: 4–6 filamen berjalan simpul demi simpul.
 
-**Ronde 2 — menambah serat.** Untai saja masih terlalu bersih. Tiap simpul
-induk kini berpeluang **menumbuhkan cabang** — lebih pendek, lebih tipis, dan
-meliuk lebih liar daripada induknya.
+**Ronde 2** — untai saja terlalu bersih. Tiap simpul induk kini berpeluang
+**menumbuhkan cabang** — lebih pendek, lebih tipis, meliuk lebih liar.
 
 | | sebelum | filamen | + cabang (kini) |
 |---|---|---|---|
 | Simpul | 90 | 103 | **230** |
-| Jari-jari median | 14px | 30px | 18px |
 | Simpul tak bersentuhan | 53% | 5% | **13%** |
 | Cakupan tinggi hero | 70% | 94% | **96%** |
-| Bagian berserat | 0% | 0% | **47%** |
 
-### Batas yang ditemukan lewat pengujian
+**Sudah dicoba dan ditolak — jangan diulang:**
 
-Tiga hal yang **sudah dicoba dan ditolak** — jangan diulang:
+- **Cabang bertingkat** (`maxGen ≥ 2`) — simpul meledak ke 612, celah melonjak
+  ke 42%. Kembali jadi debu. Percabangan dikunci **satu tingkat**.
+- **Memperbanyak percikan** — hanya menambah titik mengambang. Serat harus
+  **menempel** pada untainya.
+- **Filamen terlalu tebal** — jadi beberapa cacing besar, cakupan turun ke 83%.
 
-- **Cabang bertingkat** (cucu, `maxGen ≥ 2`) — simpul meledak ke 612, jari-jari
-  median anjlok ke 5px, celah melonjak ke 42%. Kembali jadi debu. Percabangan
-  dikunci **satu tingkat**.
-- **Memperbanyak percikan** — hanya menambah titik lepas yang mengambang.
-  Serat harus **menempel** pada untainya, bukan berdiri sendiri.
-- **Filamen terlalu tebal** (3–4 untai gemuk) — jadi beberapa cacing besar,
-  cakupan turun ke 83%.
+**Syarat kecairan:** jari-jari ÷ langkah **≥ 1,5**.
 
 ### Anggaran kecerahan
 
-Kanvas memakai `globalCompositeOperation = 'lighter'`, jadi **tumpukan simpul
-menaikkan terang secara non-linier**. Setiap kali jumlah simpul berubah, dua
-titik gradien harus disetel ulang. Sasarannya rata-rata **0,85–0,93**; di atas
-1,0 layar berisiko memutih rata.
+Kanvas memakai `globalCompositeOperation = 'lighter'`, jadi tumpukan simpul
+menaikkan terang **secara non-linier**. Setiap kali jumlah simpul berubah, dua
+titik gradien **wajib** disetel ulang. Sasaran rata-rata **0,85–0,93**.
 
 | Simpul | Titik gradien | Rata-rata |
 |---|---|---|
 | 103 | `.78` / `.30` | 0,85 |
 | **230** | **`.58` / `.22`** | **0,88** |
 
-Tidak ada peramban headless di lingkungan ini, jadi kecerahan **hanya bisa
-disimulasikan** — mata di ponsel asli tetap pemutus akhir.
-
-### Jaring pengaman
-
-- Tanpa `getContext` → seluruh blok berhenti diam-diam
-- Tanpa sensor → sentuhan saja sudah cukup
-- Tidak disentuh 2,6 detik → menyingkap pelan sendiri
-- `prefers-reduced-motion` → tampil penuh, tanpa gerak
-- iOS 13+ izin sensor hanya diminta setelah pengguna menyentuh
-
-### Bug yang sekalian diperbaiki
-
-`.hero` setinggi `100dvh` berakhir tepat di dasar layar, sementara dock `56px`
-melayang di atasnya — sehingga `.hero__foot` (status + jam) **tidak pernah
-terlihat di ponsel**. Tinggi hero kini dikurangi setinggi dock.
-
-Judul juga sempat **terdorong turun** karena slack menumpuk di atasnya.
-`.hero__mid` memakai `margin-top:clamp(24px,16vh,150px)` — **jangan** `auto`,
-karena itulah yang dulu membuat judul melorot ke tengah.
+Tidak ada peramban headless di sini — kecerahan hanya bisa **disimulasikan**.
+Mata di ponsel asli tetap pemutus akhir.
 
 ---
 
-## 9. Satu bahasa
-
-Situs ini **hanya Bahasa Indonesia**, tanpa pengganti bahasa. Keputusan ini
-sengaja: tekstur multibahasa adalah salah satu hal yang membuat versi pertama
-terbaca sebagai tiruan Concept Archive.
-
-Konsekuensinya pada tata letak: label lokasi di pojok kanan hero ditulis
-**`INDONESIA`**, bukan `IDN`. Singkatan tiga huruf di pojok atas adalah
-konvensi kuat untuk tombol pengganti bahasa — pemilik situs sendiri sempat
-mengetuknya dan mengira rusak. Kata penuh menghilangkan salah baca itu tanpa
-menambah elemen apa pun.
-
-Bila suatu saat EN dibutuhkan: seluruh teks sudah terpusat (**32 potong** di
-`data.js`, **6** di `index.html`), jadi tinggal diubah jadi `{ id, en }`.
-Kerjakan **setelah** teks Indonesianya final — catatan studi dan cerita
-Concept Archive masih placeholder, dan menerjemahkan teks yang belum final
-berarti kerja dua kali.
-
----
-
-## 10. Layar pembuka
-
-Situs ini ringan; tidak ada yang benar-benar perlu ditunggu. Jadi layar pembuka
-bukan bar kemajuan, melainkan **adegan** — dan sengaja dibedakan sifatnya dari
-hero, supaya dua layar beruntun tidak terasa sama:
+## 6. Layar pembuka
 
 > **Pembuka = tinta bergerak. Hero = tinta mengendap.**
 > Satu cerita: ditumpahkan, lalu diam.
@@ -251,12 +188,640 @@ hero, supaya dua layar beruntun tidak terasa sama:
 | Waktu | Kejadian |
 |---|---|
 | 0–0,4s | Setetes tinta putih jatuh, memanjang makin cepat |
-| 0,4–1,2s | Mendarat, lalu merembes **naik** memenuhi layar; tepinya bergelombang |
-| ~0,7s | **Sulur berserat** menjalar keluar mendahului rembesan |
-| 1,26–2,1s | Layar putih **dibelah tiga**, didorong keluar bergantian arah, beruntun 0,11s |
+| 0,4–1,2s | Mendarat, merembes **naik**; tepinya bergelombang |
+| ~0,7s | **Sulur berserat** menjalar mendahului rembesan |
+| 1,26–2,1s | Layar putih **dibelah tiga**, didorong keluar bergantian |
 | 2,16s | Hero tersingkap |
 
-Gabungan dua gagasan: tinta tertumpah (permintaan pemilik situs) dan gestur
+Tetapan: `DROP=420, FILL_A=400, FILL_B=1200, CUT=1260, END=2160, OVER=60,
+BANDS=3`. Pita keluar ke-`i` mulai di `CUT + i*110`.
+
+**Kilat putihnya sengaja putih penuh, tidak diredam** — permintaan eksplisit
+pemilik situs, "biar dramatis". Jangan dilembutkan.
+
+### Detail yang menentukan
+
+- **Teks tetap terbaca** lewat `mix-blend-mode:difference` — otomatis membalik
+  jadi hitam saat tinta putih lewat, tanpa logika tambahan.
+- **Tinta dilebihkan 60px** (`OVER`) karena gelombang tepi menyisakan celah
+  hitam di puncak.
+- **Boot ditutup di 2,16s**, sesudah panel terakhir bersih di 2,1s. Kalau
+  durasi dorongan diubah, angka ini wajib ikut diperiksa.
+
+### Lima jalan keluar — semua wajib menyalakan `body.ready`
+
+Kalau salah satu terlewat, situsnya **layar kosong selamanya**:
+
+1. `.boot.cut` pada waktu normal
+2. `prefers-reduced-motion` → langsung
+3. `getContext` mengembalikan `null` → adegan dilewati
+4. `<noscript>`
+5. **Failsafe 4000ms**
+
+---
+
+## 7. Gambar studi
+
+**Semua gambar studi wajib buatan pemilik situs sendiri.** Placeholder AI yang
+tersisa boleh ada sementara, tapi **jangan pernah menuliskan klaim kepemilikan
+orang pertama** atas gambar yang bukan buatannya. Ini garis tegas.
+
+Pemilik situs mendesain sendiri di **aplikasi Canva di ponsel**, kanvas kosong
+tanpa templat. Studi `007 Wordmark / Terpotong` adalah yang pertama diganti.
+
+### Spesifikasi
+
+| | |
+|---|---|
+| Kanvas | **1200 × 1600** (3:4, `object-fit:cover`) |
+| Warna | **Hitam-putih saja** — CSS memaksa `grayscale(1)` |
+| Kartu tidak aktif | `brightness .6` — butuh elemen terang |
+| Zona bebas | **kiri atas ±115×75px** dipakai lencana `.gs__i` |
+| Ground / ink | `#0A0A0A` / `#FAFAFA` |
+
+**Rencana: 3 studi kuat, bukan 8.** Lebih baik sedikit tapi benar-benar miliknya.
+
+### Cara mengganti
+
+Kalau punya akses berkas: `python3 tools/add-study.py <gambar> <slot>` —
+otomatis potong tengah 3:4, ubah ukuran, hasilkan `.jpg` + `.webp`, dan
+memperingatkan kalau terlalu gelap atau menabrak zona lencana.
+
+Kalau tidak: pemilik situs mengunggah lewat web GitHub. Beri nama persis
+`st-0N.jpg` **dan** `st-0N.webp` (boleh PNG yang sama diunggah dua kali —
+peramban mengenali gambar dari isinya, bukan namanya).
+
+### Kontrak `pic()`
+
+`assets/js/main.js` menerima dua bentuk:
+
+- **Slug** (`'st-02'`) → pasangan `<source>` webp + `<img>` jpg
+- **Nama berekstensi** (`'foto.png'`) → berkas apa adanya, tanpa varian webp
+
+Yang kedua sengaja ada supaya gambar bisa diunggah langsung tanpa diproses.
+
+---
+
+## 8. Kartu berbagi
+
+`assets/img/og-cover.jpg` — 1200×630, muncul saat link dikirim ke WhatsApp,
+X, atau LinkedIn. Dibangkitkan oleh `tools/make-og-card.py`; petunjuk lengkap
+di `tools/README.md`.
+
+**Pekerjaan ini sudah selesai — jangan disetel ulang tanpa diminta.**
+Versi prosedural (memakai `grow()` dari `main.js`) **sudah dicoba dan
+ditolak**: parameternya disetel untuk kanvas potret dan menghasilkan bentuk
+seperti petir di kanvas lanskap.
+
+URL OG **wajib absolut** — WhatsApp, X, dan LinkedIn tidak me-resolve path
+relatif, kartunya jadi kosong.
+
+---
+
+## 9. Satu bahasa
+
+Situs ini **hanya Bahasa Indonesia**, tanpa pengganti bahasa. Tekstur
+multibahasa adalah salah satu hal yang dulu membuatnya terbaca sebagai tiruan
+Concept Archive.
+
+Konsekuensi tata letak: label lokasi ditulis **`INDONESIA`**, bukan `IDN`.
+Singkatan tiga huruf di pojok adalah konvensi kuat untuk tombol bahasa —
+pemilik situs sendiri sempat mengetuknya dan mengira rusak.
+
+---
+
+## 10. Batasan yang sudah disepakati — jangan ditawar ulang
+
+| Hal | Status |
+|---|---|
+| **Email `halo@nuit-encre.studio`** | **Dummy, dan tetap begitu.** Anggaran domain dipakai proyek lain. **Berhenti menandainya sebagai kekurangan.** |
+| **Satu karya selesai** | Disengaja. `practice[]` sudah mengakuinya terbuka. |
+| **Tanpa domain sendiri** | Disengaja. Situs harus terasa selesai apa adanya. |
+| **Layar pembuka** | Sudah diterima. Jangan dirancang ulang tanpa diminta. |
+| **Massa tinta** | Sudah pas. Jangan disetel ulang tanpa diminta. |
+| **Judul tinggi di hero** | Dikoreksi dua kali. `.hero__mid` pakai `margin-top:clamp(24px,16vh,150px)` — **jangan** `auto`. |
+
+---
+
+## 11. Referensi
+
+**https://www.isabelmoranta.com/** — model paling relevan. Punya kendala sama
+(sedikit karya, harus terasa besar) dan menyelesaikannya lewat **tipografi
+sebagai peristiwa, bukan wadah**.
+
+Yang **diambil**: prinsipnya saja. Yang **ditolak**: huruf berlubang dan
+metadata dalam kurung — dua-duanya sudah jadi tren awwwards 2026 dan akan
+membuat situs ini terbaca sebagai pengekor.
+
+**https://huyml.co/** — acuan visual. Metadata di sudut, navigasi bernomor,
+judul display raksasa, galeri seret per tahun. 19 karya di sana vs 1 di sini,
+jadi galerinya dialihfungsikan untuk **artefak**.
+
+**https://concept-archive.pages.dev/** — proyek anak. Kata kerja praktiknya:
+**观察** Amati · **转译** Terjemahkan · **重构** Susun ulang.
+
+---
+
+## 12. Daftar periksa sebelum mengirim perubahan
+
+```bash
+grep -c ':hover' assets/css/style.css        # wajib 0
+node --check assets/js/main.js
+node --check assets/js/data.js
+python3 -c "s=open('assets/css/style.css').read(); print(s.count('{'),s.count('}'))"
+python3 -c "import xml.dom.minidom as m; m.parse('sitemap.xml')"
+```
+
+Keseimbangan tag HTML: himpunan elemen kosong **harus memuat `i`**.
+Memuat `data.js` di node butuh sisipan `global.window = {}`.
+
+---
+
+## 13. Catatan untuk agen berikutnya
+
+**Sesi sebelumnya tidak bisa mengakses GitHub.** `git push`, `git fetch`, dan
+`gh` semuanya gagal dengan `gnutls_handshake() failed`. Blokirnya khusus per
+host — pypi.org bisa, github.com tidak. Cermin CDN juga bukan jalan keluar.
+
+Akibatnya seluruh pekerjaan ronde-ronde akhir dikirim lewat **antarmuka web
+GitHub di ponsel pemilik situs**:
+
+- unggah → `https://github.com/tribeg869-techw/Nuit-Encre-/upload/<branch>/<dir>`
+- sunting → `https://github.com/tribeg869-techw/Nuit-Encre-/edit/<branch>/<path>`
+
+**Periksa dulu apakah kamu bisa push.** Kalau bisa, abaika
+# NUIT-ENCRE — Dokumen Konsep
+
+
+> Versi 1.0 · situs sudah tayang. Dokumen ini adalah **peta kerja** —
+> baca sampai habis sebelum mengubah apa pun.
+
+
+**Tayang di:** https://tribeg869-techw.github.io/Nuit-Encre-/
+
+
+---
+
+
+## 0. Baca ini dulu
+
+
+Pemilik situs bekerja **sepenuhnya dari ponsel** dan **tidak menulis kode**.
+Dua fakta itu membentuk hampir setiap keputusan di bawah. Kalau kamu agen baru
+yang meneruskan proyek ini, empat hal berikut yang paling sering salah dipahami:
+
+
+1. **Berbahasa Indonesia.** Pemilik situs orang Indonesia. Semua percakapan,
+   komentar kode, dan pesan commit memakai Bahasa Indonesia.
+2. **Jangan langsung membangun.** Bahas arah dulu, minta persetujuan, baru
+   kerjakan. Ini permintaan eksplisit pemilik situs.
+3. **Nol aturan `:hover`.** Bukan preferensi — keharusan. Pemilik situs tidak
+   punya mouse. Setiap kali menyentuh CSS, jalankan `grep -c ':hover'` dan
+   pastikan hasilnya **0**.
+4. **Fase sekarang: memperindah, bukan menambah.** Tidak ada konten baru,
+   bagian baru, atau fitur baru kecuali diminta.
+
+
+---
+
+
+## 1. Apa ini
+
+
+Kartu nama digital seorang **Visual / Concept Designer**. Bukan portofolio
+lengkap, bukan etalase jasa.
+
+
+- **Tidak ada** unduhan CV, daftar harga, atau formulir brief.
+- **Nama tampil `Nuit-Encre`.** Pemilik situs sengaja tidak memakai nama
+  pribadi. Jangan menambahkannya.
+- **Nuit Encre adalah induk.** [Concept Archive](https://concept-archive.pages.dev/)
+  adalah salah satu karya **di dalamnya**, bukan saudaranya.
+
+
+### Tiga aturan yang mengikat
+
+
+**Aturan 1 — Mobile-first, harfiah.** Dirancang pada 360px lebih dulu. Layar
+besar hanyalah pelebaran. Sasaran sentuh minimal 44px.
+
+
+**Aturan 2 — Jangan menyerupai Concept Archive.** Situs induk harus punya
+suara sendiri.
+
+
+**Aturan 3 — Terinspirasi huyml.co, bukan menirunya.** Ambil sikapnya: berani,
+tipografi besar, metadata teknis, ruang kosong. Jangan ambil bentuknya.
+
+
+---
+
+
+## 2. Pemisahan dari Concept Archive
+
+
+| Unsur | Concept Archive | Nuit-Encre |
+|---|---|---|
+| Latar | Kertas hangat terang | **Hitam** `#000000` |
+| Aksen | Cinnabar `#C8402F` | **Tidak ada warna.** Aksen = inversi blok putih–hitam |
+| Aksara | 中文 sebagai tekstur | **Dilepas** — tanpa CJK |
+| Huruf | Serif kontras tinggi | **Grotesque padat**, serif hanya sesekali |
+| Penyusun | Taksonomi `01—06` | **Indeks tiga digit** `008 / 001` |
+| Suasana | Galeri yang tenang | Ruang gelap, sinyal, laboratorium |
+
+
+Motif `夜墨` **dibuang** — itu justru penyebab keduanya terasa satu benda.
+
+
+**Kenapa monokrom penuh.** Archive sudah punya satu aksen warna yang kuat.
+Cara paling tegas berdiri terpisah bukan memilih warna lain, melainkan
+**menolak warna sama sekali**.
+
+
+---
+
+
+## 3. Susunan halaman
+
+
+Satu halaman, lima bagian:
+
+
+| | Bagian | Isi |
+|---|---|---|
+| `001` | Pembuka | Wordmark besar, status, jam Jakarta langsung |
+| `002` | Karya | Concept Archive — satu-satunya yang selesai, plus ceritanya |
+| `003` | Studi | 8 studi visual, galeri geser dengan snap ke tengah |
+| `004` | Praktik | Dua paragraf posisi |
+| `005` | Kontak | Satu alamat, blok inversi |
+
+
+Bilah bawah tetap: nama · indeks bagian berjalan · tombol menu.
+
+
+---
+
+
+## 4. Tumpukan teknis
+
+
+**HTML + CSS + JS murni. Nol dependensi. Tanpa build step.** Simpan seperti
+itu — pemilik situs harus bisa mengunggah berkas lewat antarmuka web GitHub
+dari ponsel dan langsung melihat hasilnya.
+
+
+```
+index.html            markup, meta OG, kredit
+assets/css/style.css  seluruh gaya
+assets/js/data.js     SELURUH ISI — ubah situs dari sini
+assets/js/main.js     animasi, galeri, jam
+assets/fonts/         Apfel Grotezk (woff2) + lisensi OFL
+assets/img/           sampul, studi, kartu berbagi
+tools/                pembangkit kartu berbagi + penyiap gambar studi
+```
+
+
+### Palet
+
+
+```
+--void   #000000   latar
+--ash    #0A0A0A   permukaan
+--line   #1F1F1F   garis
+--line2  #2E2E2E   garis aktif
+--dim    #6E6E6E   metadata
+--soft   #A8A8A8   teks sekunder
+--pure   #FAFAFA   teks utama & blok inversi
+--e      cubic-bezier(.22,1,.36,1)
+```
+
+
+### Tipografi — satu ukuran, satu huruf
+
+
+| Peran | Huruf | Ukuran |
+|---|---|---|
+| Display | **Apfel Grotezk Fett** 700 | ≥26px |
+| Badan | Inter 400 | 15px |
+| Meta | JetBrains Mono | 10–11px |
+| Aksen | Instrument Serif italic | jarang |
+
+
+**Apfel Grotezk** oleh Luigi Gorlero / [Collletttivo](https://www.collletttivo.it/typefaces/apfel-grotezk),
+**SIL OFL 1.1**, di-hosting sendiri di `assets/fonts/`. Kreditnya **wajib
+tetap ada** di bagian kolofon — itu syarat lisensi, bukan hiasan.
+
+
+Serif di dalam Apfel 700: `font-size:1.06em; letter-spacing:.005em`.
+**Jangan pernah ditebalkan.**
+
+
+---
+
+
+## 5. Void — latar hero
+
+
+Hero semula menyisakan 58% layar kosong. Ruang itu tidak ditambal, melainkan
+**dijadikan karya**: tinta yang dibangkitkan acak tiap kunjungan, hanya
+tersingkap oleh cahaya yang mengikuti jari.
+
+
+### Bentuk tinta: dari debu ke serat
+
+
+Melewati dua perbaikan besar, keduanya dari keluhan sama — tinta tidak terbaca
+sebagai **satu massa cair**.
+
+
+**Ronde 1** — blob bulat tersebar terbaca sebagai *debu mengambang*. Diganti
+**untai mengalir**: 4–6 filamen berjalan simpul demi simpul.
+
+
+**Ronde 2** — untai saja terlalu bersih. Tiap simpul induk kini berpeluang
+**menumbuhkan cabang** — lebih pendek, lebih tipis, meliuk lebih liar.
+
+
+| | sebelum | filamen | + cabang (kini) |
+|---|---|---|---|
+| Simpul | 90 | 103 | **230** |
+| Simpul tak bersentuhan | 53% | 5% | **13%** |
+| Cakupan tinggi hero | 70% | 94% | **96%** |
+
+
+**Sudah dicoba dan ditolak — jangan diulang:**
+
+
+- **Cabang bertingkat** (`maxGen ≥ 2`) — simpul meledak ke 612, celah melonjak
+  ke 42%. Kembali jadi debu. Percabangan dikunci **satu tingkat**.
+- **Memperbanyak percikan** — hanya menambah titik mengambang. Serat harus
+  **menempel** pada untainya.
+- **Filamen terlalu tebal** — jadi beberapa cacing besar, cakupan turun ke 83%.
+
+
+**Syarat kecairan:** jari-jari ÷ langkah **≥ 1,5**.
+
+
+### Anggaran kecerahan
+
+
+Kanvas memakai `globalCompositeOperation = 'lighter'`, jadi tumpukan simpul
+menaikkan terang **secara non-linier**. Setiap kali jumlah simpul berubah, dua
+titik gradien **wajib** disetel ulang. Sasaran rata-rata **0,85–0,93**.
+
+
+| Simpul | Titik gradien | Rata-rata |
+|---|---|---|
+| 103 | `.78` / `.30` | 0,85 |
+| **230** | **`.58` / `.22`** | **0,88** |
+
+
+Tidak ada peramban headless di sini — kecerahan hanya bisa **disimulasikan**.
+Mata di ponsel asli tetap pemutus akhir.
+
+
+---
+
+
+## 6. Layar pembuka
+
+
+> **Pembuka = tinta bergerak. Hero = tinta mengendap.**
+> Satu cerita: ditumpahkan, lalu diam.
+
+
+| Waktu | Kejadian |
+|---|---|
+| 0–0,4s | Setetes tinta putih jatuh, memanjang makin cepat |
+| 0,4–1,2s | Mendarat, merembes **naik**; tepinya bergelombang |
+| ~0,7s | **Sulur berserat** menjalar mendahului rembesan |
+| 1,26–2,1s | Layar putih **dibelah tiga**, didorong keluar bergantian |
+| 2,16s | Hero tersingkap |
+
+
+Tetapan: `DROP=420, FILL_A=400, FILL_B=1200, CUT=1260, END=2160, OVER=60,
+BANDS=3`. Pita keluar ke-`i` mulai di `CUT + i*110`.
+
+
+**Kilat putihnya sengaja putih penuh, tidak diredam** — permintaan eksplisit
+pemilik situs, "biar dramatis". Jangan dilembutkan.
+
+
+### Detail yang menentukan
+
+
+- **Teks tetap terbaca** lewat `mix-blend-mode:difference` — otomatis membalik
+  jadi hitam saat tinta putih lewat, tanpa logika tambahan.
+- **Tinta dilebihkan 60px** (`OVER`) karena gelombang tepi menyisakan celah
+  hitam di puncak.
+- **Boot ditutup di 2,16s**, sesudah panel terakhir bersih di 2,1s. Kalau
+  durasi dorongan diubah, angka ini wajib ikut diperiksa.
+
+
+### Lima jalan keluar — semua wajib menyalakan `body.ready`
+
+
+Kalau salah satu terlewat, situsnya **layar kosong selamanya**:
+
+
+1. `.boot.cut` pada waktu normal
+2. `prefers-reduced-motion` → langsung
+3. `getContext` mengembalikan `null` → adegan dilewati
+4. `<noscript>`
+5. **Failsafe 4000ms**
+
+
+---
+
+
+## 7. Gambar studi
+
+
+**Semua gambar studi wajib buatan pemilik situs sendiri.** Placeholder AI yang
+tersisa boleh ada sementara, tapi **jangan pernah menuliskan klaim kepemilikan
+orang pertama** atas gambar yang bukan buatannya. Ini garis tegas.
+
+
+Pemilik situs mendesain sendiri di **aplikasi Canva di ponsel**, kanvas kosong
+tanpa templat. Studi `007 Wordmark / Terpotong` adalah yang pertama diganti.
+
+
+### Spesifikasi
+
+
+| | |
+|---|---|
+| Kanvas | **1200 × 1600** (3:4, `object-fit:cover`) |
+| Warna | **Hitam-putih saja** — CSS memaksa `grayscale(1)` |
+| Kartu tidak aktif | `brightness .6` — butuh elemen terang |
+| Zona bebas | **kiri atas ±115×75px** dipakai lencana `.gs__i` |
+| Ground / ink | `#0A0A0A` / `#FAFAFA` |
+
+
+**Rencana: 3 studi kuat, bukan 8.** Lebih baik sedikit tapi benar-benar miliknya.
+
+
+### Cara mengganti
+
+
+Kalau punya akses berkas: `python3 tools/add-study.py <gambar> <slot>` —
+otomatis potong tengah 3:4, ubah ukuran, hasilkan `.jpg` + `.webp`, dan
+memperingatkan kalau terlalu gelap atau menabrak zona lencana.
+
+
+Kalau tidak: pemilik situs mengunggah lewat web GitHub. Beri nama persis
+`st-0N.jpg` **dan** `st-0N.webp` (boleh PNG yang sama diunggah dua kali —
+peramban mengenali gambar dari isinya, bukan namanya).
+
+
+### Kontrak `pic()`
+
+
+`assets/js/main.js` menerima dua bentuk:
+
+
+- **Slug** (`'st-02'`) → pasangan `<source>` webp + `<img>` jpg
+- **Nama berekstensi** (`'foto.png'`) → berkas apa adanya, tanpa varian webp
+
+
+Yang kedua sengaja ada supaya gambar bisa diunggah langsung tanpa diproses.
+
+
+---
+
+
+## 8. Kartu berbagi
+
+
+`assets/img/og-cover.jpg` — 1200×630, muncul saat link dikirim ke WhatsApp,
+X, atau LinkedIn. Dibangkitkan oleh `tools/make-og-card.py`; petunjuk lengkap
+di `tools/README.md`.
+
+
+**Pekerjaan ini sudah selesai — jangan disetel ulang tanpa diminta.**
+Versi prosedural (memakai `grow()` dari `main.js`) **sudah dicoba dan
+ditolak**: parameternya disetel untuk kanvas potret dan menghasilkan bentuk
+seperti petir di kanvas lanskap.
+
+
+URL OG **wajib absolut** — WhatsApp, X, dan LinkedIn tidak me-resolve path
+relatif, kartunya jadi kosong.
+
+
+---
+
+
+## 9. Satu bahasa
+
+
+Situs ini **hanya Bahasa Indonesia**, tanpa pengganti bahasa. Tekstur
+multibahasa adalah salah satu hal yang dulu membuatnya terbaca sebagai tiruan
+Concept Archive.
+
+
+Konsekuensi tata letak: label lokasi ditulis **`INDONESIA`**, bukan `IDN`.
+Singkatan tiga huruf di pojok adalah konvensi kuat untuk tombol bahasa —
+pemilik situs sendiri sempat mengetuknya dan mengira rusak.
+
+
+---
+
+
+## 10. Batasan yang sudah disepakati — jangan ditawar ulang
+
+
+| Hal | Status |
+|---|---|
+| **Email `halo@nuit-encre.studio`** | **Dummy, dan tetap begitu.** Anggaran domain dipakai proyek lain. **Berhenti menandainya sebagai kekurangan.** |
+| **Satu karya selesai** | Disengaja. `practice[]` sudah mengakuinya terbuka. |
+| **Tanpa domain sendiri** | Disengaja. Situs harus terasa selesai apa adanya. |
+| **Layar pembuka** | Sudah diterima. Jangan dirancang ulang tanpa diminta. |
+| **Massa tinta** | Sudah pas. Jangan disetel ulang tanpa diminta. |
+| **Judul tinggi di hero** | Dikoreksi dua kali. `.hero__mid` pakai `margin-top:clamp(24px,16vh,150px)` — **jangan** `auto`. |
+
+
+---
+
+
+## 11. Referensi
+
+
+**https://www.isabelmoranta.com/** — model paling relevan. Punya kendala sama
+(sedikit karya, harus terasa besar) dan menyelesaikannya lewat **tipografi
+sebagai peristiwa, bukan wadah**.
+
+
+Yang **diambil**: prinsipnya saja. Yang **ditolak**: huruf berlubang dan
+metadata dalam kurung — dua-duanya sudah jadi tren awwwards 2026 dan akan
+membuat situs ini terbaca sebagai pengekor.
+
+
+**https://huyml.co/** — acuan visual. Metadata di sudut, navigasi bernomor,
+judul display raksasa, galeri seret per tahun. 19 karya di sana vs 1 di sini,
+jadi galerinya dialihfungsikan untuk **artefak**.
+
+
+**https://concept-archive.pages.dev/** — proyek anak. Kata kerja praktiknya:
+**观察** Amati · **转译** Terjemahkan · **重构** Susun ulang.
+
+
+---
+
+
+## 12. Daftar periksa sebelum mengirim perubahan
+
+
+```bash
+grep -c ':hover' assets/css/style.css        # wajib 0
+node --check assets/js/main.js
+node --check assets/js/data.js
+python3 -c "s=open('assets/css/style.css').read(); print(s.count('{'),s.count('}'))"
+python3 -c "import xml.dom.minidom as m; m.parse('sitemap.xml')"
+```
+
+
+Keseimbangan tag HTML: himpunan elemen kosong **harus memuat `i`**.
+Memuat `data.js` di node butuh sisipan `global.window = {}`.
+
+
+---
+
+
+## 13. Catatan untuk agen berikutnya
+
+
+**Sesi sebelumnya tidak bisa mengakses GitHub.** `git push`, `git fetch`, dan
+`gh` semuanya gagal dengan `gnutls_handshake() failed`. Blokirnya khusus per
+host — pypi.org bisa, github.com tidak. Cermin CDN juga bukan jalan keluar.
+
+
+Akibatnya seluruh pekerjaan ronde-ronde akhir dikirim lewat **antarmuka web
+GitHub di ponsel pemilik situs**:
+
+
+- unggah → `https://github.com/tribeg869-techw/Nuit-Encre-/upload/<branch>/<dir>`
+- sunting → `https://github.com/tribeg869-techw/Nuit-Encre-/edit/<branch>/<path>`
+
+
+**Periksa dulu apakah kamu bisa push.** Kalau bisa, abaikan seluruh bagian ini.
+Kalau tidak, pola di atas terbukti jalan — tapi hemat permintaanmu: pemilik
+situs mengetik di ponsel dan gugup menyentuh kode. Utamakan rute tanpa
+penyuntingan; kalau terpaksa, satu berkas dalam satu waktu, `data.js` dulu
+(teks polos, tanpa backtick) sebelum `main.js`.
+
+
+**Trik mendeteksi berkas biner di Pages:** `fetch_page` mengembalikan **500
+kalau berkasnya ada** (alatnya gagal membaca biner) dan **halaman 404** kalau
+tidak ada. Bandingkan dengan berkas yang pasti ada untuk memastikan.
+
+
+### Utang kosmetik yang diketahui
+
+
+- Studi `007` masih PNG mentah tanpa varian webp asli — kedua berkas identik.
+- Sumbernya 1152×1600 (rasio 0,72), dipangkas tengah ke 3:4 (±4% terbuang).
+- **Bercak putih di kiri atas huruf N menabrak lencana `.gs__i`.** Perlu ekspor
+  ulang dari pemilik situs untuk benar-benar beres.h (permintaan pemilik situs) dan gestur
 "benda yang didorong" ala huyml.co — tapi dijalankan dengan bahan sendiri.
 Sulurnya memakai **mesin filamen yang sama** dengan hero, jadi seratnya satu
 bahasa.
