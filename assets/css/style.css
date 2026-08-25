@@ -3,9 +3,8 @@
    Dirancang pada 360px. Layar besar hanya pelebaran.
    ========================================================================== */
 
-/* Apfel Grotezk — Luigi Gorlero / Collletttivo, SIL OFL 1.1.
-   Di-self-host (assets/fonts/) supaya tidak bergantung CDN pihak ketiga.
-   Dipakai untuk judul saja; badan teks tetap Inter demi keterbacaan. */
+/* Seluruh huruf di-host sendiri agar tampilan tidak bergantung CDN.
+   Apfel Grotezk — Luigi Gorlero / Collletttivo, SIL OFL 1.1. */
 @font-face{
   font-family:'Apfel Grotezk';
   src:url('../fonts/ApfelGrotezk-Regular.woff2') format('woff2');
@@ -15,6 +14,28 @@
   font-family:'Apfel Grotezk';
   src:url('../fonts/ApfelGrotezk-Fett.woff2') format('woff2');
   font-weight:700;font-style:normal;font-display:swap;
+}
+/* Pendamping — varian yang benar-benar dipakai saja. Lisensi OFL tiap
+   keluarga disimpan berdampingan di assets/fonts/. */
+@font-face{
+  font-family:'Inter';
+  src:url('../fonts/Inter-Regular.woff2') format('woff2');
+  font-weight:400;font-style:normal;font-display:swap;
+}
+@font-face{
+  font-family:'JetBrains Mono';
+  src:url('../fonts/JetBrainsMono-Regular.woff2') format('woff2');
+  font-weight:400;font-style:normal;font-display:swap;
+}
+@font-face{
+  font-family:'JetBrains Mono';
+  src:url('../fonts/JetBrainsMono-Medium.woff2') format('woff2');
+  font-weight:500;font-style:normal;font-display:swap;
+}
+@font-face{
+  font-family:'Instrument Serif';
+  src:url('../fonts/InstrumentSerif-Italic.woff2') format('woff2');
+  font-weight:400;font-style:italic;font-display:swap;
 }
 
 :root{
@@ -71,6 +92,10 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 .big .ser,.wordmark .ser,.slab__t .ser,.gal__ttl .ser{
   font-size:1.06em;letter-spacing:.005em;
 }
+/* Judul membagi baris secara optis; badan teks menghindari kata yatim.
+   Keduanya progressive enhancement — fallback tetap tata letak biasa. */
+.big,.wk__title,.gal__ttl,.slab__t{text-wrap:balance}
+.hero__say,.wk__lede,.wk__story p,.gal__note,.prose p,.colo{text-wrap:pretty}
 
 /* ---------- BOOT ---------- */
 .boot{
@@ -105,24 +130,30 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
   font-family:var(--mono);font-size:10px;letter-spacing:.16em;
   text-transform:uppercase;color:var(--dim);
   min-height:44px;padding-inline:8px;
+  transition:transform .14s var(--e);
 }
+.sheet__x:active{transform:translateY(1px)}
 .sheet__nav{display:flex;flex-direction:column}
 .sheet__nav a{
   display:flex;align-items:baseline;gap:14px;
   padding:14px 0;border-bottom:1px solid var(--line);
   font-family:var(--disp);
   font-size:26px;font-weight:700;letter-spacing:-.02em;
+  transition:color .14s var(--e),transform .14s var(--e);
 }
 .sheet__nav a em{
   font-family:var(--mono);font-size:10px;font-style:normal;
   letter-spacing:.16em;color:var(--dim);
 }
-.sheet__nav a:active{color:var(--dim)}
+.sheet__nav a:active{color:var(--dim);transform:translateY(1px)}
 .sheet__mail{
   margin-top:32px;font-family:var(--mono);font-size:11px;
   letter-spacing:.1em;color:var(--soft);
   border-bottom:1px solid var(--line2);padding-bottom:6px;align-self:flex-start;
+  min-height:44px;display:flex;align-items:center;
+  transition:transform .14s var(--e);
 }
+.sheet__mail:active{transform:translateY(1px)}
 
 /* ---------- 001 · PEMBUKA ---------- */
 .hero{
@@ -248,7 +279,9 @@ body.ready .hero__foot{animation:fade .9s var(--e) 1s forwards}
 @keyframes hintPulse{0%,100%{opacity:.4}50%{opacity:.8}}
 
 /* ---------- SECTION ---------- */
-.sec{padding:64px var(--pad) 0}
+/* Napas bertambah pelan dari 64px di ponsel ke 104px di desktop,
+   tanpa lompatan 40px saat melewati breakpoint tablet. */
+.sec{padding:clamp(64px,calc(44px + 5.5vw),104px) var(--pad) 0}
 /* Batas hero → 002 adalah satu-satunya batas garis-ke-garis: .hero__foot
    ditutup border, .sec__bar dibuka border. Pita hitam di antaranya terbaca
    sebagai baris kosong, jadi jaraknya dirapatkan jauh di bawah ritme
@@ -294,13 +327,16 @@ body.ready .hero__foot{animation:fade .9s var(--e) 1s forwards}
 }
 /* tanpa hover — reaksi hanya saat jari menyentuh */
 .wk__fig:active img{filter:grayscale(1) brightness(1) contrast(1.02);transform:scale(1.015)}
-.wk__fig:active .wk__go{background:var(--soft)}
+.wk__fig:active .wk__go{background:var(--soft);transform:translateY(1px)}
 .wk__go{
   position:absolute;left:0;bottom:0;
   background:var(--pure);color:var(--void);
   font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
   padding:11px 14px;min-height:44px;display:flex;align-items:center;gap:8px;
+  transition:background .14s var(--e),transform .14s var(--e);
 }
+.wk__go span{display:inline-block;transition:transform .14s var(--e)}
+.wk__fig:active .wk__go span{transform:translate(2px,-2px)}
 
 .wk__facts{border-top:1px solid var(--line)}
 .wk__facts div{
@@ -346,12 +382,16 @@ body.ready .hero__foot{animation:fade .9s var(--e) 1s forwards}
 .gal__track{
   display:flex;gap:10px;
   width:max-content;
-  /* tepi dinamis: kartu pertama & terakhir tetap bisa berhenti di tengah */
-  padding-inline:max(var(--pad), calc((100vw - var(--gs-w)) / 2));
+  /* Gunakan lebar kontainer akhir (maks. 1400px), bukan 100vw mentah.
+     Di monitor ultra-lebar kartu ujung tetap tepat di pusat bagian. */
+  padding-inline:max(var(--pad), calc((min(100vw, 1400px) - var(--gs-w)) / 2));
 }
 
 .gs{
   scroll-snap-align:center;
+  /* Galeri akhir hanya tiga kartu: satu gestur berhenti di satu studi,
+     supaya urutannya tetap terbaca 001 → 002 → 003. */
+  scroll-snap-stop:always;
   width:var(--gs-w);
   flex-shrink:0;
 }
@@ -411,9 +451,13 @@ body.ready .hero__foot{animation:fade .9s var(--e) 1s forwards}
   border:1px solid var(--line2);
   display:grid;place-content:center;
   font-size:15px;color:var(--soft);
-  transition:background .25s,color .25s,border-color .25s,opacity .25s;
+  transition:background .25s,color .25s,border-color .25s,opacity .25s,
+             transform .14s var(--e);
 }
-.gal__b:active{background:var(--pure);color:var(--void);border-color:var(--pure)}
+.gal__b:active{
+  background:var(--pure);color:var(--void);border-color:var(--pure);
+  transform:translateY(1px);
+}
 .gal__b[disabled]{opacity:.28}
 
 .sec--gal .hint{margin:14px 0 0}
@@ -422,18 +466,30 @@ body.ready .hero__foot{animation:fade .9s var(--e) 1s forwards}
 .slab{
   display:grid;grid-template-columns:1fr auto;gap:6px 14px;align-items:center;
   background:var(--pure);color:var(--void);
-  padding:24px 18px;min-height:44px;
-  transition:opacity .3s;
+  /* Di ponsel inversi menjadi penutup penuh; isi tetap segaris dengan teks. */
+  margin-inline:calc(0px - var(--pad));
+  padding:24px var(--pad);min-height:44px;
+  transition:opacity .14s var(--e),transform .14s var(--e);
 }
-.slab:active{opacity:.82}
+.slab:active{opacity:.82;transform:translateY(1px)}
 .slab__t{font-family:var(--disp);font-size:clamp(26px,8vw,56px);font-weight:700;letter-spacing:-.025em;line-height:1}
 .slab__m{grid-column:1;color:rgba(0,0,0,.6)}
-.slab__a{grid-row:1/3;grid-column:2;font-size:26px}
+.slab__a{
+  grid-row:1/3;grid-column:2;font-size:26px;
+  transition:transform .14s var(--e);
+}
+.slab:active .slab__a{transform:translate(2px,-2px)}
 
 .end{
-  display:flex;justify-content:space-between;gap:12px;
-  padding:16px 0 40px;margin-top:28px;border-top:1px solid var(--line);
+  display:flex;justify-content:space-between;align-items:center;gap:12px;
+  /* Tautan 44px tanpa menambah tinggi akhir dibanding susunan lama. */
+  padding:2px 0 24px;margin-top:28px;border-top:1px solid var(--line);
 }
+.end a{
+  min-height:44px;display:flex;align-items:center;
+  transition:transform .14s var(--e);
+}
+.end a:active{transform:translateY(1px)}
 
 /* ---------- DOCK ---------- */
 .dock{
@@ -445,13 +501,19 @@ body.ready .hero__foot{animation:fade .9s var(--e) 1s forwards}
   backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
   border-top:1px solid var(--line);
 }
-.dock__id{color:var(--pure)}
+.dock__id{
+  color:var(--pure);min-height:44px;
+  display:flex;align-items:center;
+  transition:transform .14s var(--e);
+}
+.dock__id:active{transform:translateY(1px)}
 .dock__i{color:var(--dim)}
 .dock__b{
   font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
-  border:1px solid var(--line2);padding:9px 13px;min-height:36px;
+  border:1px solid var(--line2);padding:9px 13px;min-height:44px;
+  transition:background .14s var(--e),color .14s var(--e),transform .14s var(--e);
 }
-.dock__b:active{background:var(--pure);color:var(--void)}
+.dock__b:active{background:var(--pure);color:var(--void);transform:translateY(1px)}
 .dock__p{
   position:absolute;top:-1px;left:0;height:1px;width:0;
   background:var(--pure);
@@ -479,12 +541,13 @@ body.ready .hero__foot{animation:fade .9s var(--e) 1s forwards}
 /* ---------- ≥720px ---------- */
 @media (min-width:720px){
   :root{--pad:40px;--gs-w:min(46vw,400px)}
-  .sec{padding-top:104px}
   .wk__body{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start}
   .wk__story{margin-top:0}
   .prose{grid-template-columns:1fr 1fr;gap:32px}
   .hero__say{font-size:17px}
   .sheet__nav a{font-size:38px}
+  /* Full-bleed hanya menjadi peristiwa pada ponsel. */
+  .slab{margin-inline:0;padding-inline:18px}
 }
 
 /* ---------- ≥1100px ---------- */

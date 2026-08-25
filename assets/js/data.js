@@ -41,16 +41,19 @@ window.NE = {
   /* ---- 003 · STUDI --------------------------------------------------
      Ketuk kartu untuk membuka catatan. Tanpa hover — ramah layar sentuh.
   ------------------------------------------------------------------- */
-  /* Rencana: 3 studi kuat, bukan 8 — semua buatan pemilik.
-     001 Wordmark (sumber st-02-wordmark.png) · 002 Kisi / Dimakan (st-09.png)
-     · 003 menunggu karya ketiga (st-10.png). */
+  /* Rencana akhir: 3 studi kuat, bukan 8 — semua buatan pemilik.
+     001 Wordmark (st-02-wordmark.png) · 002 Kisi / Dimakan (st-09.png)
+     · 003 Gestur / Bersilang (st-10.png). */
   studies: [
     { no:'001', title:'Wordmark / Terpotong',  tag:'IDENTITY',         img:'st-01',
       alt:'Wordmark NUIT ENCRE dalam huruf tebal, diperbesar sampai melampaui bingkai sehingga sebagian huruf terpotong.',
       note:'Nama sendiri diperlakukan sebagai bahan, bukan tanda tangan. Diperbesar sampai bingkai tidak lagi sanggup memuatnya.' },
     { no:'002', title:'Kisi / Dimakan',        tag:'GRID',             img:'st-02',
       alt:'Kisi garis putih di atas latar hitam; di beberapa tempat garisnya putus dan sel-selnya lenyap, seolah dimakan.',
-      note:'Yang hilang tidak diganti. Kisi yang rusak dibiarkan begitu.' }
+      note:'Yang hilang tidak diganti. Kisi yang rusak dibiarkan begitu.' },
+    { no:'003', title:'Gestur / Bersilang',    tag:'GESTURE',          img:'st-03',
+      alt:'Komposisi vertikal goresan tinta hitam dan abu-abu di atas bidang putih; sapuan tajam saling bersilang dengan satu lingkar terbuka di bagian kanan atas.',
+      note:'Beberapa sapuan bertemu tanpa dipaksa menjadi lambang. Tumpang tindih dan jedanya dibiarkan menyimpan gerak.' }
   ],
 
   /* ---- 004 · PRAKTIK ------------------------------------------------ */

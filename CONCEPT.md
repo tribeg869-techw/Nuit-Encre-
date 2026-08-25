@@ -99,7 +99,7 @@ Satu halaman, lima bagian:
 |---|---|---|
 | `001` | Pembuka | Wordmark besar, status, jam Jakarta langsung |
 | `002` | Karya | Concept Archive — satu-satunya yang selesai, plus ceritanya |
-| `003` | Studi | 3 studi visual — rencana akhir, kini 2 tayang; galeri geser dengan snap ke tengah |
+| `003` | Studi | 3 studi visual — rencana akhir, seluruhnya tayang; galeri geser dengan snap ke tengah |
 | `004` | Praktik | Dua paragraf posisi |
 | `005` | Kontak | Satu alamat, blok inversi |
 
@@ -123,7 +123,7 @@ index.html            markup, meta OG, kredit
 assets/css/style.css  seluruh gaya
 assets/js/data.js     SELURUH ISI — ubah situs dari sini
 assets/js/main.js     animasi, galeri, jam
-assets/fonts/         Apfel Grotezk (woff2) + lisensi OFL
+assets/fonts/         seluruh keluarga huruf (woff2) + lisensi OFL
 assets/img/           sampul, studi, kartu berbagi
 tools/                pembangkit kartu berbagi + penyiap gambar studi
 ```
@@ -158,6 +158,11 @@ tools/                pembangkit kartu berbagi + penyiap gambar studi
 **Apfel Grotezk** oleh Luigi Gorlero / [Collletttivo](https://www.collletttivo.it/typefaces/apfel-grotezk),
 **SIL OFL 1.1**, di-hosting sendiri di `assets/fonts/`. Kreditnya **wajib
 tetap ada** di bagian kolofon — itu syarat lisensi, bukan hiasan.
+
+Font pendamping juga di-hosting sendiri: Inter 400, JetBrains Mono 400/500,
+dan Instrument Serif italic 400. WOFF2 dibuat dari sumber resmi repositori
+`google/fonts`; lisensi OFL tiap keluarga disimpan di `assets/fonts/`. Tidak
+ada lagi permintaan ke Google Fonts saat halaman dibuka.
 
 
 Serif di dalam Apfel 700: `font-size:1.06em; letter-spacing:.005em`.
@@ -292,7 +297,8 @@ orang pertama** atas gambar yang bukan buatannya. Ini garis tegas.
 
 Pemilik situs mendesain sendiri di **aplikasi Canva di ponsel**, kanvas kosong
 tanpa templat. Studi `001 Wordmark / Terpotong` adalah yang pertama diganti;
-`002 Kisi / Dimakan` menyusul (2026-08-25, dari `st-09.png`).
+`002 Kisi / Dimakan` menyusul dari `st-09.png`, lalu `003 Gestur / Bersilang`
+melengkapi rangkaian dari `st-10.png` (2026-08-25).
 
 
 ### Spesifikasi
@@ -473,14 +479,50 @@ Nomor lama 007 (wordmark) kini 001. Semua entri placeholder AI dihapus dari
 `data.js` beserta berkasnya (`st-03` s.d. `st-08`; berkas `st-01` lama diganti
 varian wordmark).
 
+Status akhir: **3/3 studi tayang.**
+
 | No | Judul | Status |
 |---|---|---|
 | 001 | Wordmark / Terpotong | Tayang — diproses dari sumber `st-02-wordmark.png` |
 | 002 | Kisi / Dimakan | Tayang — diproses dari `st-09.png` (diunggah pemilik) |
-| 003 | (karya ketiga) | **Menunggu** `st-10.png` diunggah ke main |
+| 003 | Gestur / Bersilang | Tayang — diproses dari `st-10.png` (diunggah pemilik) |
 
-Kalau `st-10.png` sudah ada: `python3 tools/add-study.py assets/img/st-10.png 3`
-lalu tambah entri `no:'003'` di `data.js` (ikuti pola 001–002).
+Sumber `st-10.png` diproses dengan
+`python3 tools/add-study.py assets/img/st-10.png 3` menjadi pasangan
+`st-03.jpg` + `st-03.webp`; alt dan catatannya disetujui pemilik sebelum tayang.
+
+
+### Audit kosmetik galeri (2026-08-25)
+
+Audit dilakukan setelah galeri lengkap 3/3. Keputusan pemilik:
+
+- **Ritme keterangan:** pertahankan tinggi alami; jangan kunci `min-height`
+  untuk menyamakan panjang catatan.
+- **Snap:** satu gestur berhenti di satu kartu; `.gs` memakai
+  `scroll-snap-stop:always` di samping snap tengah yang sudah ada.
+- **Tombol:** garis normal `#2E2E2E` sengaja tetap redup.
+- **Tepi lencana 003:** blok putih boleh menyatu dengan bidang putih saat
+  kartu aktif; jangan tambah garis pembatas.
+
+
+### Pemolesan landing page (2026-08-25)
+
+Ronde ini hanya memperindah; tidak menambah fitur atau isi. Keputusan pemilik:
+
+- **Galeri ultra-lebar:** tepi track dihitung dari kontainer maksimum 1400px,
+  bukan `100vw`, agar kartu ujung tetap di pusat monitor lebar.
+- **Sasaran sentuh:** kontrol mandiri minimal 44px; dock, email menu, dan
+  tautan `KE ATAS` ikut kontrak mobile-first ini.
+- **Pecah baris:** judul memakai `text-wrap:balance`, teks panjang memakai
+  `text-wrap:pretty`; keduanya tetap aman-gagal di peramban lama.
+- **Kontak:** slab inversi full-bleed hanya di bawah 720px; mulai tablet
+  kembali inset.
+- **Napas bagian:** selain batas hero → 002 yang tetap 16px, jarak memakai
+  `clamp(64px, calc(44px + 5.5vw), 104px)` agar tidak melompat di 720px.
+- **Respons ketuk:** kontrol turun 1px; panah tautan utama bergerak 2px ke
+  kanan-atas. Hanya `:active`, tetap nol `:hover`, durasi 140ms.
+- **Font:** semua keluarga di-host sendiri; hanya bobot yang benar-benar
+  dipakai yang disediakan.
 
 
 ### Utang kosmetik yang diketahui
