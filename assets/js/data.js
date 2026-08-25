@@ -41,31 +41,16 @@ window.NE = {
   /* ---- 003 · STUDI --------------------------------------------------
      Ketuk kartu untuk membuka catatan. Tanpa hover — ramah layar sentuh.
   ------------------------------------------------------------------- */
+  /* Rencana: 3 studi kuat, bukan 8 — semua buatan pemilik.
+     001 Wordmark (sumber st-02-wordmark.png) · 002 Kisi / Dimakan (st-09.png)
+     · 003 menunggu karya ketiga (st-10.png). */
   studies: [
-    { no:'008', title:'Massa Cair',      tag:'3D / FORM',    img:'st-01',
-      alt:'Massa cair keperakan yang menggumpal, permukaannya memantulkan cahaya redup.',
-      note:'Bentuk yang tidak bisa diputuskan mau jadi apa. Dibiarkan begitu.' },
-    { no:'007', title:'Wordmark / Terpotong',  tag:'IDENTITY',         img:'st-02',
+    { no:'001', title:'Wordmark / Terpotong',  tag:'IDENTITY',         img:'st-01',
       alt:'Wordmark NUIT ENCRE dalam huruf tebal, diperbesar sampai melampaui bingkai sehingga sebagian huruf terpotong.',
       note:'Nama sendiri diperlakukan sebagai bahan, bukan tanda tangan. Diperbesar sampai bingkai tidak lagi sanggup memuatnya.' },
-    { no:'006', title:'Benda Gelap',     tag:'STILL LIFE',   img:'st-03',
-      alt:'Benda diam di ruang gelap, disinari satu sumber cahaya dari samping.',
-      note:'Satu sumber cahaya. Sisanya dibiarkan hilang.' },
-    { no:'005', title:'Garis Cahaya',    tag:'LIGHT',        img:'st-04',
-      alt:'Garis cahaya panjang hasil rana lambat, melengkung di kegelapan.',
-      note:'Rana lambat. Tangan yang bergerak jadi gambar.' },
-    { no:'004', title:'Kisi Bengkok',    tag:'GRID',         img:'st-05',
-      alt:'Kisi garis lurus yang melengkung dan melenceng di bagian tengah.',
-      note:'Struktur yang mulai kehilangan keyakinannya sendiri.' },
-    { no:'003', title:'Tinta / Air',     tag:'TEXTURE',      img:'st-06',
-      alt:'Tinta menyebar di air, membentuk sulur berserat yang menjalar.',
-      note:'Tidak dikendalikan. Hanya ditunggu.' },
-    { no:'002', title:'Lipatan',         tag:'MATERIAL',     img:'st-07',
-      alt:'Lipatan bahan yang membentuk bayangan tajam dan bidang miring.',
-      note:'Bidang datar yang tiba-tiba punya isi.' },
-    { no:'001', title:'Sisa Gerak',      tag:'MOTION',       img:'st-08',
-      alt:'Jejak kabur sisa gerakan, samar di latar gelap.',
-      note:'Yang tertinggal setelah sesuatu lewat.' }
+    { no:'002', title:'Kisi / Dimakan',        tag:'GRID',             img:'st-02',
+      alt:'Kisi garis putih di atas latar hitam; di beberapa tempat garisnya putus dan sel-selnya lenyap, seolah dimakan.',
+      note:'Yang hilang tidak diganti. Kisi yang rusak dibiarkan begitu.' }
   ],
 
   /* ---- 004 · PRAKTIK ------------------------------------------------ */

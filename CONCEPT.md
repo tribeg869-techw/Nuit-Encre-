@@ -99,7 +99,7 @@ Satu halaman, lima bagian:
 |---|---|---|
 | `001` | Pembuka | Wordmark besar, status, jam Jakarta langsung |
 | `002` | Karya | Concept Archive — satu-satunya yang selesai, plus ceritanya |
-| `003` | Studi | 8 studi visual, galeri geser dengan snap ke tengah |
+| `003` | Studi | 3 studi visual — rencana akhir, kini 2 tayang; galeri geser dengan snap ke tengah |
 | `004` | Praktik | Dua paragraf posisi |
 | `005` | Kontak | Satu alamat, blok inversi |
 
@@ -291,7 +291,8 @@ orang pertama** atas gambar yang bukan buatannya. Ini garis tegas.
 
 
 Pemilik situs mendesain sendiri di **aplikasi Canva di ponsel**, kanvas kosong
-tanpa templat. Studi `007 Wordmark / Terpotong` adalah yang pertama diganti.
+tanpa templat. Studi `001 Wordmark / Terpotong` adalah yang pertama diganti;
+`002 Kisi / Dimakan` menyusul (2026-08-25, dari `st-09.png`).
 
 
 ### Spesifikasi
@@ -465,13 +466,33 @@ kalau berkasnya ada** (alatnya gagal membaca biner) dan **halaman 404** kalau
 tidak ada. Bandingkan dengan berkas yang pasti ada untuk memastikan.
 
 
+### Studi yang sedang berjalan (pembaruan 2026-08-25)
+
+Renomasi: 8 slot lama (7 placeholder AI + wordmark) dirapikan jadi **3 slot**.
+Nomor lama 007 (wordmark) kini 001. Semua entri placeholder AI dihapus dari
+`data.js` beserta berkasnya (`st-03` s.d. `st-08`; berkas `st-01` lama diganti
+varian wordmark).
+
+| No | Judul | Status |
+|---|---|---|
+| 001 | Wordmark / Terpotong | Tayang — diproses dari sumber `st-02-wordmark.png` |
+| 002 | Kisi / Dimakan | Tayang — diproses dari `st-09.png` (diunggah pemilik) |
+| 003 | (karya ketiga) | **Menunggu** `st-10.png` diunggah ke main |
+
+Kalau `st-10.png` sudah ada: `python3 tools/add-study.py assets/img/st-10.png 3`
+lalu tambah entri `no:'003'` di `data.js` (ikuti pola 001–002).
+
+
 ### Utang kosmetik yang diketahui
 
-
-- Studi `007`: varian jpg+webp asli **sudah dibuat** (2026-08-25) lewat
-  `tools/add-study.py` dari sumber `st-02-wordmark.png` — utang teknis beres.
-- **Ekspor ulang 007 tetap dibutuhkan.** Hasil ukur: zona lencana kiri atas
-  sebenarnya **bersih** (0% piksel terang). Masalah desainnya adalah
-  **garis diagonal putih + gagang kotak kecil** di bagian atas — sisa elemen
-  Canva yang ikut terekspor — plus komposisi yang bisa lebih kuat.
-  `tools/kanvas-panduan.png` disiapkan sebagai lapisan bantu di Canva.
+- **001 Wordmark:** varian jpg+webp asli dibuat (2026-08-25) lewat
+  `tools/add-study.py` dari sumber `st-02-wordmark.png`. Keputusan serah
+  terima 2026-08-25: berkas yang ada **tayang apa adanya** sebagai 001 —
+  ekspor ulang tidak lagi diwajibkan. Referensi ukur lama: zona lencana kiri
+  atas bersih (0% piksel terang); yang pernah disebut masalah desain adalah
+  garis diagonal + gagang kecil di bagian atas. `tools/kanvas-panduan.png`
+  tetap tersedia sebagai lapisan bantu Canva kalau pemilik ingin mengekspor
+  ulang suatu saat.
+- **002 Kisi / Dimakan:** karya memenuhi kanvas hingga tepi, jadi lencana
+  `.gs__i` tumpang di atas garis kisi. Terbaca karena lencananya blok putih
+  opak — bukan cacat, dicatat biar tidak "diperbaiki" tanpa diminta.
