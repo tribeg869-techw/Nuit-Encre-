@@ -1,0 +1,523 @@
+/* ==========================================================================
+   NUIT-ENCRE — mobile first
+   Dirancang pada 360px. Layar besar hanya pelebaran.
+   ========================================================================== */
+
+/* Apfel Grotezk — Luigi Gorlero / Collletttivo, SIL OFL 1.1.
+   Di-self-host (assets/fonts/) supaya tidak bergantung CDN pihak ketiga.
+   Dipakai untuk judul saja; badan teks tetap Inter demi keterbacaan. */
+@font-face{
+  font-family:'Apfel Grotezk';
+  src:url('../fonts/ApfelGrotezk-Regular.woff2') format('woff2');
+  font-weight:400;font-style:normal;font-display:swap;
+}
+@font-face{
+  font-family:'Apfel Grotezk';
+  src:url('../fonts/ApfelGrotezk-Fett.woff2') format('woff2');
+  font-weight:700;font-style:normal;font-display:swap;
+}
+
+:root{
+  --void:#000;
+  --ash:#0A0A0A;
+  --line:#1F1F1F;
+  --line2:#2E2E2E;
+  --dim:#6E6E6E;
+  --soft:#A8A8A8;
+  --pure:#FAFAFA;
+
+  --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --disp:'Apfel Grotezk','Inter',-apple-system,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --ser:'Instrument Serif',Georgia,serif;
+
+  --pad:20px;
+  --gs-w:min(calc(100vw - 82px), 420px);
+  --dock:56px;
+  --safe:env(safe-area-inset-bottom,0px);
+  --e:cubic-bezier(.22,1,.36,1);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--void);color:var(--pure);
+  font-family:var(--sans);font-weight:400;line-height:1.5;
+  overflow-x:hidden;-webkit-font-smoothing:antialiased;
+  padding-bottom:calc(var(--dock) + var(--safe));
+}
+img{display:block;width:100%}
+picture{display:contents}
+a{color:inherit;text-decoration:none;-webkit-tap-highlight-color:transparent}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+::selection{background:var(--pure);color:var(--void)}
+:focus-visible{outline:1px solid var(--pure);outline-offset:3px}
+
+/* tautan lompat — tersembunyi sampai difokus lewat keyboard */
+.skip{
+  position:absolute;left:-9999px;top:0;z-index:300;
+  background:var(--pure);color:var(--void);
+  font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  padding:14px 18px;
+}
+.skip:focus{left:0}
+
+.mono{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;line-height:1.4}
+.dim{color:var(--dim)}
+/* Instrument Serif hanya punya bobot 400. Di dalam paragraf Inter 400 itu
+   pas, tapi di dalam judul Apfel Fett 700 ia tampak melorot ringan — jadi
+   dibesarkan sedikit dan diberi tracking agar bobot optisnya setara. */
+.ser{font-family:var(--ser);font-style:italic;font-weight:400}
+.big .ser,.wordmark .ser,.slab__t .ser,.gal__ttl .ser{
+  font-size:1.06em;letter-spacing:.005em;
+}
+
+/* ---------- BOOT ---------- */
+.boot{
+  position:fixed;inset:0;z-index:200;background:var(--void);
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:var(--pad);padding-bottom:calc(var(--pad) + var(--safe));
+  transition:opacity .6s var(--e),visibility .6s;
+  isolation:isolate;
+}
+.boot.off{opacity:0;visibility:hidden}
+/* saat tinta dibelah, latar dilepas agar hero terlihat di sela panel */
+.boot.cut{background:transparent}
+.boot__c{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
+/* difference menjaga teks tetap terbaca saat layar tertutup tinta putih */
+.boot__row,.boot__bar{position:relative;z-index:2;mix-blend-mode:difference;transition:opacity .3s var(--e)}
+.boot.cut .boot__row,.boot.cut .boot__bar{opacity:0}
+.boot__row{display:flex;justify-content:space-between;margin-bottom:10px}
+.boot__bar{height:1px;background:var(--line)}
+.boot__bar i{display:block;height:100%;width:0;background:var(--pure)}
+
+/* ---------- MENU ---------- */
+.sheet{
+  position:fixed;inset:0;z-index:150;background:var(--void);
+  display:flex;flex-direction:column;justify-content:center;
+  padding:var(--pad);
+  animation:sheetIn .4s var(--e);
+}
+.sheet[hidden]{display:none}
+@keyframes sheetIn{from{opacity:0;transform:translateY(12px)}}
+.sheet__x{
+  position:absolute;top:var(--pad);right:var(--pad);
+  font-family:var(--mono);font-size:10px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--dim);
+  min-height:44px;padding-inline:8px;
+}
+.sheet__nav{display:flex;flex-direction:column}
+.sheet__nav a{
+  display:flex;align-items:baseline;gap:14px;
+  padding:14px 0;border-bottom:1px solid var(--line);
+  font-family:var(--disp);
+  font-size:26px;font-weight:700;letter-spacing:-.02em;
+}
+.sheet__nav a em{
+  font-family:var(--mono);font-size:10px;font-style:normal;
+  letter-spacing:.16em;color:var(--dim);
+}
+.sheet__nav a:active{color:var(--dim)}
+.sheet__mail{
+  margin-top:32px;font-family:var(--mono);font-size:11px;
+  letter-spacing:.1em;color:var(--soft);
+  border-bottom:1px solid var(--line2);padding-bottom:6px;align-self:flex-start;
+}
+
+/* ---------- 001 · PEMBUKA ---------- */
+.hero{
+  position:relative;
+  /* dikurangi tinggi dock agar .hero__foot tidak tertutup */
+  min-height:calc(100dvh - var(--dock) - var(--safe));
+  display:flex;
+  isolation:isolate;
+}
+
+/* isi hero — melayang di atas void */
+.hero__in{
+  position:relative;z-index:2;
+  flex:1;display:flex;flex-direction:column;
+  padding:calc(var(--pad) + 8px) var(--pad) var(--pad);
+  pointer-events:none;              /* sentuhan tembus ke void */
+}
+.hero__in a,.hero__in button{pointer-events:auto}
+
+.hero__meta{display:flex;justify-content:space-between;gap:12px}
+
+/* blok tengah: wordmark + kalimat.
+   Jarak proporsional dari atas — bukan margin-top:auto, sebab auto
+   menumpuk seluruh sisa ruang di atas dan mendorong headline turun. */
+.hero__mid{margin-top:clamp(24px,16vh,150px)}
+
+.wordmark{
+  font-family:var(--disp);
+  font-size:clamp(52px,17.5vw,168px);
+  /* Apfel lebih bulat dan lebar dari Inter — tracking -.055em membuat
+     hurufnya bertabrakan, jadi dilonggarkan. */
+  font-weight:700;line-height:.82;letter-spacing:-.035em;
+  margin:0;
+  /* agar tetap terbaca saat tinta menyala di belakangnya */
+  text-shadow:0 2px 34px rgba(0,0,0,.72);
+}
+/* Huruf tidak "masuk" ke layar — huruf DISINGKAP oleh tinta yang
+   naik dari bawah, dengan tepi merembes, bukan garis potong.
+
+   AMAN-GAGAL: keadaan bawaan di bawah ini adalah keadaan AKHIR
+   (huruf tampil penuh). Animasi hanya meminjam keadaan awal lewat
+   `from`. Jadi bila animasi tak pernah jalan — JS mati, mask tak
+   didukung, apa pun — huruf tetap terbaca. Versi sebelumnya
+   memakai keadaan bawaan "tersembunyi" dan itu menghilangkan
+   wordmark sepenuhnya.
+
+   Catatan mask-position: offset = (100% - mask-size) x persen.
+   Dengan mask-size 300%, 0% = tersembunyi, 100% = tampil penuh.
+   Nilai negatif membuat topeng terlempar keluar elemen. */
+.wm__l{display:block;overflow:hidden}
+.wm__l span{
+  display:block;
+  -webkit-mask-image:linear-gradient(to top,
+    #000 0%,#000 33%,rgba(0,0,0,.75) 40%,rgba(0,0,0,.3) 46%,transparent 52%);
+          mask-image:linear-gradient(to top,
+    #000 0%,#000 33%,rgba(0,0,0,.75) 40%,rgba(0,0,0,.3) 46%,transparent 52%);
+  -webkit-mask-size:100% 300%;mask-size:100% 300%;
+  -webkit-mask-position:0 100%;mask-position:0 100%;
+  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
+}
+body.ready .wm__l span{animation:inkRise 1.5s var(--e) both}
+body.ready .wm__l:nth-child(2) span{animation-delay:.16s}
+@keyframes inkRise{
+  from{transform:translateY(102%);-webkit-mask-position:0 0;mask-position:0 0}
+  to  {transform:translateY(0);   -webkit-mask-position:0 100%;mask-position:0 100%}
+}
+/* peramban tanpa mask: cukup naik, tak ada yang disingkap */
+@supports not ((-webkit-mask-image:linear-gradient(#000,#000)) or (mask-image:linear-gradient(#000,#000))){
+  body.ready .wm__l span{animation:rise 1.1s var(--e) both}
+}
+@keyframes rise{from{transform:translateY(102%)}to{transform:translateY(0)}}
+
+.hero__say{
+  font-size:15px;color:var(--soft);max-width:26ch;
+  margin-top:14px;
+  text-shadow:0 1px 18px rgba(0,0,0,.8);
+  opacity:0;
+}
+body.ready .hero__say{animation:fade .9s var(--e) .75s forwards}
+.hero__say .ser{color:var(--pure)}
+@keyframes fade{to{opacity:1}}
+
+.hero__foot{
+  display:flex;justify-content:space-between;align-items:center;gap:10px;
+  padding-top:14px;margin-top:auto;border-top:1px solid var(--line);
+  opacity:0;
+}
+body.ready .hero__foot{animation:fade .9s var(--e) 1s forwards}
+.hero__spec{
+  color:var(--soft);
+  opacity:0;transition:opacity .7s var(--e);
+  white-space:nowrap;
+}
+.void.lit ~ .hero__in .hero__spec{opacity:1}
+
+.tick{display:flex;align-items:center;gap:8px;color:var(--soft)}
+.tick i{
+  width:5px;height:5px;border-radius:50%;background:var(--pure);
+  animation:pulse 2.4s infinite;flex-shrink:0;
+}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
+
+/* ---------- VOID · menutupi seluruh hero ---------- */
+.void{
+  position:absolute;inset:0;z-index:1;
+  overflow:hidden;
+  touch-action:pan-y;
+}
+.void__c{
+  display:block;width:100%;height:100%;
+  opacity:0;transition:opacity 1.2s var(--e) .35s;
+}
+.void.lit .void__c{opacity:1}
+
+.void__sub{
+  position:absolute;left:var(--pad);right:var(--pad);
+  top:62%;
+  text-align:center;
+  transition:opacity .6s var(--e);
+  animation:hintPulse 3.4s ease-in-out infinite;
+}
+.void.lit ~ .hero__in .void__sub{opacity:0;animation:none}
+@keyframes hintPulse{0%,100%{opacity:.4}50%{opacity:.8}}
+
+/* ---------- SECTION ---------- */
+.sec{padding:64px var(--pad) 0}
+/* Batas hero → 002 adalah satu-satunya batas garis-ke-garis: .hero__foot
+   ditutup border, .sec__bar dibuka border. Pita hitam di antaranya terbaca
+   sebagai baris kosong, jadi jaraknya dirapatkan jauh di bawah ritme
+   antar-section. Nilai tetap (bukan calc) — .hero__in sudah menyumbang
+   --pad di atasnya, sehingga total ikut melebar sendiri di layar besar. */
+.hero + .sec{padding-top:16px}
+.sec__bar{
+  display:flex;justify-content:space-between;gap:12px;
+  padding-bottom:10px;margin-bottom:24px;border-bottom:1px solid var(--line);
+  position:sticky;top:0;z-index:20;
+  background:var(--void);padding-top:12px;
+}
+/* Peluruhan di bawah bar yang menempel: tanpa ini konten terpotong
+   keras saat menggulir lewat. Tidak menangkap sentuhan. */
+.sec__bar::after{
+  content:'';position:absolute;left:0;right:0;top:100%;
+  height:20px;pointer-events:none;
+  background:linear-gradient(to bottom,var(--void),transparent);
+}
+
+.big{
+  font-family:var(--disp);
+  font-size:clamp(26px,7.6vw,54px);
+  font-weight:700;line-height:1.08;letter-spacing:-.02em;
+  max-width:17ch;
+}
+.prose{margin-top:24px;display:grid;gap:16px}
+.prose p{color:var(--soft);font-size:15px;max-width:52ch}
+
+/* ---------- 002 · KARYA ---------- */
+.wk__top{display:flex;justify-content:space-between;gap:12px;margin-bottom:10px}
+.wk__title{font-family:var(--disp);font-size:clamp(34px,10.5vw,88px);font-weight:700;letter-spacing:-.03em;line-height:.95}
+.wk__lede{color:var(--soft);font-size:15px;margin-top:12px;max-width:44ch}
+
+.wk__fig{
+  display:block;position:relative;margin:22px 0;
+  border:1px solid var(--line);overflow:hidden;background:var(--ash);
+}
+.wk__fig img{
+  aspect-ratio:16/10;object-fit:cover;
+  filter:grayscale(1) brightness(.82) contrast(1.06);
+  transition:filter .5s var(--e),transform .6s var(--e);
+}
+/* tanpa hover — reaksi hanya saat jari menyentuh */
+.wk__fig:active img{filter:grayscale(1) brightness(1) contrast(1.02);transform:scale(1.015)}
+.wk__fig:active .wk__go{background:var(--soft)}
+.wk__go{
+  position:absolute;left:0;bottom:0;
+  background:var(--pure);color:var(--void);
+  font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  padding:11px 14px;min-height:44px;display:flex;align-items:center;gap:8px;
+}
+
+.wk__facts{border-top:1px solid var(--line)}
+.wk__facts div{
+  display:flex;justify-content:space-between;gap:16px;align-items:baseline;
+  padding:11px 0;border-bottom:1px solid var(--line);
+}
+/* nilai dibedakan dari labelnya supaya pasangan dt/dd mudah dibaca */
+.wk__facts dd{color:var(--pure);font-size:14px;text-align:right}
+.wk__facts dt{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+.wk__facts dd{font-size:13px;color:var(--soft);text-align:right}
+.wk__story{margin-top:22px;display:grid;gap:14px}
+.wk__story p{color:var(--soft);font-size:14px;max-width:52ch}
+
+/* ---------- 003 · STUDI (galeri geser) ---------- */
+.sec--gal{padding-inline:0}
+.sec--gal .sec__bar,
+.sec--gal .gal__head,
+.sec--gal .gal__cap,
+.sec--gal .gal__foot,
+.sec--gal .hint{padding-inline:var(--pad)}
+
+.gal__head{
+  display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+  margin-bottom:14px;
+}
+.gal__no{
+  font-family:var(--mono);font-size:34px;font-weight:500;
+  letter-spacing:-.02em;line-height:1;color:var(--pure);
+  font-variant-numeric:tabular-nums;
+}
+
+/* jendela geser */
+.gal__view{
+  position:relative;
+  overflow-x:auto;overflow-y:hidden;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;-ms-overflow-style:none;
+  cursor:grab;
+}
+.gal__view::-webkit-scrollbar{display:none}
+.gal__view.drag{cursor:grabbing;scroll-snap-type:none}
+.gal__track{
+  display:flex;gap:10px;
+  width:max-content;
+  /* tepi dinamis: kartu pertama & terakhir tetap bisa berhenti di tengah */
+  padding-inline:max(var(--pad), calc((100vw - var(--gs-w)) / 2));
+}
+
+.gs{
+  scroll-snap-align:center;
+  width:var(--gs-w);
+  flex-shrink:0;
+}
+.gs__fig{
+  position:relative;overflow:hidden;background:var(--ash);
+  border:1px solid var(--line);aspect-ratio:3/4;
+}
+.gs__fig img{
+  width:100%;height:100%;object-fit:cover;
+  filter:grayscale(1) brightness(.6) contrast(1.05);
+  transform:scale(1.04);
+  transition:filter .6s var(--e),transform .8s var(--e);
+}
+.gs.on .gs__fig{border-color:var(--line2)}
+.gs.on .gs__fig img{filter:grayscale(1) brightness(1) contrast(1.02);transform:scale(1)}
+
+.gs__i{
+  position:absolute;top:0;left:0;z-index:2;
+  background:var(--pure);color:var(--void);
+  font-family:var(--mono);font-size:10px;letter-spacing:.14em;
+  padding:6px 9px;
+}
+
+/* keterangan */
+.gal__cap{
+  min-height:96px;
+  padding-top:16px;margin-top:16px;
+  border-top:1px solid var(--line);
+}
+.gal__ttl{
+  font-family:var(--disp);
+  font-size:clamp(26px,8vw,46px);font-weight:700;
+  letter-spacing:-.025em;line-height:1.02;
+}
+.gal__note{
+  color:var(--soft);font-size:14px;max-width:44ch;margin-top:8px;
+}
+.gal__cap.sw .gal__ttl,
+.gal__cap.sw .gal__note{opacity:0;transform:translateY(7px)}
+.gal__ttl,.gal__note{
+  transition:opacity .28s var(--e),transform .28s var(--e);
+}
+
+/* kaki */
+.gal__foot{
+  display:flex;align-items:center;gap:16px;
+  margin-top:18px;
+}
+.gal__bar{flex:1;height:1px;background:var(--line)}
+.gal__bar i{
+  display:block;height:100%;width:12.5%;background:var(--pure);
+  transition:width .35s var(--e),transform .35s var(--e);
+}
+.gal__nav{display:flex;gap:8px;flex-shrink:0}
+.gal__b{
+  width:44px;height:44px;flex-shrink:0;
+  border:1px solid var(--line2);
+  display:grid;place-content:center;
+  font-size:15px;color:var(--soft);
+  transition:background .25s,color .25s,border-color .25s,opacity .25s;
+}
+.gal__b:active{background:var(--pure);color:var(--void);border-color:var(--pure)}
+.gal__b[disabled]{opacity:.28}
+
+.sec--gal .hint{margin:14px 0 0}
+
+/* ---------- 005 · KONTAK ---------- */
+.slab{
+  display:grid;grid-template-columns:1fr auto;gap:6px 14px;align-items:center;
+  background:var(--pure);color:var(--void);
+  padding:24px 18px;min-height:44px;
+  transition:opacity .3s;
+}
+.slab:active{opacity:.82}
+.slab__t{font-family:var(--disp);font-size:clamp(26px,8vw,56px);font-weight:700;letter-spacing:-.025em;line-height:1}
+.slab__m{grid-column:1;color:rgba(0,0,0,.6)}
+.slab__a{grid-row:1/3;grid-column:2;font-size:26px}
+
+.end{
+  display:flex;justify-content:space-between;gap:12px;
+  padding:16px 0 40px;margin-top:28px;border-top:1px solid var(--line);
+}
+
+/* ---------- DOCK ---------- */
+.dock{
+  position:fixed;left:0;right:0;bottom:0;z-index:100;
+  height:calc(var(--dock) + var(--safe));
+  padding:0 var(--pad) var(--safe);
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  background:rgba(0,0,0,.86);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-top:1px solid var(--line);
+}
+.dock__id{color:var(--pure)}
+.dock__i{color:var(--dim)}
+.dock__b{
+  font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  border:1px solid var(--line2);padding:9px 13px;min-height:36px;
+}
+.dock__b:active{background:var(--pure);color:var(--void)}
+.dock__p{
+  position:absolute;top:-1px;left:0;height:1px;width:0;
+  background:var(--pure);
+}
+
+/* ---------- REVEAL ---------- */
+/* kredit tipografi — syarat atribusi OFL */
+.colo{margin-top:28px;line-height:1.7;max-width:44ch}
+.colo a{border-bottom:1px solid var(--line2);padding-bottom:1px;transition:color .3s var(--e),border-color .3s var(--e)}
+.colo a:active{color:var(--pure);border-color:var(--pure)}
+
+/* Muncul beruntun, bukan serempak: elemen bersaudara diberi jeda
+   bertingkat sehingga isi bagian mengalir masuk, bukan menyentak. */
+.rv{
+  opacity:0;transform:translateY(18px);
+  transition:opacity .85s var(--e),transform .85s var(--e);
+}
+.rv.in{opacity:1;transform:none}
+.rv:nth-of-type(2){transition-delay:.07s}
+.rv:nth-of-type(3){transition-delay:.14s}
+.rv:nth-of-type(4){transition-delay:.20s}
+.rv:nth-of-type(5){transition-delay:.25s}
+.rv:nth-of-type(6){transition-delay:.29s}
+
+/* ---------- ≥720px ---------- */
+@media (min-width:720px){
+  :root{--pad:40px;--gs-w:min(46vw,400px)}
+  .sec{padding-top:104px}
+  .wk__body{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start}
+  .wk__story{margin-top:0}
+  .prose{grid-template-columns:1fr 1fr;gap:32px}
+  .hero__say{font-size:17px}
+  .sheet__nav a{font-size:38px}
+}
+
+/* ---------- ≥1100px ---------- */
+@media (min-width:1100px){
+  :root{--pad:56px;--gs-w:min(30vw,420px)}
+  body{padding-bottom:0}
+  .dock{
+    top:0;bottom:auto;height:var(--dock);padding-bottom:0;
+    border-top:0;border-bottom:1px solid var(--line);
+  }
+  .dock__p{top:auto;bottom:-1px}
+  .hero{padding-top:calc(var(--dock) + 32px);min-height:100dvh}
+  .sec__bar{top:var(--dock)}
+  .gal__no{font-size:44px}
+  .sec{max-width:1400px;margin-inline:auto}
+  .hero{max-width:1400px;margin-inline:auto}
+}
+
+/* ---------- A11Y ---------- */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms!important;animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+    /* jeda juga wajib dinolkan — tanpa ini reveal bertahap tetap
+       membuat pengguna menunggu, padahal gerak sudah diminta mati */
+    transition-delay:0ms!important;animation-delay:0ms!important;
+  }
+  .wm__l span{transform:none}
+  .hero__say,.hero__foot{opacity:1}
+  .rv{opacity:1;transform:none}
+  /* tanpa ini isi hero tak pernah tampil bila gerak dimatikan */
+  .hero__say,.hero__foot{opacity:1!important;animation:none!important}
+  .wm__l span{-webkit-mask-image:none!important;mask-image:none!important}
+  .void__c{opacity:1}
+  .void__sub{animation:none}
+}

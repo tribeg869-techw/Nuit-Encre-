@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://tribeg869-techw.github.io/Nuit-Encre-/sitemap.xml

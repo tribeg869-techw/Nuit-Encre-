@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>NUIT-ENCRE — Visual / Concept Designer</title>
+
+<meta name="description" content="NUIT-ENCRE — Visual / Concept Designer. Studi tentang bentuk, ruang, dan atmosfer." />
+<meta name="theme-color" content="#000000" />
+<link rel="canonical" href="https://tribeg869-techw.github.io/Nuit-Encre-/" />
+
+<!-- Kartu berbagi. URL WAJIB absolut: WhatsApp, X, dan LinkedIn tidak
+     me-resolve path relatif, kartunya jadi kosong. Gambar 1200x630. -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="NUIT-ENCRE" />
+<meta property="og:locale" content="id_ID" />
+<meta property="og:url" content="https://tribeg869-techw.github.io/Nuit-Encre-/" />
+<meta property="og:title" content="NUIT-ENCRE — Visual / Concept Designer" />
+<meta property="og:description" content="Studi tentang bentuk, ruang, dan atmosfer." />
+<meta property="og:image" content="https://tribeg869-techw.github.io/Nuit-Encre-/assets/img/og-cover.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Wordmark NUIT ENCRE putih di atas latar hitam, dengan pusaran tinta cair yang mengalir di belakang huruf." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="NUIT-ENCRE — Visual / Concept Designer" />
+<meta name="twitter:description" content="Studi tentang bentuk, ruang, dan atmosfer." />
+<meta name="twitter:image" content="https://tribeg869-techw.github.io/Nuit-Encre-/assets/img/og-cover.jpg" />
+
+<link rel="preload" href="assets/fonts/ApfelGrotezk-Fett.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Instrument+Serif:ital@1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/style.css" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='%23000'/><rect x='14' y='14' width='36' height='36' fill='%23FAFAFA'/></svg>" />
+  <noscript>
+    <style>
+      /* Tanpa JS, body.ready tak pernah terpasang — isi hero akan
+         tersembunyi selamanya. Aturan ini menampilkannya apa adanya. */
+      .wm__l span{transform:none!important;-webkit-mask-image:none!important;mask-image:none!important}
+      .hero__say,.hero__foot,.rv{opacity:1!important;transform:none!important}
+      #boot{display:none!important}
+    </style>
+  </noscript>
+</head>
+
+<body>
+
+<a class="skip" href="#s2">Lewati ke konten</a>
+
+<!-- ═══════ INTRO ═══════ -->
+<div class="boot" id="boot">
+  <canvas class="boot__c" id="bootC" aria-hidden="true"></canvas>
+  <div class="boot__row">
+    <span class="mono">NUIT-ENCRE</span>
+    <span class="mono" id="bootPct">000</span>
+  </div>
+  <div class="boot__bar"><i id="bootBar"></i></div>
+</div>
+
+<!-- ═══════ MENU ═══════ -->
+<div class="sheet" id="sheet" hidden>
+  <button class="sheet__x" id="sheetX" aria-label="Tutup">Tutup</button>
+  <nav class="sheet__nav">
+    <a href="#s1"><em>001</em> Pembuka</a>
+    <a href="#s2"><em>002</em> Karya</a>
+    <a href="#s3"><em>003</em> Studi</a>
+    <a href="#s4"><em>004</em> Praktik</a>
+    <a href="#s5"><em>005</em> Kontak</a>
+  </nav>
+  <a class="sheet__mail" id="sheetMail" href="#">—</a>
+</div>
+
+<main>
+
+<!-- ═══════ 001 · PEMBUKA ═══════ -->
+<section class="hero" id="s1" data-i="001">
+  <!-- void kini menutupi seluruh hero; isi berada di atasnya -->
+  <div class="void" id="void">
+    <canvas class="void__c" id="voidC"></canvas>
+  </div>
+
+  <div class="hero__in">
+    <div class="hero__meta">
+      <span class="mono dim">Visual / Concept Designer</span>
+      <!-- label lokasi, bukan pengganti bahasa: 'IDN' terbaca seperti
+           tombol bahasa dan mengundang ketukan yang tidak berbuat apa-apa -->
+      <span class="mono dim">INDONESIA</span>
+    </div>
+
+    <div class="hero__mid">
+      <h1 class="wordmark">
+        <span class="wm__l"><span>NUIT</span></span>
+        <span class="wm__l"><span>ENCRE</span></span>
+      </h1>
+
+      <p class="hero__say">
+        Studi tentang bentuk, ruang, dan <em class="ser">atmosfer.</em>
+      </p>
+    </div>
+
+    <div class="hero__foot">
+      <span class="tick"><i></i><span class="mono" id="heroStatus">—</span></span>
+      <span class="hero__spec mono" id="voidId">SPESIMEN ————</span>
+      <span class="mono dim" id="heroClock">--:--</span>
+    </div>
+
+    <span class="mono dim void__sub" id="voidSub">SENTUH UNTUK MENYINGKAP</span>
+  </div>
+</section>
+
+<!-- ═══════ 002 · KARYA ═══════ -->
+<section class="sec" id="s2" data-i="002">
+  <div class="sec__bar"><span class="mono">002 — KARYA</span><span class="mono dim">01</span></div>
+  <div id="work"><!-- js --></div>
+</section>
+
+<!-- ═══════ 003 · STUDI ═══════ -->
+<section class="sec sec--gal" id="s3" data-i="003">
+  <div class="sec__bar"><span class="mono">003 — STUDI</span><span class="mono dim" id="stCount">—</span></div>
+
+  <div class="gal">
+    <div class="gal__head">
+      <span class="gal__no" id="galNo">001</span>
+      <span class="gal__tag mono dim" id="galTag">—</span>
+    </div>
+
+    <div class="gal__view" id="galView">
+      <div class="gal__track" id="galTrack"><!-- js --></div>
+    </div>
+
+    <div class="gal__cap" id="galCap" aria-live="polite">
+      <h2 class="gal__ttl" id="galTtl">—</h2>
+      <p class="gal__note" id="galNote">—</p>
+    </div>
+
+    <div class="gal__foot">
+      <div class="gal__bar"><i id="galBar"></i></div>
+      <div class="gal__nav">
+        <button class="gal__b" id="galPrev" aria-label="Studi sebelumnya">←</button>
+        <button class="gal__b" id="galNext" aria-label="Studi berikutnya">→</button>
+      </div>
+    </div>
+
+    <p class="hint mono dim">GESER UNTUK MENJELAJAH</p>
+  </div>
+</section>
+
+<!-- ═══════ 004 · PRAKTIK ═══════ -->
+<section class="sec" id="s4" data-i="004">
+  <div class="sec__bar"><span class="mono">004 — PRAKTIK</span></div>
+  <h2 class="big">Tidak semua ide perlu <em class="ser">selesai</em> untuk layak dilihat.</h2>
+  <div class="prose" id="practice"><!-- js --></div>
+</section>
+
+<!-- ═══════ 005 · KONTAK ═══════ -->
+<section class="sec" id="s5" data-i="005">
+  <div class="sec__bar"><span class="mono">005 — KONTAK</span></div>
+  <a class="slab" id="slab" href="#">
+    <span class="slab__t">Mari bicara</span>
+    <span class="slab__m mono" id="slabMail">—</span>
+    <span class="slab__a">↗</span>
+  </a>
+  <p class="mono dim colo">
+    Huruf judul <a href="https://www.collletttivo.it/typefaces/apfel-grotezk">Apfel&nbsp;Grotezk</a>
+    oleh Luigi&nbsp;Gorlero / Collletttivo, SIL&nbsp;OFL&nbsp;1.1
+  </p>
+  <div class="end">
+    <span class="mono dim">© <span id="yr">2026</span> NUIT-ENCRE</span>
+    <a href="#s1" class="mono dim">KE ATAS ↑</a>
+  </div>
+</section>
+
+</main>
+
+<!-- ═══════ BILAH BAWAH ═══════ -->
+<nav class="dock">
+  <a href="#s1" class="dock__id mono">NUIT-ENCRE</a>
+  <span class="dock__i mono" id="dockI">001/005</span>
+  <button class="dock__b mono" id="dockB">MENU</button>
+  <i class="dock__p" id="dockP"></i>
+</nav>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
