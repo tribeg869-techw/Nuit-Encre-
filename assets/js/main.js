@@ -68,8 +68,12 @@
       card.classList.add('is-open');
       button.setAttribute('aria-expanded', 'true');
       const sectionBar = $('.sec__bar', card.closest('.sec'));
-      const top = card.getBoundingClientRect().top + scrollY - (sectionBar ? sectionBar.offsetHeight + 18 : 18);
-      setTimeout(() => scrollTo({ top, behavior: reduced ? 'auto' : 'smooth' }), reduced ? 0 : 40);
+      // Tunggu kartu lama selesai melipat agar posisi karya aktif
+      // dihitung dari layout final, bukan dari tinggi kartu sebelumnya.
+      setTimeout(() => {
+        const top = card.getBoundingClientRect().top + scrollY - (sectionBar ? sectionBar.offsetHeight + 18 : 18);
+        scrollTo({ top: Math.max(0, top), behavior: reduced ? 'auto' : 'smooth' });
+      }, reduced ? 0 : 720);
     });
   });
 
