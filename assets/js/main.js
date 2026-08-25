@@ -22,60 +22,52 @@
          </picture>`;
   };
 
-  /* ---------- 002 · KARYA — arsip expandable ---------- */
+  /* ---------- 002 · KARYA — expandable archive grid ---------- */
   const works = [D.work, D.workMore];
   const workEl = $('#work');
+  workEl.innerHTML = `<div class="work-grid" role="list">${works.map((w, i) => `
+    <button class="work-tile${i === 0 ? ' is-selected' : ''}" type="button" role="listitem" data-work="${i}" aria-expanded="${i === 0}">
+      <span class="work-tile__no mono">${w.no}</span>
+      <span class="work-tile__name">${w.title}</span>
+      <span class="work-tile__meta mono dim">${w.kind} · ${w.year}</span>
+      <span class="work-tile__mark" aria-hidden="true">↗</span>
+    </button>`).join('')}</div><div class="work-detail" id="workDetail"></div>`;
+  const grid = $('.work-grid', workEl);
+  const detail = $('#workDetail');
+  const tiles = $$('.work-tile', grid);
 
-  function workFull(w, i) {
-    return `<article class="work-card ${i === 0 ? 'is-open' : ''}" data-work="${i}">
-      <button class="work-card__summary" type="button" aria-expanded="${i === 0}" aria-controls="work-detail-${i}">
-        <span class="work-card__no mono">${w.no}</span>
-        <span class="work-card__brief">
-          <strong>${w.title}</strong>
-          <span class="mono dim">${w.kind} · ${w.year}</span>
-        </span>
-        <span class="work-card__mark" aria-hidden="true">↗</span>
-      </button>
-      <div class="work-card__detail" id="work-detail-${i}">
-        <h2 class="wk__title">${w.title}</h2>
-        <p class="wk__lede">${w.lede}</p>
-        <a class="wk__fig" href="${w.url}" target="_blank" rel="noopener">
-          ${pic(w.cover, w.coverAlt, i === 0)}
-          <span class="wk__go">Kunjungi <span>↗</span></span>
-        </a>
-        <div class="wk__body">
-          <dl class="wk__facts">
-            ${w.facts.map(f => `<div><dt>${f.k}</dt><dd>${f.v}</dd></div>`).join('')}
-          </dl>
-          <div class="wk__story">
-            ${w.story.map(p => `<p>${p}</p>`).join('')}
-          </div>
-        </div>
+  function renderWorkDetail(i, animate = true) {
+    const w = works[i];
+    detail.innerHTML = `<article class="work-card${animate ? ' work-card--enter' : ''}">
+      <div class="work-card__head"><span class="mono">${w.no} — ${w.kind}</span><span class="mono dim">${w.year}</span></div>
+      <h2 class="wk__title">${w.title}</h2>
+      <p class="wk__lede">${w.lede}</p>
+      <a class="wk__fig" href="${w.url}" target="_blank" rel="noopener">
+        ${pic(w.cover, w.coverAlt, i === 0)}
+        <span class="wk__go">Kunjungi <span>↗</span></span>
+      </a>
+      <div class="wk__body"><dl class="wk__facts">${w.facts.map(f => `<div><dt>${f.k}</dt><dd>${f.v}</dd></div>`).join('')}</dl>
+        <div class="wk__story">${w.story.map(p => `<p>${p}</p>`).join('')}</div>
       </div>
     </article>`;
   }
 
-  workEl.innerHTML = works.map(workFull).join('');
-  const workCards = $$('.work-card', workEl);
-  workCards.forEach((card, i) => {
-    const button = $('.work-card__summary', card);
-    button.addEventListener('click', () => {
-      if (card.classList.contains('is-open')) return;
-      workCards.forEach(other => {
-        other.classList.remove('is-open');
-        $('.work-card__summary', other).setAttribute('aria-expanded', 'false');
-      });
-      card.classList.add('is-open');
-      button.setAttribute('aria-expanded', 'true');
-      const sectionBar = $('.sec__bar', card.closest('.sec'));
-      // Tunggu kartu lama selesai melipat agar posisi karya aktif
-      // dihitung dari layout final, bukan dari tinggi kartu sebelumnya.
-      setTimeout(() => {
-        const top = card.getBoundingClientRect().top + scrollY - (sectionBar ? sectionBar.offsetHeight + 18 : 18);
-        scrollTo({ top: Math.max(0, top), behavior: reduced ? 'auto' : 'smooth' });
-      }, reduced ? 0 : 720);
-    });
-  });
+  let activeWork = 0;
+  renderWorkDetail(0, false);
+  tiles.forEach((tile, i) => tile.addEventListener('click', () => {
+    if (i === activeWork) {
+      detail.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
+      return;
+    }
+    activeWork = i;
+    tiles.forEach((t, n) => { t.classList.toggle('is-selected', n === i); t.setAttribute('aria-expanded', n === i); });
+    renderWorkDetail(i);
+    const sectionBar = $('.sec__bar', tile.closest('.sec'));
+    setTimeout(() => {
+      const top = detail.getBoundingClientRect().top + scrollY - (sectionBar ? sectionBar.offsetHeight + 18 : 18);
+      scrollTo({ top: Math.max(0, top), behavior: reduced ? 'auto' : 'smooth' });
+    }, reduced ? 0 : 80);
+  }));
 
   /* ---------- 003 · STUDI — galeri geser ---------- */
   const view  = $('#galView');
