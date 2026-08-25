@@ -22,36 +22,56 @@
          </picture>`;
   };
 
-  /* ---------- 002 · KARYA ---------- */
-  const w = D.work;
-  $('#work').innerHTML = `
-    <div class="wk__top rv">
-      <span class="mono">${w.no}</span>
-      <span class="mono dim">${w.kind} · ${w.year}</span>
-    </div>
-    <h2 class="wk__title rv">${w.title}</h2>
-    <p class="wk__lede rv">${w.lede}</p>
-    <a class="wk__fig rv" href="${w.url}" target="_blank" rel="noopener">
-      ${pic(w.cover, w.coverAlt || w.title)}
-      <span class="wk__go">Kunjungi <span>↗</span></span>
-    </a>
-    <div class="wk__body">
-      <dl class="wk__facts rv">
-        ${w.facts.map(f => `<div><dt>${f.k}</dt><dd>${f.v}</dd></div>`).join('')}
-      </dl>
-      <div class="wk__story rv">
-        ${w.story.map(p => `<p>${p}</p>`).join('')}
+  /* ---------- 002 · KARYA — arsip expandable ---------- */
+  const works = [D.work, D.workMore];
+  const workEl = $('#work');
+
+  function workFull(w, i) {
+    return `<article class="work-card ${i === 0 ? 'is-open' : ''}" data-work="${i}">
+      <button class="work-card__summary" type="button" aria-expanded="${i === 0}" aria-controls="work-detail-${i}">
+        <span class="work-card__no mono">${w.no}</span>
+        <span class="work-card__brief">
+          <strong>${w.title}</strong>
+          <span class="mono dim">${w.kind} · ${w.year}</span>
+        </span>
+        <span class="work-card__mark" aria-hidden="true">↗</span>
+      </button>
+      <div class="work-card__detail" id="work-detail-${i}">
+        <h2 class="wk__title">${w.title}</h2>
+        <p class="wk__lede">${w.lede}</p>
+        <a class="wk__fig" href="${w.url}" target="_blank" rel="noopener">
+          ${pic(w.cover, w.coverAlt, i === 0)}
+          <span class="wk__go">Kunjungi <span>↗</span></span>
+        </a>
+        <div class="wk__body">
+          <dl class="wk__facts">
+            ${w.facts.map(f => `<div><dt>${f.k}</dt><dd>${f.v}</dd></div>`).join('')}
+          </dl>
+          <div class="wk__story">
+            ${w.story.map(p => `<p>${p}</p>`).join('')}
+          </div>
+        </div>
       </div>
-    </div>
-    <article class="wk__more rv">
-      <div class="wk__top"><span class="mono">${D.workMore.no}</span><span class="mono dim">${D.workMore.kind} · ${D.workMore.year}</span></div>
-      <h2 class="wk__title">${D.workMore.title}</h2>
-      <p class="wk__lede">${D.workMore.lede}</p>
-      <a class="wk__fig" href="${D.workMore.url}" target="_blank" rel="noopener">
-        ${pic(D.workMore.cover, D.workMore.coverAlt)}
-        <span class="wk__go">Kunjungi <span>↗</span></span>
-      </a>
     </article>`;
+  }
+
+  workEl.innerHTML = works.map(workFull).join('');
+  const workCards = $$('.work-card', workEl);
+  workCards.forEach((card, i) => {
+    const button = $('.work-card__summary', card);
+    button.addEventListener('click', () => {
+      if (card.classList.contains('is-open')) return;
+      workCards.forEach(other => {
+        other.classList.remove('is-open');
+        $('.work-card__summary', other).setAttribute('aria-expanded', 'false');
+      });
+      card.classList.add('is-open');
+      button.setAttribute('aria-expanded', 'true');
+      const sectionBar = $('.sec__bar', card.closest('.sec'));
+      const top = card.getBoundingClientRect().top + scrollY - (sectionBar ? sectionBar.offsetHeight + 18 : 18);
+      setTimeout(() => scrollTo({ top, behavior: reduced ? 'auto' : 'smooth' }), reduced ? 0 : 40);
+    });
+  });
 
   /* ---------- 003 · STUDI — galeri geser ---------- */
   const view  = $('#galView');
