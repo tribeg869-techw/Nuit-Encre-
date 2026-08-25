@@ -593,7 +593,7 @@
 
       const lx = (light.x + gx * .16) * W;
       const ly = (light.y + gy * .1) * H;
-      const reach = S * (reduced ? 1.5 : .72);
+      const reach = S * (reduced ? 1.5 : .95);
       const drift = reduced ? 0 : 1;
 
       ctx.globalCompositeOperation = 'lighter';
