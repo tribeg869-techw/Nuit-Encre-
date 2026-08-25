@@ -99,7 +99,7 @@ Satu halaman, lima bagian:
 |---|---|---|
 | `001` | Pembuka | Wordmark besar, status, jam Jakarta langsung |
 | `002` | Karya | Concept Archive — satu-satunya yang selesai, plus ceritanya |
-| `003` | Studi | 3 studi visual — rencana akhir, kini 2 tayang; galeri geser dengan snap ke tengah |
+| `003` | Studi | 3 studi visual — rencana akhir, seluruhnya tayang; galeri geser dengan snap ke tengah |
 | `004` | Praktik | Dua paragraf posisi |
 | `005` | Kontak | Satu alamat, blok inversi |
 
@@ -292,7 +292,8 @@ orang pertama** atas gambar yang bukan buatannya. Ini garis tegas.
 
 Pemilik situs mendesain sendiri di **aplikasi Canva di ponsel**, kanvas kosong
 tanpa templat. Studi `001 Wordmark / Terpotong` adalah yang pertama diganti;
-`002 Kisi / Dimakan` menyusul (2026-08-25, dari `st-09.png`).
+`002 Kisi / Dimakan` menyusul dari `st-09.png`, lalu `003 Gestur / Bersilang`
+melengkapi rangkaian dari `st-10.png` (2026-08-25).
 
 
 ### Spesifikasi
@@ -473,14 +474,17 @@ Nomor lama 007 (wordmark) kini 001. Semua entri placeholder AI dihapus dari
 `data.js` beserta berkasnya (`st-03` s.d. `st-08`; berkas `st-01` lama diganti
 varian wordmark).
 
+Status akhir: **3/3 studi tayang.**
+
 | No | Judul | Status |
 |---|---|---|
 | 001 | Wordmark / Terpotong | Tayang — diproses dari sumber `st-02-wordmark.png` |
 | 002 | Kisi / Dimakan | Tayang — diproses dari `st-09.png` (diunggah pemilik) |
-| 003 | (karya ketiga) | **Menunggu** `st-10.png` diunggah ke main |
+| 003 | Gestur / Bersilang | Tayang — diproses dari `st-10.png` (diunggah pemilik) |
 
-Kalau `st-10.png` sudah ada: `python3 tools/add-study.py assets/img/st-10.png 3`
-lalu tambah entri `no:'003'` di `data.js` (ikuti pola 001–002).
+Sumber `st-10.png` diproses dengan
+`python3 tools/add-study.py assets/img/st-10.png 3` menjadi pasangan
+`st-03.jpg` + `st-03.webp`; alt dan catatannya disetujui pemilik sebelum tayang.
 
 
 ### Utang kosmetik yang diketahui
