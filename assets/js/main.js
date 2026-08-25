@@ -42,7 +42,16 @@
       <div class="wk__story rv">
         ${w.story.map(p => `<p>${p}</p>`).join('')}
       </div>
-    </div>`;
+    </div>
+    <article class="wk__more rv">
+      <div class="wk__top"><span class="mono">${D.workMore.no}</span><span class="mono dim">${D.workMore.kind} · ${D.workMore.year}</span></div>
+      <h2 class="wk__title">${D.workMore.title}</h2>
+      <p class="wk__lede">${D.workMore.lede}</p>
+      <a class="wk__fig" href="${D.workMore.url}" target="_blank" rel="noopener">
+        ${pic(D.workMore.cover, D.workMore.coverAlt)}
+        <span class="wk__go">Kunjungi <span>↗</span></span>
+      </a>
+    </article>`;
 
   /* ---------- 003 · STUDI — galeri geser ---------- */
   const view  = $('#galView');

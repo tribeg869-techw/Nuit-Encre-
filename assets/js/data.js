@@ -38,6 +38,27 @@ window.NE = {
     ]
   },
 
+  workMore: {
+    no:    '002',
+    title: 'Ink Chaos',
+    kind:  'Texture Study',
+    year:  '2026',
+    url:   'https://ink-chaos.pages.dev/',
+    cover: 'ink-chaos-cover.jpg',
+    coverAlt: 'Komposisi tekstur tinta hitam yang menyiprat dan merembes di atas kertas krem.',
+    lede:  'Kumpulan tekstur tinta manual untuk karya yang lebih berani, kasar, dan tidak terlalu rapi.',
+    facts: [
+      { k: 'Peran',   v: 'Konsep & Desain' },
+      { k: 'Tahun',   v: '2026' },
+      { k: 'Jenis',   v: 'Texture Pack' },
+      { k: 'Status',  v: 'Tayang' }
+    ],
+    story: [
+      'Ink Chaos berangkat dari ketertarikan pada tinta yang tidak bisa sepenuhnya dikendalikan.',
+      'Percikan, rembesan, dan sapuan dibiarkan menyimpan jejak tangan—bukan disamarkan menjadi noise digital.'
+    ]
+  },
+
   /* ---- 003 · STUDI --------------------------------------------------
      Ketuk kartu untuk membuka catatan. Tanpa hover — ramah layar sentuh.
   ------------------------------------------------------------------- */
