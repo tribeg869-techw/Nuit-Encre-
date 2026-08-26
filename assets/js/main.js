@@ -93,8 +93,8 @@
     elBar.style.width = (100 / total) + '%';
     elBar.style.transform = `translateX(${i * 100}%)`;
 
-    bPrev.disabled = i === 0;
-    bNext.disabled = i === total - 1;
+    bPrev.disabled = total < 2;
+    bNext.disabled = total < 2;
   }
 
   // kartu mana yang paling dekat ke tengah jendela
@@ -132,8 +132,9 @@
     requestAnimationFrame(() => { paint(nearest()); raf = false; });
   }, { passive: true });
 
-  bPrev.addEventListener('click', () => goTo(cur - 1));
-  bNext.addEventListener('click', () => goTo(cur + 1));
+  // Loop ringan: tombol panah berputar dari ujung ke awal.
+  bPrev.addEventListener('click', () => goTo(cur > 0 ? cur - 1 : total - 1));
+  bNext.addEventListener('click', () => goTo(cur < total - 1 ? cur + 1 : 0));
 
   // seret dengan mouse — di layar sentuh, biarkan native
   let down = false, sx = 0, sl = 0, far = 0;
