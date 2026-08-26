@@ -121,15 +121,25 @@
     const to  = startOf(c) - (view.clientWidth - c.offsetWidth) / 2;
     view.scrollTo({
       left: Math.max(0, Math.min(max, to)),
-      behavior: reduced ? 'auto' : 'smooth'
+behavior: jumping || reduced ? 'auto' : 'smooth'
     });
   }
 
-  let raf = false;
+  let raf = false, loopTimer = 0, jumping = false;
   view.addEventListener('scroll', () => {
     if (raf) return;
     raf = true;
     requestAnimationFrame(() => { paint(nearest()); raf = false; });
+    clearTimeout(loopTimer);
+    loopTimer = setTimeout(() => {
+      if (jumping || total < 2) return;
+      const i = nearest(), max = view.scrollWidth - view.clientWidth;
+      if (i === total - 1 && view.scrollLeft > max - 8) {
+        jumping = true; goTo(0); setTimeout(() => { jumping = false; }, 80);
+      } else if (i === 0 && view.scrollLeft < 8) {
+        jumping = true; goTo(total - 1); setTimeout(() => { jumping = false; }, 80);
+      }
+    }, reduced ? 0 : 500);
   }, { passive: true });
 
   // Loop ringan: tombol panah berputar dari ujung ke awal.
