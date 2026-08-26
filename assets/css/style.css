@@ -53,7 +53,7 @@
   --ser:'Instrument Serif',Georgia,serif;
 
   --pad:20px;
-  --gs-w:min(calc(100vw - 82px), 420px);
+  --gs-w:min(calc(100vw - 60px), 420px);
   --dock:56px;
   --safe:env(safe-area-inset-bottom,0px);
   --e:cubic-bezier(.22,1,.36,1);
@@ -411,7 +411,7 @@ body.ready .hero__foot{animation:fade .9s var(--e) 1s forwards}
   scroll-snap-align:center;
   /* Galeri akhir hanya tiga kartu: satu gestur berhenti di satu studi,
      supaya urutannya tetap terbaca 001 → 002 → 003. */
-  scroll-snap-stop:always;
+  scroll-snap-stop:normal;
   width:var(--gs-w);
   flex-shrink:0;
 }
