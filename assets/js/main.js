@@ -132,8 +132,15 @@ behavior: jumping || reduced ? 'auto' : 'smooth'
     loopTimer = setTimeout(() => {
       if (jumping || total < 2) return;
       const i = nearest(), max = view.scrollWidth - view.clientWidth;
-      if (i === total + 1 && view.scrollLeft > max - 8) { jumping = true; view.scrollTo({ left: startOf(cards[1]) - (view.clientWidth - cards[1].offsetWidth) / 2, behavior: 'auto' }); setTimeout(() => { jumping = false; }, 80); }
-      else if (i === 0 && view.scrollLeft < 8) { jumping = true; view.scrollTo({ left: startOf(cards[total]) - (view.clientWidth - cards[total].offsetWidth) / 2, behavior: 'auto' }); setTimeout(() => { jumping = false; }, 80); }
+      function normalizeLoop(target) {
+        jumping = true;
+        const old = view.style.scrollBehavior;
+        view.style.scrollBehavior = 'auto';
+        view.scrollTo({ left: startOf(cards[target]) - (view.clientWidth - cards[target].offsetWidth) / 2, behavior: 'auto' });
+        requestAnimationFrame(() => { view.style.scrollBehavior = old; jumping = false; });
+      }
+      if (i === total + 1 && view.scrollLeft > max - 8) normalizeLoop(1);
+      else if (i === 0 && view.scrollLeft < 8) normalizeLoop(total);
     }, reduced ? 0 : 500);
   }, { passive: true });
 
