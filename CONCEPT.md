@@ -570,6 +570,16 @@ drag sudah 35% jarak kartu **atau** lepasan ≥ 0,25 px/ms; drag
 ragu-ragu kembali ke kartu asal. Aturan "satu gestur = maks satu
 kartu" tetap berlaku penuh.
 
+**Luncur menyambung + jalur panas ringan (2026-08-27, final).**
+Permintaan pemilik: "buat smooth gesernya aja." Dua perubahan:
+(1) `tFlingTo` kini Hermite kubik yang **memulai tepat di kecepatan
+jari** (`v0 = -tVel`) dan berakhir 0 — tak ada lompatan kecepatan di
+titik lepas (durasi dari fisika `T = 2D/v0`, dipatok 160–480 ms);
+(2) pusat kartu di-cache di `bounds()` (`tCenters`, dihitung ulang
+hanya saat lebar berubah) sehingga `nearest()`, `tCenter()`,
+`tNearestTo()` di jalur scroll/drag jadi aritmetika murni — nol
+pembacaan layout per gerakan jari.
+
 **Scroll halaman tertahan di atas foto studi (2026-08-27, bug fix).**
 Sentuhan di atas `<img>` bisa memicu drag-gambar native (terutama
 Android) yang memblokir scroll atas-bawah; preventDefault `dragstart`

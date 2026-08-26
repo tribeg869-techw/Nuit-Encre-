@@ -135,6 +135,17 @@
   }
 
   function nearest() {
+    /* cache center (dihitung ulang hanya saat lebar berubah) →
+       jalur panas scroll bebas pembacaan layout = geser mulus */
+    if (tCenters) {
+      const x = view.scrollLeft;
+      let best = 0, gap = Infinity;
+      for (let i = 0; i < tCenters.length; i++) {
+        const d = Math.abs(tCenters[i] - x);
+        if (d < gap) { gap = d; best = i; }
+      }
+      return best;
+    }
     const mid = view.scrollLeft + view.clientWidth / 2;
     let best = 0, gap = Infinity;
     cards.forEach((c, i) => {
@@ -242,14 +253,16 @@
      re-basis terjadi sedini mungkin. Dipanggil tiap frame drag &
      fling; nilai di-cache, dihitung ulang hanya saat lebar
      berubah (resize/rotasi). */
-  let tBounds = null;
+  let tBounds = null, tCenters = null;
   function bounds() {
     const cw = view.clientWidth;
     if (tBounds && tBounds.cw === cw) return tBounds;
     const c = i => startOf(cards[i]) - (cw - cards[i].offsetWidth) / 2;
     const step = c(HOME + 1) - c(HOME);
+    const centers = cards.map((k, i) => c(i));
     tBounds = { cw, step, setW: step * 4,
       top: c(HOME + 3) + step / 2, bottom: c(HOME) - step / 2 };
+    tCenters = centers;
     return tBounds;
   }
   function reanchor() {
@@ -261,31 +274,51 @@
   }
 
   function tCenter(i) {
-    const c = cards[i];
+    bounds();
     return Math.max(0, Math.min(view.scrollWidth - view.clientWidth,
-      startOf(c) - (view.clientWidth - c.offsetWidth) / 2));
+      tCenters[i]));
   }
   function tNearestTo(x) {
+    bounds();
     const mid = x + view.clientWidth / 2;
     let best = 0, g = Infinity;
-    cards.forEach((c, i) => {
-      const d = Math.abs(startOf(c) + c.offsetWidth / 2 - mid);
+    for (let i = 0; i < tCenters.length; i++) {
+      const d = Math.abs(tCenters[i] + view.clientWidth / 2 - mid);
       if (d < g) { g = d; best = i; }
-    });
+    }
     return best;
   }
-  function tFlingTo(target, dur) {
+  function tFlingTo(target, v0) {
     cancelAnimationFrame(tFling);
-    const from = view.scrollLeft, t0 = performance.now();
+    const from = view.scrollLeft;
+    const D = target - from;
+    if (Math.abs(D) < 4) {              // sudah di tempat tujuan
+      tFling = 0;
+      view.classList.remove('drag');
+      clearTimeout(tAutoT);
+      tAutoT = setTimeout(() => { view.style.scrollBehavior = ''; }, 120);
+      return;
+    }
+    const t0 = performance.now();
     view.classList.add('drag');
     view.style.scrollBehavior = 'auto';
-    const ease = p => 1 - Math.pow(1 - p, 3);
+    /* durasi dari fisika (decelerasi konstan: T = 2D/v0), dipatok
+       160–480 ms; lepasan pelan atau lawan arah → tetap 320 ms.
+       Hermite kubik mulai PERSIS di kecepatan jari (v0) dan
+       berakhir 0 — tidak ada lompatan kecepatan di titik lepas,
+       itulah yang membuat luncurnya terasa menyambung & mulus. */
+    const T = (Math.abs(v0) > .05 && Math.sign(v0) === Math.sign(D))
+      ? Math.max(160, Math.min(480, 2 * D / v0)) : 320;
+    const m0 = v0 * T;
     const step = () => {
-      const p = Math.min(1, (performance.now() - t0) / dur);
-      view.scrollLeft = from + (target - from) * ease(p);
+      const s = Math.min(1, (performance.now() - t0) / T);
+      const h00 = 2 * s ** 3 - 3 * s * s + 1;
+      const h10 = s ** 3 - 2 * s * s + s;
+      const h01 = -2 * s ** 3 + 3 * s * s;
+      view.scrollLeft = h00 * from + h10 * m0 + h01 * target;
       const sh = reanchor();
       if (sh) { from += sh; target += sh; }
-      if (p < 1) { tFling = requestAnimationFrame(step); return; }
+      if (s < 1) { tFling = requestAnimationFrame(step); return; }
       tFling = 0;
       view.classList.remove('drag');
       clearTimeout(tAutoT);
@@ -346,8 +379,7 @@
     else idx = tNear0;
     idx = Math.max(0, Math.min(cards.length - 1, idx));
     if (reduced) { goTo(idx); return; }
-    const dur = Math.max(190, Math.min(430, 430 - (Math.abs(tVel) - .2) * 260));
-    tFlingTo(tCenter(idx), dur);
+    tFlingTo(tCenter(idx), -tVel);   // v0 = kecepatan scroll saat lepas
   }
   view.addEventListener('pointerup', tEnd);
   view.addEventListener('pointercancel', tEnd);
