@@ -294,15 +294,18 @@
     if (!tDrag || (e && e.pointerId !== tId)) return;
     tDrag = false;
     if (!tDecided) return;
-    const max = view.scrollWidth - view.clientWidth;
-    const gap = cards[0].offsetWidth + 10;
-    let proj = view.scrollLeft - tVel * 220;     // proyeksi lemparan
-    if (Math.abs(tVel) > .12 && Math.abs(proj - view.scrollLeft) < gap * .5)
-      proj = view.scrollLeft - Math.sign(tVel) * gap * .6;  // minimal selangkah
-    proj = Math.max(0, Math.min(max, proj));
-    const idx = tNearestTo(proj);
+    /* SATU GESTUR = MAKS SATU KARTU (keputusan pemilik 2026-08-25,
+       berlaku lagi setelah proyeksi jarak bebas terbukti membuat
+       fling cepat melintasi 2-4 kartu — bahkan looping penuh
+       kembali ke kartu asal, terasa "pause lama"). Kecepatan jari
+       hanya menentukan durasi luncur, BUKAN jarak. */
+    const near = tNearestTo(view.scrollLeft);
+    let idx = near;
+    if (tVel > .25) idx = Math.max(0, near - 1);                 // sapuan kanan → kartu sebelum
+    else if (tVel < -.25) idx = Math.min(cards.length - 1, near + 1);  // sapuan kiri → kartu sesudah
     if (reduced) { goTo(idx); return; }
-    tFlingTo(tCenter(idx), Math.min(650, 300 + Math.abs(tCenter(idx) - view.scrollLeft) * .35));
+    const dur = Math.max(190, Math.min(430, 430 - (Math.abs(tVel) - .2) * 260));
+    tFlingTo(tCenter(idx), dur);
   }
   view.addEventListener('pointerup', tEnd);
   view.addEventListener('pointercancel', tEnd);

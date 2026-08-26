@@ -538,6 +538,16 @@ dan disengaja tetap berhenti di kartu yang dituju. Kalau pemilik
 menginginkan kembali disiplin satu-kartu, kembalikan
 `scroll-snap-stop:always` — tapi jeda fling cepat akan kembali.
 
+**Aturan sentuh final: satu gestur = maks satu kartu (2026-08-27).**
+Setelah arsitektur sentuh jadi milik kita (di bawah), semantik
+"fling alami boleh dua kartu" **dibatalkan**: proyeksi jarak bebas
+membuat fling cepat melintasi 2–4 kartu — lintasan track persis
+4 kartu, jadi fling kencang bisa looping penuh kembali ke kartu
+asal, terasa "pause lama". Kini kecepatan jari hanya menentukan
+durasi luncur (190–430 ms), jaraknya maksimal satu kartu ke arah
+sapuan. Sapuan pelan yang melewati separuh kartu tetap mendarat di
+kartu yang dituju (via `tNearestTo` posisi lepas).
+
 **Scroll halaman tertahan di atas foto studi (2026-08-27, bug fix).**
 Sentuhan di atas `<img>` bisa memicu drag-gambar native (terutama
 Android) yang memblokir scroll atas-bawah; preventDefault `dragstart`
