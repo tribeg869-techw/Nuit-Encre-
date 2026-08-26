@@ -498,6 +498,9 @@ di-generate AI (1280×800, B&W) sesuai karakter situs
 (https://lexier.pages.dev/ — studio tipografi eksperimental, JKT).
 Grid `002` kini 2 kolom (2 kartu + 1 kartu) — mekanisme scroll
 horizontal yang sudah ada yang mengerjakan, bukan desain baru.
+Keputusan pemilik 2026-08-27: **geser antar kolom membuka kartu
+utamanya otomatis** (kolom 2 → Lexier) via listener scroll di
+`main.js`; ketuk manual tetap akordeon + gulir halus.
 
 
 **Trik mendeteksi berkas biner di Pages:** `fetch_page` mengembalikan **500

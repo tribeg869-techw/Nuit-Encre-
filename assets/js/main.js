@@ -37,14 +37,37 @@
       </div>
     </article>`).join('')}</div>`;
   const workCards = $$('.work-card', workEl);
-  workCards.forEach((card, i) => $('.work-card__summary', card).addEventListener('click', () => {
-    const open = card.classList.contains('is-open');
+  const workGrid = $('.work-grid', workEl);
+
+  /* buka satu kartu (akordeon). withScroll: ketuk manual ikut
+     menggulir halaman; buka lewat geser grid tidak perlu. */
+  function openWork(card, withScroll) {
     workCards.forEach(c => { c.classList.remove('is-open'); $('.work-card__summary', c).setAttribute('aria-expanded', 'false'); });
-    if (open) return;
     card.classList.add('is-open'); $('.work-card__summary', card).setAttribute('aria-expanded', 'true');
+    if (!withScroll) return;
     const sectionBar = $('.sec__bar', card.closest('.sec'));
     setTimeout(() => { const top = card.getBoundingClientRect().top + scrollY - (sectionBar ? sectionBar.offsetHeight + 18 : 18); scrollTo({ top: Math.max(0, top), behavior: reduced ? 'auto' : 'smooth' }); }, reduced ? 0 : 720);
+  }
+
+  workCards.forEach((card) => $('.work-card__summary', card).addEventListener('click', () => {
+    if (card.classList.contains('is-open')) {
+      card.classList.remove('is-open'); $('.work-card__summary', card).setAttribute('aria-expanded', 'false');
+      return;
+    }
+    openWork(card, true);
   }));
+
+  /* geser antar kolom: kolom yang terlihat membuka kartu utamanya
+     (kolom 1 → Concept Archive, kolom 2 → Lexier) — hanya kalau
+     belum ada kartu di kolom itu yang terbuka. */
+  let workPage = 0;
+  workGrid.addEventListener('scroll', () => {
+    const p = workGrid.scrollLeft > workGrid.clientWidth * .5 ? 1 : 0;
+    if (p === workPage) return;
+    workPage = p;
+    const target = workCards[p * 2] || workCards[workCards.length - 1];
+    if (target && !target.classList.contains('is-open')) openWork(target, false);
+  }, { passive: true });
 
   /* ---------- 003 · STUDI — galeri geser ---------- */
   const view  = $('#galView');
