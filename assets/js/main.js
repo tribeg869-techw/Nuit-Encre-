@@ -46,131 +46,24 @@
     setTimeout(() => { const top = card.getBoundingClientRect().top + scrollY - (sectionBar ? sectionBar.offsetHeight + 18 : 18); scrollTo({ top: Math.max(0, top), behavior: reduced ? 'auto' : 'smooth' }); }, reduced ? 0 : 720);
   }));
 
-  /* ---------- 003 · STUDI — galeri geser ---------- */
-  const view  = $('#galView');
-  const track = $('#galTrack');
-  const S = D.studies;
-
-  track.innerHTML = S.map((s, i) => `
-    <figure class="gs${i === 0 ? ' on' : ''}" data-n="${i}">
-      <div class="gs__fig">
-        <span class="gs__i">${s.no}</span>
-        ${pic(s.img, s.alt || s.title)}
-      </div>
-    </figure>`).join('');
-
-  const cards = $$('.gs', track);
-  const total = cards.length;
-  $('#stCount').textContent = String(total).padStart(2, '0');
-
-  const elNo   = $('#galNo');
-  const elTag  = $('#galTag');
-  const elTtl  = $('#galTtl');
-  const elNote = $('#galNote');
-  const elCap  = $('#galCap');
-  const elBar  = $('#galBar');
-  const bPrev  = $('#galPrev');
-  const bNext  = $('#galNext');
-
-  let cur = -1;
-
-  function paint(i) {
-    if (i === cur) return;
-    cur = i;
-    const s = S[i];
-
-    cards.forEach((c, n) => c.classList.toggle('on', n === i));
-
-    elCap.classList.add('sw');
-    setTimeout(() => {
-      elNo.textContent   = s.no;
-      elTag.textContent  = s.tag;
-      elTtl.textContent  = s.title;
-      elNote.textContent = s.note;
-      elCap.classList.remove('sw');
-    }, reduced ? 0 : 150);
-
-    elBar.style.width = (100 / total) + '%';
-    elBar.style.transform = `translateX(${i * 100}%)`;
-
-    bPrev.disabled = total < 2;
-    bNext.disabled = total < 2;
-  }
-
-  // kartu mana yang paling dekat ke tengah jendela
-  // jarak kartu dari tepi kiri isi yang bisa digulir
-  function startOf(c) {
-    return c.getBoundingClientRect().left
-         - view.getBoundingClientRect().left
-         + view.scrollLeft;
-  }
-
-  function nearest() {
-    const mid = view.scrollLeft + view.clientWidth / 2;
-    let best = 0, gap = Infinity;
-    cards.forEach((c, i) => {
-      const d = Math.abs(startOf(c) + c.offsetWidth / 2 - mid);
-      if (d < gap) { gap = d; best = i; }
-    });
-    return best;
-  }
-
-  function goTo(i) {
-    const c = cards[Math.max(0, Math.min(total - 1, i))];
-    const max = view.scrollWidth - view.clientWidth;
-    const to  = startOf(c) - (view.clientWidth - c.offsetWidth) / 2;
-    view.scrollTo({
-      left: Math.max(0, Math.min(max, to)),
-      behavior: reduced ? 'auto' : 'smooth'
-    });
-  }
-
-  let raf = false;
-  view.addEventListener('scroll', () => {
-    if (raf) return;
-    raf = true;
-    requestAnimationFrame(() => { paint(nearest()); raf = false; });
-  }, { passive: true });
-
-  // Loop ringan: tombol panah berputar dari ujung ke awal.
-  bPrev.addEventListener('click', () => goTo(cur > 0 ? cur - 1 : total - 1));
-  bNext.addEventListener('click', () => goTo(cur < total - 1 ? cur + 1 : 0));
-
-  // seret dengan mouse — di layar sentuh, biarkan native
-  let down = false, sx = 0, sl = 0, far = 0;
-  view.addEventListener('dragstart', e => e.preventDefault());
-  view.addEventListener('pointerdown', e => {
-    if (e.pointerType === 'touch' || e.button !== 0) return;
-    down = true; far = 0;
-    sx = e.clientX; sl = view.scrollLeft;
-    view.classList.add('drag');
-    view.setPointerCapture(e.pointerId);
-  });
-  view.addEventListener('pointermove', e => {
-    if (!down) return;
-    const d = e.clientX - sx;
-    far += Math.abs(d);
-    view.scrollLeft = sl - d;
-  });
-  function release() {
-    if (!down) return;
-    down = false;
-    view.classList.remove('drag');
-    goTo(nearest());
-  }
-  view.addEventListener('pointerup', release);
-  view.addEventListener('pointercancel', release);
-
-  // panah kiri / kanan
-  addEventListener('keydown', e => {
-    if (!$('#sheet').hidden) return;
-    const r = $('#s3').getBoundingClientRect();
-    if (r.top > innerHeight * .6 || r.bottom < innerHeight * .4) return;
-    if (e.key === 'ArrowLeft')  { e.preventDefault(); goTo(cur - 1); }
-    if (e.key === 'ArrowRight') { e.preventDefault(); goTo(cur + 1); }
-  });
-
-  paint(0);
+  /* ---------- 003 · STUDI — smooth infinite carousel ---------- */
+  const view=$('#galView'), track=$('#galTrack'), S=D.studies;
+  const makeCard=(s,i)=>`<figure class="gs" data-n="${i}"><div class="gs__fig"><span class="gs__i">${s.no}</span>${pic(s.img,s.alt||s.title)}</div></figure>`;
+  track.innerHTML=makeCard(S[S.length-1],S.length-1)+S.map(makeCard).join('')+makeCard(S[0],0);
+  const cards=$$('.gs',track), total=S.length, elNo=$('#galNo'),elTag=$('#galTag'),elTtl=$('#galTtl'),elNote=$('#galNote'),elCap=$('#galCap'),elBar=$('#galBar');
+  let cur=0, pos=1, startX=0,startPos=0,velocity=0,lastX=0,lastT=0,drag=false,raf=0;
+  $('#stCount').textContent=String(total).padStart(2,'0');
+  function width(){return cards[0].getBoundingClientRect().width+10}
+  function paint(n){const i=(n+total)%total;cur=i;cards.forEach(c=>c.classList.toggle('on',Number(c.dataset.n)===i));elNo.textContent=S[i].no;elTag.textContent=S[i].tag;elTtl.textContent=S[i].title;elNote.textContent=S[i].note;elBar.style.width=100/total+'%';elBar.style.transform=`translateX(${i*100}%)`}
+  function move(animate=true){track.style.transition=animate?'transform .65s cubic-bezier(.22,1,.36,1)':'none';track.style.transform=`translate3d(${-pos*width()+(view.clientWidth-width()+10)/2}px,0,0)`;paint(Number(cards[pos].dataset.n))}
+  function settle(){if(pos===0){pos=total;move(false)}else if(pos===total+1){pos=1;move(false)}paint(Number(cards[pos].dataset.n))}
+  function go(dir){pos+=dir;move(true);setTimeout(settle,680)}
+  $('#galPrev').onclick=()=>go(-1);$('#galNext').onclick=()=>go(1);
+  function down(e){drag=true;startX=lastX=e.clientX;startPos=pos;lastT=performance.now();track.style.transition='none';view.setPointerCapture(e.pointerId)}
+  function moveDrag(e){if(!drag)return;const x=e.clientX,d=x-startX;velocity=(x-lastX)/(performance.now()-lastT);lastX=x;lastT=performance.now();track.style.transform=`translate3d(${-startPos*width()+d+(view.clientWidth-width()+10)/2}px,0,0)`}
+  function up(){if(!drag)return;drag=false;const d=lastX-startX;go(d+velocity*180< -width()/4?1:d+velocity*180>width()/4?-1:0)}
+  view.addEventListener('pointerdown',down);view.addEventListener('pointermove',moveDrag);view.addEventListener('pointerup',up);view.addEventListener('pointercancel',up);
+  addEventListener('resize',()=>move(false));requestAnimationFrame(()=>move(false));
 
   /* ---------- 004 · PRAKTIK ---------- */
   $('#practice').innerHTML = D.practice.map(p => `<p class="rv">${p}</p>`).join('');
