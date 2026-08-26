@@ -225,6 +225,88 @@
   view.addEventListener('pointerup', release);
   view.addEventListener('pointercancel', release);
 
+  /* ---------- sentuh: horizontal fisika sendiri ----------
+     pan-y memberi seluruh scroll vertikal ke halaman (native).
+     Horizontal: drag 1:1, lempar dengan momentum, lalu eased
+     ke pusat kartu terdekat. Menggantikan delegasi gesture
+     peramban (pan-x) yang menelan scroll vertikal. */
+  let tDrag = false, tId = -1, tDecided = false;
+  let tX0 = 0, tY0 = 0, tLastX = 0, tLastT = 0, tVel = 0, tSL0 = 0;
+  let tFling = 0, tAutoT = null;
+
+  function tCenter(i) {
+    const c = cards[i];
+    return Math.max(0, Math.min(view.scrollWidth - view.clientWidth,
+      startOf(c) - (view.clientWidth - c.offsetWidth) / 2));
+  }
+  function tNearestTo(x) {
+    const mid = x + view.clientWidth / 2;
+    let best = 0, g = Infinity;
+    cards.forEach((c, i) => {
+      const d = Math.abs(startOf(c) + c.offsetWidth / 2 - mid);
+      if (d < g) { g = d; best = i; }
+    });
+    return best;
+  }
+  function tFlingTo(target, dur) {
+    cancelAnimationFrame(tFling);
+    const from = view.scrollLeft, t0 = performance.now();
+    view.classList.add('drag');
+    view.style.scrollBehavior = 'auto';
+    const ease = p => 1 - Math.pow(1 - p, 3);
+    const step = () => {
+      const p = Math.min(1, (performance.now() - t0) / dur);
+      view.scrollLeft = from + (target - from) * ease(p);
+      if (p < 1) { tFling = requestAnimationFrame(step); return; }
+      tFling = 0;
+      view.classList.remove('drag');
+      clearTimeout(tAutoT);
+      tAutoT = setTimeout(() => { view.style.scrollBehavior = ''; }, 120);
+    };
+    tFling = requestAnimationFrame(step);
+  }
+
+  view.addEventListener('pointerdown', e => {
+    if (e.pointerType !== 'touch' || e.button !== 0) return;
+    if (tDrag) return;                       // abaikan jari kedua
+    cancelAnimationFrame(tFling); tFling = 0;
+    tDrag = true; tDecided = false; tId = e.pointerId;
+    tX0 = tLastX = e.clientX; tY0 = e.clientY; tSL0 = view.scrollLeft;
+    tLastT = performance.now(); tVel = 0;
+  });
+
+  view.addEventListener('pointermove', e => {
+    if (!tDrag || e.pointerId !== tId) return;
+    const dx = e.clientX - tX0, dy = e.clientY - tY0;
+    if (!tDecided) {
+      if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
+      if (Math.abs(dy) >= Math.abs(dx)) return;   // vertikal: milik halaman
+      tDecided = true;
+      view.classList.add('drag');
+    }
+    const now = performance.now(), dt = now - tLastT;
+    if (dt > 0) { const v = (e.clientX - tLastX) / dt; tVel = .75 * v + .25 * tVel; }
+    tLastX = e.clientX; tLastT = now;
+    view.scrollLeft = tSL0 - dx;
+  });
+
+  function tEnd(e) {
+    if (!tDrag || (e && e.pointerId !== tId)) return;
+    tDrag = false;
+    if (!tDecided) return;
+    const max = view.scrollWidth - view.clientWidth;
+    const gap = cards[0].offsetWidth + 10;
+    let proj = view.scrollLeft - tVel * 220;     // proyeksi lemparan
+    if (Math.abs(tVel) > .12 && Math.abs(proj - view.scrollLeft) < gap * .5)
+      proj = view.scrollLeft - Math.sign(tVel) * gap * .6;  // minimal selangkah
+    proj = Math.max(0, Math.min(max, proj));
+    const idx = tNearestTo(proj);
+    if (reduced) { goTo(idx); return; }
+    tFlingTo(tCenter(idx), Math.min(650, 300 + Math.abs(tCenter(idx) - view.scrollLeft) * .35));
+  }
+  view.addEventListener('pointerup', tEnd);
+  view.addEventListener('pointercancel', tEnd);
+
   // panah kiri / kanan
   addEventListener('keydown', e => {
     if (!$('#sheet').hidden) return;

@@ -509,8 +509,8 @@ lompat balik. Solusi di `main.js`: track berisi tiga salinan set
 kartu di salinan jadi kartu mendarat, scroll digeser **seketikas**
 satu lebar set ke set utama. Piksel identik, jadi loop-nya mulus.
 Tombol panah & keyboard memakai posisi track (`pos`), bukan indeks
-logis. **Jangan "dirapikan" jadi carousel transform** — mekanisme
-scroll-snap native yang memang bekerja.
+logis. Catatan lama "jangan carousel transform" **tidak berlaku
+lagi** — lihat arsitektur sentuh di bawah (2026-08-27).
 
 Perbaikan kedipan & jeda (2026-08-27, final): pemicu lompatan tetap
 **debounce 140ms** setelah scroll terakhir — JANGAN tambah tunda atau
@@ -546,6 +546,23 @@ lama hanya menangkap drag mouse. Perbaikan: `.gs` kini
 touch masuk ke `.gal__view`: horizontal = galeri, vertikal =
 halaman) + `draggable="false"` di semua output `pic()` +
 `-webkit-user-drag:none` global.
+
+**Arsitektur sentuh 003 (2026-08-27, final).** Bug di atas ternyata
+tak cukup: di peramban pemilik, delegasi gesture `touch-action:pan-x`
+menelan scroll vertikal — jari di foto hanya bisa geser kiri-kanan.
+Solusi definitif: `touch-action:pan-y` (vertikal 100% native halaman,
+momentum asli) + **horizontal fisika sendiri** di `main.js` (blok
+"sentuh: horizontal fisika sendiri"): drag 1:1 dengan ambang 8px,
+kecepatan dari sampel pointermove, lalu eased ke pusat kartu
+terdekat (300–650ms, easeOutCubic; minimal selangkah untuk sapuan
+pelan). Kelas `.drag` menonaktifkan snap native selama drag/lempar;
+posisi akhir persis di pusat kartu sehingga snap tak melakukan apa
+apa. Loop, settle, preload, tombol, dan keyboard memakai jalur yang
+sama (scroll event) — tak berubah. Konsekuensi: tidak ada lagi
+koreksi snap peramban → jeda fling cepat hilang secara struktural.
+**Jangan kembalikan `touch-action:pan-x` + scroll native untuk
+sentuhan** — itu rute yang sudah tiga kali gagal di perangkat
+pemilik.
 
 
 **Trik mendeteksi berkas biner di Pages:** `fetch_page` mengembalikan **500
