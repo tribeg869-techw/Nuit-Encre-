@@ -83,7 +83,6 @@
   track.innerHTML = [0, 1, 2].map(set => S.map((s, i) => `
     <figure class="gs"${set === 1 ? '' : ' aria-hidden="true"'} data-n="${i}">
       <div class="gs__fig">
-        <span class="gs__i">${s.no}</span>
         ${pic(s.img, s.alt || s.title)}
       </div>
     </figure>`).join('')).join('');

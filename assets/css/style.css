@@ -424,12 +424,6 @@ body.ready .hero__foot{animation:fade .9s var(--e) 1s forwards}
 .gs.on .gs__fig{border-color:var(--line2)}
 .gs.on .gs__fig img{filter:grayscale(1) brightness(1) contrast(1.02);transform:scale(1)}
 
-.gs__i{
-  position:absolute;top:0;left:0;z-index:2;
-  background:var(--pure);color:var(--void);
-  font-family:var(--mono);font-size:10px;letter-spacing:.14em;
-  padding:6px 9px;
-}
 
 /* keterangan */
 .gal__cap{

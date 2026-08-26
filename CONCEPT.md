@@ -618,7 +618,18 @@ Status akhir: **5/5 studi tayang.**
 | 002 | Kisi / Dimakan | Tayang — diproses dari `st-09.png` (diunggah pemilik) |
 | 003 | Gestur / Bersilang | Tayang — diproses dari `st-10.png` (diunggah pemilik) |
 | 004 | Ink Chaos / Simetri | Tayang — ditambahkan lewat PR #7; pasangan `st-04.jpg`/`.webp` diproses ulang 2026-08-27 via `tools/add-study.py` dari `st-04.png` |
-| 005 | Poster / Kosong | Tayang (2026-08-27) — poster studio Lexier; diproses via `tools/add-study.py` dari `st-05.png` (unggah pemilik). Peringatan zona lencana diabaikan: kiri atas memang kertas terang + logo LEXIER, dan menyatunya lencana putih sudah disetujui (audit 2026-08-25). Carousel transform adaptif otomatis: 3×5=15 kartu, rebase ±5, counter `05`. |
+| 005 | Poster / Kosong | Tayang (2026-08-27) — poster studio Lexier; diproses via `tools/add-study.py` dari `st-05.png` (unggah pemilik). Peringatan zona lencana tak relevan lagi (lencana dihapus, lihat bawah). Carousel transform adaptif otomatis: 3×5=15 kartu, rebase ±5, counter `05`. |
+
+**Lencana nomor kartu dihapus (2026-08-27, keputusan pemilik).**
+Pemilik bertanya: lencana putih `.gs__i` cocok nggak, soalnya nomor
+sudah ada di atas? Kesepakatan: redundan — angka besar + tag di
+atas adalah penanda yang bekerja; lencana adalah elemen lebih
+lemah dan canggung di kartu latar terang (poster Lexier). Opsi C
+dipilih: lencana **dibuang total** (span di template track +
+aturan CSS). Identitas kartu sekarang sepenuhnya dari angka besar,
+tag, dan caption. Catatan audit 2026-08-25 tentang tepi lencana
+berlaku-sejarah; peringatan zona lencana di `tools/add-study.py`
+tetap berjalan sebagai saran saja.
 
 Sumber `st-10.png` diproses dengan
 `python3 tools/add-study.py assets/img/st-10.png 3` menjadi pasangan
