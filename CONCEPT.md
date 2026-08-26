@@ -571,7 +571,31 @@ membuat smooth infinite looping.* Hasilnya:
 **Jangan membangun kembali fisika sentuh buatan** kecuali diminta
 pemilik secara eksplisit; rute `pan-y` + JS sudah tiga kali gagal
 di perangkat pemilik, rute `pan-x` saja menelan scroll vertikal.
+(Sudah digantikan — lihat "Carousel transform" di bawah.)
 
+**Carousel transform (2026-08-27, final 2 — disetujui pemilik).**
+Pemilik mengizinkan penulisan ulang dengan metode transform
+(temuan dari benchmarking huyml.co/Framer: mereka tidak pernah
+memakai mesin scroll peramban — track digerakkan
+`transform: translate3d` di kompositor). Arsitektur:
+- `.gal__view` bukan scroll container lagi (`overflow:hidden`,
+  `touch-action:pan-y`); `.gal__track` `will-change:transform`.
+- `gIdx` = indeks kartu float; `gApply()` = translate3d;
+  `gMeasure()` ulang saat resize.
+- Drag 1:1 via pointer events (sentuh & mouse satu jalur, pointer
+  capture; ambang 8px; vertikal = milik halaman). Lepas →
+  `gAnimate()`: Hermite menyambung kecepatan jari (≥ 0,3 px/ms)
+  atau kick ease-out; lantai kecepatan 500 px/s; commit 35% atau
+  0,25 px/ms, maks satu kartu.
+- `gRebase()`: begitu pusat viewport melewati celah wrap, rebase
+  ±4 kartu (piksel identik, track periodik) — wilayah salinan
+  dingin tak pernah terlihat > separuh kartu.
+- **Jaminan struktural**: keadaan istirahat selalu persis pusat
+  kartu (gIdx integer) — "stuck di celah" tak mungkin.
+- Tombol/keyboard = `gGo(±1)`; wheel hanya horizontal (vertikal
+  = halaman); reduced motion = lompat seketika.
+- `startOf`/`nearest`/`goTo`/`settle`/scroll-listener galeri
+  **lenyap**. Revert satu langkah via git bila diminta.
 
 
 **Trik mendeteksi berkas biner di Pages:** `fetch_page` mengembalikan **500

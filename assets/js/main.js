@@ -75,8 +75,8 @@
   const S = D.studies;
 
   /* Loop tak berujung: tiga salinan set bersebelahan
-     [salinan][utama][salinan]. Mendarat di salinan → scroll digeser
-     seketikas satu lebar set ke set utama; piksel identik, loop mulus. */
+     [salinan][utama][salinan]. Rebase ±satu set (piksel identik,
+     track periodik) menjaga viewport di set utama — loop mulus. */
   const total = S.length;
   const HOME = total;  // set utama mulai di indeks ini
 
@@ -100,7 +100,7 @@
   const bPrev  = $('#galPrev');
   const bNext  = $('#galNext');
 
-  let cur = -1, pos = HOME, wrapT = null, wrapLock = 0;
+  let cur = -1;
 
   function paint(i) {
     if (i === cur) return;
@@ -126,124 +126,172 @@
     bNext.disabled = total < 2;
   }
 
-  // kartu mana yang paling dekat ke tengah jendela
-  // jarak kartu dari tepi kiri isi yang bisa digulir
-  function startOf(c) {
-    return c.getBoundingClientRect().left
-         - view.getBoundingClientRect().left
-         + view.scrollLeft;
+  /* ---------- carousel transform (2026-08-27, final) ----------
+     Keputusan pemilik: berhenti bertikai dengan mesin scroll
+     peramban (snap + lompatan settle = biang "pause 004→001").
+     Track digerakkan transform:translate3d — murni kompositor.
+     Wrap = rebase ±4 kartu (piksel identik) saat posisi diam;
+     keadaan istirahat SELALU persis di pusat kartu, jadi "stuck
+     di celah" tak mungkin lagi. Geser 1:1; lepasan dianimasikan
+     menyambung kecepatan jari (Hermite) atau kick ease-out. */
+  let gIdx = HOME;               // indeks kartu (float saat drag)
+  let gAnim = 0;                 // rAF animasi
+  let gDragging = false, gId = -1, gDecided = false;
+  let gX0 = 0, gY0 = 0, gIdx0 = HOME, gLastX = 0, gLastT = 0, gVel = 0;
+  let gStep = 0, gViewW = 0, gCardW = 0;
+  let gWheelLock = 0;
+
+  function gMeasure() {
+    gViewW = view.clientWidth;
+    gCardW = cards[0].offsetWidth;
+    gStep = cards[1].offsetLeft - cards[0].offsetLeft;
+  }
+  function gApply() {
+    track.style.transform =
+      'translate3d(' + (gViewW / 2 - (gIdx * gStep + gCardW / 2)) + 'px,0,0)';
+  }
+  /* viewport dijaga di sekitar set utama: begitu pusat melewati
+     celah wrap, rebase ±4 kartu (piksel identik, track periodik).
+     Wilayah salinan dingin tak pernah terlihat > separuh kartu. */
+  function gRebase() {
+    let sh = 0;
+    while (gIdx > HOME + total - .5) { gIdx -= total; sh -= total; }
+    while (gIdx < HOME - .5)         { gIdx += total; sh += total; }
+    return sh;
   }
 
-  function nearest() {
-    const mid = view.scrollLeft + view.clientWidth / 2;
-    let best = 0, gap = Infinity;
-    cards.forEach((c, i) => {
-      const d = Math.abs(startOf(c) + c.offsetWidth / 2 - mid);
-      if (d < gap) { gap = d; best = i; }
-    });
-    return best;
+  function gAnimate(to, v0px) {
+    cancelAnimationFrame(gAnim);
+    let from = gIdx;
+    const D = to - from;
+    if (Math.abs(D) * gStep < 2) {
+      gAnim = 0; gIdx = to; gRebase(); gApply();
+      paint(Math.round(gIdx) % total);
+      return;
+    }
+    const v0 = v0px / gStep;                    // kartu/ms
+    /* LANTAI KECEPATAN: kartu tak boleh merayap (>=500 px/dtk).
+       Momentum nyata (>= 0,3 px/ms) → Hermite menyambung
+       kecepatan jari persis; lepasan mati → ease-out (kick). */
+    const fast = Math.abs(v0px) > .3;
+    const tCap = Math.max(160, Math.min(480, Math.abs(D) * gStep / .5));
+    const T = (fast && Math.sign(v0) === Math.sign(D))
+      ? Math.max(160, Math.min(tCap, 2 * D / v0)) : tCap;
+    const m0 = fast ? v0 * T : 0;
+    const t0 = performance.now();
+    const step = () => {
+      const s = Math.min(1, (performance.now() - t0) / T);
+      let x;
+      if (fast) {
+        const h00 = 2 * s ** 3 - 3 * s * s + 1;
+        const h10 = s ** 3 - 2 * s * s + s;
+        const h01 = -2 * s ** 3 + 3 * s * s;
+        x = h00 * from + h10 * m0 + h01 * to;
+      } else {
+        x = from + D * (1 - Math.pow(1 - s, 3));
+      }
+      gIdx = x;
+      const sh = gRebase();
+      if (sh) { from += sh; to += sh; }
+      gApply();
+      paint(Math.round(gIdx) % total);
+      if (s < 1) { gAnim = requestAnimationFrame(step); return; }
+      gAnim = 0;
+    };
+    gAnim = requestAnimationFrame(step);
   }
 
-  function goTo(t) {
-    const c = cards[Math.max(0, Math.min(cards.length - 1, t))];
-    const max = view.scrollWidth - view.clientWidth;
-    const to  = startOf(c) - (view.clientWidth - c.offsetWidth) / 2;
-    view.scrollTo({
-      left: Math.max(0, Math.min(max, to)),
-      behavior: reduced ? 'auto' : 'smooth'
-    });
+  function gGo(dir) {
+    const to = Math.round(gIdx) + dir;
+    if (reduced) {
+      gIdx = to; gRebase(); gApply();
+      paint(Math.round(gIdx) % total);
+      return;
+    }
+    gAnimate(to, 0);
   }
 
-  /* rawat posisi: mendarat di salinan → geser seketikas satu lebar set
-     ke set utama. Debounce 140ms setelah scroll terakhir. JANGAN
-     tambah tunda/guard ekstra (setiap tunda tambahan terasa jeda)
-     dan JANGAN pindah ke pemicu scrollend (meledak di tengah fling,
-     saat koreksi snap pertama — sudah dicoba, terasa jeda). Track
-     periodik, jadi lompatan di offset mana pun identik pikselnya.
-     Pasca-lompatan, scroll-behavior dipaksa 'auto' 350ms supaya
-     koreksi snap pasca-lompatan (bila ada) instan, tak beranimasi. */
-  let autoT = null;
+  /* tombol panah — mengikuti indeks saat ini; dari kartu terakhir
+     "berikutnya" memang melanjutkan ke kanan (loop) */
+  bPrev.addEventListener('click', () => gGo(-1));
+  bNext.addEventListener('click', () => gGo(1));
 
-  function settle() {
-    if (performance.now() < wrapLock) return;
-    const t = nearest();
-    if (t >= HOME && t < HOME + total) return;
-    const to = t < HOME ? t + total : t - total;
-    view.style.scrollBehavior = 'auto';
-    view.scrollLeft = Math.round(startOf(cards[to]) - (view.clientWidth - cards[to].offsetWidth) / 2);
-    void view.offsetWidth;
-    clearTimeout(autoT);
-    autoT = setTimeout(() => { view.style.scrollBehavior = ''; }, 350);
-    wrapLock = performance.now() + 300;
-  }
-
-  let raf = false;
-  view.addEventListener('scroll', () => {
-    if (raf) return;
-    raf = true;
-    requestAnimationFrame(() => {
-      raf = false;
-      pos = nearest();
-      paint(pos % total);
-      clearTimeout(wrapT);
-      wrapT = setTimeout(settle, 140);
-    });
-  }, { passive: true });
-
-  view.addEventListener('pointerdown', () => {
-    clearTimeout(wrapT);
-  }, { passive: true });
-
-  /* tombol panah — mengikuti posisi track, bukan indeks logis,
-     supaya dari kartu terakhir "berikutnya" memang melanjutkan
-     ke kanan (dan sebaliknya), sesuai loop-nya */
-  bPrev.addEventListener('click', () => goTo(pos - 1));
-  bNext.addEventListener('click', () => goTo(pos + 1));
-
-  // seret dengan mouse — di layar sentuh, biarkan native
-  let down = false, sx = 0, sl = 0, far = 0;
+  /* drag — sentuh & mouse satu jalur. Horizontal = kita; vertikal
+     = halaman (touch-action:pan-y). Pointer capture menjamin
+     pointerup selalu sampai walau jari keluar area. */
   view.addEventListener('dragstart', e => e.preventDefault());
   view.addEventListener('pointerdown', e => {
-    if (e.pointerType === 'touch' || e.button !== 0) return;
-    down = true; far = 0;
-    sx = e.clientX; sl = view.scrollLeft;
-    view.classList.add('drag');
-    view.setPointerCapture(e.pointerId);
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    if (gDragging) return;                       // abaikan jari kedua
+    cancelAnimationFrame(gAnim); gAnim = 0;
+    gDragging = true; gDecided = false; gId = e.pointerId;
+    gX0 = gLastX = e.clientX; gY0 = e.clientY;
+    gIdx0 = gIdx; gLastT = performance.now(); gVel = 0;
+    try { view.setPointerCapture(e.pointerId); } catch (_) {}
   });
   view.addEventListener('pointermove', e => {
-    if (!down) return;
-    const d = e.clientX - sx;
-    far += Math.abs(d);
-    view.scrollLeft = sl - d;
+    if (!gDragging || e.pointerId !== gId) return;
+    const dx = e.clientX - gX0, dy = e.clientY - gY0;
+    if (!gDecided) {
+      if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
+      if (Math.abs(dy) >= Math.abs(dx)) { gDragging = false; return; }
+      gDecided = true;
+      view.classList.add('drag');
+    }
+    const now = performance.now(), dt = now - gLastT;
+    if (dt > 0) gVel = .75 * (e.clientX - gLastX) / dt + .25 * gVel;
+    gLastX = e.clientX; gLastT = now;
+    gIdx = gIdx0 - dx / gStep;
+    const sh = gRebase();
+    if (sh) gIdx0 += sh;
+    gApply();
+    paint(Math.round(gIdx) % total);
   });
-  function release() {
-    if (!down) return;
-    down = false;
+  function gEnd(e) {
+    if (!gDragging || (e && e.pointerId !== gId)) return;
+    gDragging = false;
     view.classList.remove('drag');
-    goTo(nearest());
+    if (!gDecided) return;
+    /* SATU GESTUR = MAKS SATU KARTU: commit bila drag sudah 35%
+       jarak kartu ATAU lepasan >= 0,25 px/ms; ragu-ragu → kembali. */
+    const start = Math.round(gIdx0);
+    const d = gIdx - gIdx0;
+    const dir = d > 0 ? 1 : -1;
+    const idx = (Math.abs(d) > .35 || Math.abs(gVel) > .25)
+      ? start + dir : start;
+    if (reduced) { gIdx = idx; gRebase(); gApply(); paint(idx % total); return; }
+    gAnimate(idx, -gVel);
   }
-  view.addEventListener('pointerup', release);
-  view.addEventListener('pointercancel', release);
+  view.addEventListener('pointerup', gEnd);
+  view.addEventListener('pointercancel', gEnd);
+
+  /* roda horizontal (trackpad) — satu langkah per gestur,
+     cooldown 350ms. Roda vertikal TIDAK disentuh: halaman
+     yang digulir, bukan galeri. */
+  view.addEventListener('wheel', e => {
+    if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+    if (Math.abs(e.deltaX) < 10 || performance.now() < gWheelLock) return;
+    gWheelLock = performance.now() + 350;
+    gGo(e.deltaX > 0 ? 1 : -1);
+  }, { passive: true });
 
   // panah kiri / kanan
   addEventListener('keydown', e => {
     if (!$('#sheet').hidden) return;
     const r = $('#s3').getBoundingClientRect();
     if (r.top > innerHeight * .6 || r.bottom < innerHeight * .4) return;
-    if (e.key === 'ArrowLeft')  { e.preventDefault(); goTo(pos - 1); }
-    if (e.key === 'ArrowRight') { e.preventDefault(); goTo(pos + 1); }
+    if (e.key === 'ArrowLeft')  { e.preventDefault(); gGo(-1); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); gGo(1); }
   });
 
   paint(0);
 
-  /* mulai di set utama, kartu pertama di tengah — seketikas,
-     tanpa animasi gulir saat halaman dibuka */
-  requestAnimationFrame(() => {
-    view.style.scrollBehavior = 'auto';
-    view.scrollLeft = Math.round(startOf(cards[HOME]) - (view.clientWidth - cards[HOME].offsetWidth) / 2);
-    void view.offsetWidth;
-    view.style.scrollBehavior = '';
-  });
+  /* mulai di set utama, kartu pertama di tengah — sinkron sebelum
+     frame pertama, tanpa animasi */
+  gMeasure();
+  gIdx = HOME;
+  gApply();
+  addEventListener('resize', () => { gMeasure(); gApply(); }, { passive: true });
 
   /* gambar salinan dimuat begitu bagian 003 terlihat — tanpa ini,
      wrap pertama bisa kedip karena <img> salinan masih lazy-load */

@@ -385,33 +385,24 @@ body.ready .hero__foot{animation:fade .9s var(--e) 1s forwards}
 /* jendela geser */
 .gal__view{
   position:relative;
-  overflow-x:auto;overflow-y:hidden;
-  scroll-snap-type:x mandatory;scroll-behavior:smooth;
-  /* Horizontal =_NATIVE_ peramban (momentum & snap asli — rasa
-     loop original yang diminta balik oleh pemilik, 2026-08-27).
-     pan-y tetap ikut: scroll vertikal halaman jalan walau jari
-     di atas foto (pan-x saja menelannya — bug 2026-08-27). */
-  -webkit-overflow-scrolling:touch;touch-action:pan-x pan-y;overscroll-behavior-x:contain;
-  scrollbar-width:none;-ms-overflow-style:none;
+  overflow:hidden;
+  /* CAROUSEL TRANSFORM (2026-08-27, final): bukan scroll container
+     lagi — track digerakkan main.js via transform:translate3d
+     (kompositor/GPU). Horizontal = kita, vertikal = halaman
+     (pan-y native). Tidak ada mesin snap/scroll untuk dilawan. */
+  touch-action:pan-y;
   cursor:grab;
 }
-.gal__view::-webkit-scrollbar{display:none}
-.gal__view.drag{cursor:grabbing;scroll-snap-type:none}
+.gal__view.drag{cursor:grabbing}
 .gal__track{
   display:flex;gap:10px;
   width:max-content;
-  /* Gunakan lebar kontainer akhir (maks. 1400px), bukan 100vw mentah.
-     Di monitor ultra-lebar kartu ujung tetap tepat di pusat bagian. */
-  padding-inline:max(var(--pad), calc((min(100vw, 1400px) - var(--gs-w)) / 2));
+  /* Pusat kartu di-jaga main.js lewat translate — lebar viewport
+     berapa pun (termasuk ultra-lebar), kartu tetap di tengah. */
+  will-change:transform;
 }
 
 .gs{
-  scroll-snap-align:center;
-  /* JANGAN menambah scroll-snap-stop:always — fling cepat akan
-     menerbangkan kartu lalu ditarik kembali peramban (slide-back
-     terlihat = jeda). Tanpa stop, fling cepat meluncur alami:
-     mendarat di kartu berikutnya, atau melangkah dua kartu bila
-     memang secepat itu. Sapuan pelan tak berubah. (2026-08-27) */
   width:var(--gs-w);
   flex-shrink:0;
   /* kartu tidak menangkap sentuhan — seluruh touch masuk ke
