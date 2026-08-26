@@ -527,6 +527,17 @@ Bonus: loop kanvas void kini **berhenti saat hero tak terlihat**
 (IntersectionObserver di `#void`) — hemat baterai dan mengurangi
 perebutan main-thread saat geser di bagian lain.
 
+**Pencabutan `scroll-snap-stop:always` (2026-08-27, final).**
+Keputusan 2026-08-25 ("satu gestur berhenti di satu kartu") ternyata
+sumber jeda fling cepat: momentum menerbangkan kartu melewati clone
+pertama, lalu peramban menariknya kembali dengan slide yang terlihat.
+Dengan `mandatory` saja, fling cepat meluncur alami — mendarat di
+kartu berikutnya, atau melangkah dua kartu kalau memang secepat itu
+(semantik carousel wajar; acuan huyml.co pun begini). Sapuan pelan
+dan disengaja tetap berhenti di kartu yang dituju. Kalau pemilik
+menginginkan kembali disiplin satu-kartu, kembalikan
+`scroll-snap-stop:always` — tapi jeda fling cepat akan kembali.
+
 
 **Trik mendeteksi berkas biner di Pages:** `fetch_page` mengembalikan **500
 kalau berkasnya ada** (alatnya gagal membaca biner) dan **halaman 404** kalau

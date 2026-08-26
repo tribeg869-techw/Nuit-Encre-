@@ -403,9 +403,11 @@ body.ready .hero__foot{animation:fade .9s var(--e) 1s forwards}
 
 .gs{
   scroll-snap-align:center;
-  /* Galeri akhir hanya tiga kartu: satu gestur berhenti di satu studi,
-     supaya urutannya tetap terbaca 001 → 002 → 003. */
-  scroll-snap-stop:always;
+  /* JANGAN menambah scroll-snap-stop:always — fling cepat akan
+     menerbangkan kartu lalu ditarik kembali peramban (slide-back
+     terlihat = jeda). Tanpa stop, fling cepat meluncur alami:
+     mendarat di kartu berikutnya, atau melangkah dua kartu bila
+     memang secepat itu. Sapuan pelan tak berubah. (2026-08-27) */
   width:var(--gs-w);
   flex-shrink:0;
 }
