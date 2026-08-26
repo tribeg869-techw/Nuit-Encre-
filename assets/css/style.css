@@ -53,7 +53,7 @@
   --ser:'Instrument Serif',Georgia,serif;
 
   --pad:20px;
-  --gs-w:min(calc(100vw - 82px), 420px);
+  --gs-w:min(calc(100vw - 128px), 340px);
   --dock:56px;
   --safe:env(safe-area-inset-bottom,0px);
   --e:cubic-bezier(.22,1,.36,1);

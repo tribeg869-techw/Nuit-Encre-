@@ -134,8 +134,14 @@ behavior: jumping || reduced ? 'auto' : 'smooth'
   }, { passive: true });
 
   // Loop ringan: tombol panah berputar dari ujung ke awal.
-  bPrev.addEventListener('click', () => goTo(cur > 0 ? cur - 1 : total - 1));
-  bNext.addEventListener('click', () => goTo(cur < total - 1 ? cur + 1 : 0));
+  bPrev.addEventListener('click', () => {
+    if (cur === 0) { jumping = false; view.scrollTo({ left: startOf(cards[0]) - (view.clientWidth - cards[0].offsetWidth) / 2, behavior: reduced ? 'auto' : 'smooth' }); }
+    else goTo(cur - 1);
+  });
+  bNext.addEventListener('click', () => {
+    if (cur === total - 1) { jumping = false; view.scrollTo({ left: startOf(cards[total + 1]) - (view.clientWidth - cards[total + 1].offsetWidth) / 2, behavior: reduced ? 'auto' : 'smooth' }); }
+    else goTo(cur + 1);
+  });
 
   // seret dengan mouse — di layar sentuh, biarkan native
   let down = false, sx = 0, sl = 0, far = 0;
