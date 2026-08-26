@@ -55,9 +55,10 @@
   let pos=1,cur=0,drag=false,startX=0,startPx=0,velocity=0,lastX=0,lastT=0;
   const step=()=>cards[0].getBoundingClientRect().width+10;
   function paint(i){cur=(i+total)%total; cards.forEach(c=>c.classList.toggle('on',Number(c.dataset.n)===cur)); no.textContent=S[cur].no;tag.textContent=S[cur].tag;ttl.textContent=S[cur].title;note.textContent=S[cur].note;bar.style.width=100/total+'%';bar.style.transform=`translateX(${cur*100}%)`;}
-  function render(animate=true,delta=0){track.style.transition=animate?'transform .7s cubic-bezier(.22,1,.36,1)':'none';track.style.transform=`translate3d(${(view.clientWidth-step()+10)/2-pos*step()+delta}px,0,0)`;paint(Number(cards[pos].dataset.n));}
+  function render(animate=true,delta=0){track.style.transition=animate?'transform .7s cubic-bezier(.22,1,.36,1)':'none';track.style.transform=`translate3d(${(view.clientWidth-cards[0].getBoundingClientRect().width)/2-pos*step()+delta}px,0,0)`;paint(Number(cards[pos].dataset.n));}
   function normalize(){if(pos===0){pos=total;render(false)}else if(pos===total+1){pos=1;render(false)}}
-  function go(d){if(!d)return;pos+=d;render(true);setTimeout(normalize,720)}
+  function go(d){pos+=d;render(true)}
+  track.addEventListener('transitionend',e=>{if(e.propertyName==='transform')normalize()});
   $('#galPrev').onclick=()=>go(-1);$('#galNext').onclick=()=>go(1);
   view.addEventListener('pointerdown',e=>{drag=true;startX=lastX=e.clientX;startPx=0;velocity=0;lastT=performance.now();track.style.transition='none';view.setPointerCapture(e.pointerId)});
   view.addEventListener('pointermove',e=>{if(!drag)return;const now=performance.now(),d=e.clientX-startX;startX=e.clientX;velocity=(e.clientX-lastX)/Math.max(1,now-lastT);lastX=e.clientX;lastT=now;startPx+=d;track.style.transform=`translate3d(${(view.clientWidth-step()+10)/2-pos*step()+startPx}px,0,0)`});
