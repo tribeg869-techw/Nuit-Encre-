@@ -100,7 +100,7 @@
   const bPrev  = $('#galPrev');
   const bNext  = $('#galNext');
 
-  let cur = -1, pos = HOME, wrapT = null;
+  let cur = -1, pos = HOME, wrapT = null, wrapLock = 0;
 
   function paint(i) {
     if (i === cur) return;
@@ -155,16 +155,32 @@
   }
 
   /* rawat posisi: mendarat di salinan → geser seketikas satu lebar set
-     ke set utama. Dipicu 140ms setelah scroll terakhir (snap sudah
-     beres) dan dibatalkan kalau jari menyentuh lagi lebih dulu. */
+     ke set utama. Pemicu utamanya 'scrollend' — sinyal resmi bahwa
+     inersia + snap benar-benar berhenti, penting untuk geser cepat di
+     mana debounce waktu bisa meledak di tengah jalan. Debounce 140ms
+     hanya cadangan bila scrollend tak didukung. Kunci 300ms setelah
+     lompatan mencegah pelatiran ganda dalam satu gestur. */
+  const hasScrollEnd = 'onscrollend' in window;
+  let endT = null;
+
   function settle() {
+    if (performance.now() < wrapLock) return;
+    clearTimeout(endT);
     const t = nearest();
     if (t >= HOME && t < HOME + total) return;
     const to = t < HOME ? t + total : t - total;
     view.style.scrollBehavior = 'auto';
-    view.scrollLeft = startOf(cards[to]) - (view.clientWidth - cards[to].offsetWidth) / 2;
+    view.scrollLeft = Math.round(startOf(cards[to]) - (view.clientWidth - cards[to].offsetWidth) / 2);
     void view.offsetWidth;
     view.style.scrollBehavior = '';
+    wrapLock = performance.now() + 300;
+  }
+
+  function queueSettle() {
+    clearTimeout(wrapT);
+    clearTimeout(endT);
+    if (hasScrollEnd) endT = setTimeout(settle, 800);
+    else wrapT = setTimeout(settle, 140);
   }
 
   let raf = false;
@@ -175,13 +191,15 @@
       raf = false;
       pos = nearest();
       paint(pos % total);
-      clearTimeout(wrapT);
-      wrapT = setTimeout(settle, 140);
+      queueSettle();
     });
   }, { passive: true });
 
+  view.addEventListener('scrollend', settle, { passive: true });
+
   view.addEventListener('pointerdown', () => {
-    if (wrapT) { clearTimeout(wrapT); wrapT = null; }
+    clearTimeout(wrapT);
+    clearTimeout(endT);
   }, { passive: true });
 
   /* tombol panah — mengikuti posisi track, bukan indeks logis,
@@ -230,10 +248,27 @@
      tanpa animasi gulir saat halaman dibuka */
   requestAnimationFrame(() => {
     view.style.scrollBehavior = 'auto';
-    view.scrollLeft = startOf(cards[HOME]) - (view.clientWidth - cards[HOME].offsetWidth) / 2;
+    view.scrollLeft = Math.round(startOf(cards[HOME]) - (view.clientWidth - cards[HOME].offsetWidth) / 2);
     void view.offsetWidth;
     view.style.scrollBehavior = '';
   });
+
+  /* gambar salinan dimuat begitu bagian 003 terlihat — tanpa ini,
+     wrap pertama bisa kedip karena <img> salinan masih lazy-load */
+  if ('IntersectionObserver' in window) {
+    const preo = new IntersectionObserver(es => {
+      es.forEach(e => {
+        if (!e.isIntersecting) return;
+        preo.disconnect();
+        S.forEach(st => {
+          const file = /\.[a-z0-9]{2,4}$/i.test(st.img);
+          (new Image()).src = 'assets/img/' + (file ? st.img : st.img + '.webp');
+          if (!file) (new Image()).src = 'assets/img/' + st.img + '.jpg';
+        });
+      });
+    });
+    preo.observe($('#s3'));
+  }
 
   /* ---------- 004 · PRAKTIK ---------- */
   $('#practice').innerHTML = D.practice.map(p => `<p class="rv">${p}</p>`).join('');

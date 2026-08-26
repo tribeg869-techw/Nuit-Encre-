@@ -507,11 +507,17 @@ geser dari kartu terakhir harusnya melanjutkan ke pertama tanpa
 lompat balik. Solusi di `main.js`: track berisi tiga salinan set
 `[salinan][utama][salinan]` (salinan non-utama `aria-hidden`); saat
 kartu di salinan jadi kartu mendarat, scroll digeser **seketikas**
-satu lebar set ke set utama 140ms setelah scroll terakhir (debounce
-`settle()`; dibatalkan bila jari menyentuh lagi). Piksel identik,
-jadi loop-nya mulus. Tombol panah & keyboard memakai posisi track
-(`pos`), bukan indeks logis. Jangan "dirapikan" jadi carousel
-transform — mekanisme scroll-snap native yang memang bekerja.
+satu lebar set ke set utama. Piksel identik, jadi loop-nya mulus.
+Tombol panah & keyboard memakai posisi track (`pos`), bukan indeks
+logis. **Jangan "dirapikan" jadi carousel transform** — mekanisme
+scroll-snap native yang memang bekerja.
+
+Perbaikan kedipan geser cepat (2026-08-27): lompatan wrap kini
+dipicu `scrollend` (sinyal resmi scroll+snap berhenti; debounce 140ms
+hanya cadangan), dikunci 300ms pasca-lompatan agar tak berpelatir
+dalam satu gestur, target dibulatkan `Math.round`, dan gambar salinan
+di-preload begitu bagian 003 terlihat (IntersectionObserver) agar
+wrap pertama tak kedip karena lazy-load.
 
 
 **Trik mendeteksi berkas biner di Pages:** `fetch_page` mengembalikan **500
