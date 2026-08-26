@@ -155,32 +155,28 @@
   }
 
   /* rawat posisi: mendarat di salinan → geser seketikas satu lebar set
-     ke set utama. Pemicu utamanya 'scrollend' — sinyal resmi bahwa
-     inersia + snap benar-benar berhenti, penting untuk geser cepat di
-     mana debounce waktu bisa meledak di tengah jalan. Debounce 140ms
-     hanya cadangan bila scrollend tak didukung. Kunci 300ms setelah
-     lompatan mencegah pelatiran ganda dalam satu gestur. */
-  const hasScrollEnd = 'onscrollend' in window;
-  let endT = null;
-
+     ke set utama. Debounce 140ms setelah scroll terakhir (rasanya
+     mulus — jangan ganti pemicu ke scrollend: itu bisa meledak di
+     tengah fling, saat koreksi snap pertama, dan terasa jeda).
+     Lompatan hanya sah bila posisi sudah tepat di pusat kartu;
+     kalau masih dalam koreksi snap, timer di-arm ulang. Kunci 300ms
+     pasca-lompatan mencegah pelatiran ganda. */
   function settle() {
     if (performance.now() < wrapLock) return;
-    clearTimeout(endT);
     const t = nearest();
     if (t >= HOME && t < HOME + total) return;
+    const c = cards[t];
+    const target = startOf(c) - (view.clientWidth - c.offsetWidth) / 2;
+    if (Math.abs(view.scrollLeft - target) > 24) {
+      wrapT = setTimeout(settle, 140);
+      return;
+    }
     const to = t < HOME ? t + total : t - total;
     view.style.scrollBehavior = 'auto';
     view.scrollLeft = Math.round(startOf(cards[to]) - (view.clientWidth - cards[to].offsetWidth) / 2);
     void view.offsetWidth;
     view.style.scrollBehavior = '';
     wrapLock = performance.now() + 300;
-  }
-
-  function queueSettle() {
-    clearTimeout(wrapT);
-    clearTimeout(endT);
-    if (hasScrollEnd) endT = setTimeout(settle, 800);
-    else wrapT = setTimeout(settle, 140);
   }
 
   let raf = false;
@@ -191,15 +187,13 @@
       raf = false;
       pos = nearest();
       paint(pos % total);
-      queueSettle();
+      clearTimeout(wrapT);
+      wrapT = setTimeout(settle, 140);
     });
   }, { passive: true });
 
-  view.addEventListener('scrollend', settle, { passive: true });
-
   view.addEventListener('pointerdown', () => {
     clearTimeout(wrapT);
-    clearTimeout(endT);
   }, { passive: true });
 
   /* tombol panah — mengikuti posisi track, bukan indeks logis,

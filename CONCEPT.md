@@ -512,12 +512,15 @@ Tombol panah & keyboard memakai posisi track (`pos`), bukan indeks
 logis. **Jangan "dirapikan" jadi carousel transform** — mekanisme
 scroll-snap native yang memang bekerja.
 
-Perbaikan kedipan geser cepat (2026-08-27): lompatan wrap kini
-dipicu `scrollend` (sinyal resmi scroll+snap berhenti; debounce 140ms
-hanya cadangan), dikunci 300ms pasca-lompatan agar tak berpelatir
-dalam satu gestur, target dibulatkan `Math.round`, dan gambar salinan
-di-preload begitu bagian 003 terlihat (IntersectionObserver) agar
-wrap pertama tak kedip karena lazy-load.
+Perbaikan kedipan & jeda (2026-08-27): pemicu lompatan tetap
+**debounce 140ms** setelah scroll terakhir. Percobaan memindahkannya ke
+`scrollend` **dibatalkan** — event itu bisa meledak di tengah fling
+(pada koreksi snap pertama) dan terasa jeda. Penambal yang dipertahankan:
+(1) lompatan hanya sah bila posisi sudah tepat di pusat kartu (±24px),
+kalau masih dalam koreksi snap timer di-arm ulang; (2) target dibulatkan
+`Math.round`; (3) kunci 300ms pasca-lompatan; (4) gambar salinan
+di-preload begitu bagian 003 terlihat (IntersectionObserver) — wrap
+pertama tak lagi kedip karena lazy-load.
 
 
 **Trik mendeteksi berkas biner di Pages:** `fetch_page` mengembalikan **500
