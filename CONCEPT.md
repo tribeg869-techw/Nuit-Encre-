@@ -502,6 +502,17 @@ Keputusan pemilik 2026-08-27: **geser antar kolom membuka kartu
 utamanya otomatis** (kolom 2 → Lexier) via listener scroll di
 `main.js`; ketuk manual tetap akordeon + gulir halus.
 
+**Galeri 003 loop tak berujung (2026-08-27).** Permintaan pemilik:
+geser dari kartu terakhir harusnya melanjutkan ke pertama tanpa
+lompat balik. Solusi di `main.js`: track berisi tiga salinan set
+`[salinan][utama][salinan]` (salinan non-utama `aria-hidden`); saat
+kartu di salinan jadi kartu mendarat, scroll digeser **seketikas**
+satu lebar set ke set utama 140ms setelah scroll terakhir (debounce
+`settle()`; dibatalkan bila jari menyentuh lagi). Piksel identik,
+jadi loop-nya mulus. Tombol panah & keyboard memakai posisi track
+(`pos`), bukan indeks logis. Jangan "dirapikan" jadi carousel
+transform — mekanisme scroll-snap native yang memang bekerja.
+
 
 **Trik mendeteksi berkas biner di Pages:** `fetch_page` mengembalikan **500
 kalau berkasnya ada** (alatnya gagal membaca biner) dan **halaman 404** kalau
