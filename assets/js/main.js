@@ -244,6 +244,7 @@
   let tDrag = false, tId = -1, tDecided = false;
   let tX0 = 0, tY0 = 0, tLastX = 0, tLastT = 0, tVel = 0, tSL0 = 0;
   let tFling = 0, tAutoT = null, tAnchors = 0, tNear0 = HOME;
+  let tWrapTarget = null;  // kartu tujuan wrap (4 = 001, 7 = 004)
 
   /* re-anchoring seketika saat viewport melewati TENGAH celah
      wrap: track periodik → piksel identik; basis baru selalu di
@@ -331,9 +332,13 @@
     if (e.pointerType !== 'touch' || e.button !== 0) return;
     if (tDrag) return;                       // abaikan jari kedua
     cancelAnimationFrame(tFling); tFling = 0;
+    /* luncur yang dipotong: bersihkan sisa keadaan agar tidak ada
+       snap-off/behavior inline yang tersangkut */
+    view.classList.remove('drag');
+    view.style.scrollBehavior = '';
     tDrag = true; tDecided = false; tId = e.pointerId;
     tX0 = tLastX = e.clientX; tY0 = e.clientY; tSL0 = view.scrollLeft;
-    tLastT = performance.now(); tVel = 0; tAnchors = 0;
+    tLastT = performance.now(); tVel = 0; tAnchors = 0; tWrapTarget = null;
     tNear0 = tNearestTo(view.scrollLeft);   // kartu saat jari menekan
   });
 
@@ -351,13 +356,30 @@
     tLastX = e.clientX; tLastT = now;
     view.scrollLeft = tSL0 - dx;
     const sh = reanchor();
-    if (sh) { tSL0 += sh; tAnchors++; }
+    if (sh) {
+      tSL0 += sh; tAnchors++;
+      tWrapTarget = sh < 0 ? HOME : HOME + 3;  // batas yang baru dilewati
+    } else if (tAnchors > 0) {
+      /* jari balik melewati batas lagi → wrap batal, aturan biasa
+         (dari kartu asal) berlaku lagi */
+      const b = bounds();
+      const masih = tWrapTarget === HOME
+        ? view.scrollLeft > b.bottom : view.scrollLeft < b.top;
+      if (!masih) tAnchors = 0;
+    }
   });
 
   function tEnd(e) {
     if (!tDrag || (e && e.pointerId !== tId)) return;
     tDrag = false;
-    if (!tDecided) return;
+    if (!tDecided) {
+      /* ketukan, bukan drag: bila posisi tertinggal di antara
+         kartu (misal tap memotong luncur settle), rapikan pelan
+         ke kartu terdekat — galeri tak boleh "stuck" di celah */
+      const n = tNearestTo(view.scrollLeft);
+      if (Math.abs(view.scrollLeft - tCenter(n)) > 6) tFlingTo(tCenter(n), 0);
+      return;
+    }
     /* SATU GESTUR = MAKS SATU KARTU (keputusan pemilik 2026-08-25,
        berlaku lagi setelah proyeksi jarak bebas terbukti membuat
        fling cepat melintasi 2-4 kartu — bahkan looping penuh
@@ -374,7 +396,12 @@
     const d = view.scrollLeft - tSL0;            // + = maju (sapuan kiri)
     const dir = d > 0 ? 1 : -1;
     let idx;
-    if (tAnchors > 0) idx = tNearestTo(view.scrollLeft);
+    if (tAnchors > 0) idx = tWrapTarget;
+    /* wrap: batas sudah dilewati di tengah gestur → mendarat
+       PERSIS di kartu wrap-nya, terlepas di mana jari lepas (selama
+       masih di sisi jauh batas — dijaga di pointermove). Aturan
+       posisi-lepas lama terbukti membalikkan wrap jadi "stuck di
+       celah, harus geser 2x". */
     else if (Math.abs(d) / b.step > .35 || Math.abs(tVel) > .25) idx = tNear0 + dir;
     else idx = tNear0;
     idx = Math.max(0, Math.min(cards.length - 1, idx));

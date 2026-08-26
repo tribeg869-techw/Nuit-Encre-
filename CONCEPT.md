@@ -580,6 +580,17 @@ hanya saat lebar berubah) sehingga `nearest()`, `tCenter()`,
 `tNearestTo()` di jalur scroll/drag jadi aritmetika murni — nol
 pembacaan layout per gerakan jari.
 
+**Mendarat di kartu wrap + tap self-heal (2026-08-27, final).**
+Bug "004→001 stuck di celah, harus geser 2x": aturan
+"mendarat di posisi lepas" membalikkan wrap — bila jari lepas
+sebelum pusat kartu baru, galeri justru meluncur balik ke 004.
+Sekarang: begitu batas wrap dilewati, `tWrapTarget` dicatat
+(4 = 001 / 7 = 004) dan lepasan **selalu mendarat di kartu
+wrap-nya**; bila jari balik melewati batas lagi, wrap dibatalkan
+di `pointermove` dan aturan biasa berlaku. Tambahan: ketukan
+(bukan drag) yang memotong luncur settle merapikan posisi ke
+kartu terdekat — galeri tak boleh stuck di celah.
+
 **Scroll halaman tertahan di atas foto studi (2026-08-27, bug fix).**
 Sentuhan di atas `<img>` bisa memicu drag-gambar native (terutama
 Android) yang memblokir scroll atas-bawah; preventDefault `dragstart`
