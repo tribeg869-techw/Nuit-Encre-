@@ -177,6 +177,7 @@
 
   function settle() {
     if (performance.now() < wrapLock) return;
+    if (tFling) return;                    // luncur sentuh sedang berjalan
     const t = nearest();
     if (t >= HOME && t < HOME + total) return;
     const to = t < HOME ? t + total : t - total;
@@ -303,20 +304,30 @@
     const t0 = performance.now();
     view.classList.add('drag');
     view.style.scrollBehavior = 'auto';
-    /* durasi dari fisika (decelerasi konstan: T = 2D/v0), dipatok
-       160–480 ms; lepasan pelan atau lawan arah → tetap 320 ms.
-       Hermite kubik mulai PERSIS di kecepatan jari (v0) dan
-       berakhir 0 — tidak ada lompatan kecepatan di titik lepas,
-       itulah yang membuat luncurnya terasa menyambung & mulus. */
-    const T = (Math.abs(v0) > .05 && Math.sign(v0) === Math.sign(D))
-      ? Math.max(160, Math.min(480, 2 * D / v0)) : 320;
-    const m0 = v0 * T;
+    /* LANTAI KECEPATAN: kartu tak boleh merayap — durasi selalu
+       dibatasi D/0.5 (≥500 px/dtk). Tanpa ini, lepasan pelan di
+       sisa jarak ~100px butuh 320–480ms dan 100ms pertama hanya
+       bergeser 10–30px: galeri terlihat "stuck di celah".
+       Lepasan dengan momentum → Hermite menyambung kecepatan jari
+       (awal = v0, akhir = 0, tanpa lompatan). Lepasan mati (v0≈0)
+       → ease-out: MENYENTIL dulu lalu pelan — bukan merayap. */
+    const fast = Math.abs(v0) > .3;     // >= 0,3 px/ms = momentum nyata
+    const tCap = Math.max(160, Math.min(480, D / .5));
+    const T = (fast && Math.sign(v0) === Math.sign(D))
+      ? Math.max(160, Math.min(tCap, 2 * D / v0)) : tCap;
+    const m0 = fast ? v0 * T : 0;
     const step = () => {
       const s = Math.min(1, (performance.now() - t0) / T);
-      const h00 = 2 * s ** 3 - 3 * s * s + 1;
-      const h10 = s ** 3 - 2 * s * s + s;
-      const h01 = -2 * s ** 3 + 3 * s * s;
-      view.scrollLeft = h00 * from + h10 * m0 + h01 * target;
+      let x;
+      if (fast) {
+        const h00 = 2 * s ** 3 - 3 * s * s + 1;
+        const h10 = s ** 3 - 2 * s * s + s;
+        const h01 = -2 * s ** 3 + 3 * s * s;
+        x = h00 * from + h10 * m0 + h01 * target;
+      } else {
+        x = from + (target - from) * (1 - Math.pow(1 - s, 3));
+      }
+      view.scrollLeft = x;
       const sh = reanchor();
       if (sh) { from += sh; target += sh; }
       if (s < 1) { tFling = requestAnimationFrame(step); return; }

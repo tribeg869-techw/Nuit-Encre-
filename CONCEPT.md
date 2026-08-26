@@ -571,14 +571,18 @@ ragu-ragu kembali ke kartu asal. Aturan "satu gestur = maks satu
 kartu" tetap berlaku penuh.
 
 **Luncur menyambung + jalur panas ringan (2026-08-27, final).**
-Permintaan pemilik: "buat smooth gesernya aja." Dua perubahan:
-(1) `tFlingTo` kini Hermite kubik yang **memulai tepat di kecepatan
-jari** (`v0 = -tVel`) dan berakhir 0 — tak ada lompatan kecepatan di
-titik lepas (durasi dari fisika `T = 2D/v0`, dipatok 160–480 ms);
-(2) pusat kartu di-cache di `bounds()` (`tCenters`, dihitung ulang
-hanya saat lebar berubah) sehingga `nearest()`, `tCenter()`,
-`tNearestTo()` di jalur scroll/drag jadi aritmetika murni — nol
-pembacaan layout per gerakan jari.
+Permintaan pemilik: "buat smooth gesernya aja." (1) pusat kartu
+di-cache di `bounds()` (`tCenters`, dihitung ulang hanya saat lebar
+berubah) sehingga `nearest()`, `tCenter()`, `tNearestTo()` di jalur
+scroll/drag jadi aritmetika murni — nol pembacaan layout per
+gerakan jari. (2) `tFlingTo` dengan **lantai kecepatan**: durasi
+selalu ≤ `D/0.5` (kartu ≥ 500 px/dtk, tak boleh merayap — tanpa ini
+lepasan pelan di sisa ~100px bergeser 10–30px dalam 100ms pertama
+dan galeri terlihat "stuck di celah"). Lepasan dengan momentum
+(≥ 0,3 px/ms) → Hermite menyambung kecepatan jari persis (awal =
+v0, akhir = 0). Lepasan mati → ease-out: menyentil dulu lalu pelan.
+`settle()` tak boleh memotong luncur sentuh yang berjalan
+(`if (tFling) return`).
 
 **Mendarat di kartu wrap + tap self-heal (2026-08-27, final).**
 Bug "004→001 stuck di celah, harus geser 2x": aturan
