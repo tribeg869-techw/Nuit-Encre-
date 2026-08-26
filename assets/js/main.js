@@ -232,20 +232,32 @@
      peramban (pan-x) yang menelan scroll vertikal. */
   let tDrag = false, tId = -1, tDecided = false;
   let tX0 = 0, tY0 = 0, tLastX = 0, tLastT = 0, tVel = 0, tSL0 = 0;
-  let tFling = 0, tAutoT = null, tAnchors = 0;
+  let tFling = 0, tAutoT = null, tAnchors = 0, tNear0 = HOME;
 
-  /* re-anchoring seketika saat viewport melewati batas set:
-     track periodik → piksel identik; wilayah tujuan selalu
-     hangat (baru dilewati / selalu terlihat) → tanpa decode
-     atau raster baru, inilah yang menghilangkan "pause" wrap
-     intermiten. Dipanggil tiap frame drag & fling. */
+  /* re-anchoring seketika saat viewport melewati TENGAH celah
+     wrap: track periodik → piksel identik; basis baru selalu di
+     wilayah utama yang hangat — wilayah salinan dingin tak pernah
+     dimasuki → inilah yang menghilangkan "pause" wrap intermiten.
+     Batas di tengah celah (bukan pusat kartu salinan) supaya
+     re-basis terjadi sedini mungkin. Dipanggil tiap frame drag &
+     fling; nilai di-cache, dihitung ulang hanya saat lebar
+     berubah (resize/rotasi). */
+  let tBounds = null;
+  function bounds() {
+    const cw = view.clientWidth;
+    if (tBounds && tBounds.cw === cw) return tBounds;
+    const c = i => startOf(cards[i]) - (cw - cards[i].offsetWidth) / 2;
+    const step = c(HOME + 1) - c(HOME);
+    tBounds = { cw, step, setW: step * 4,
+      top: c(HOME + 3) + step / 2, bottom: c(HOME) - step / 2 };
+    return tBounds;
+  }
   function reanchor() {
-    const c8 = startOf(cards[HOME + 1]) - (view.clientWidth - cards[HOME + 1].offsetWidth) / 2;
-    const c3 = startOf(cards[HOME - 1]) - (view.clientWidth - cards[HOME - 1].offsetWidth) / 2;
-    const setW = startOf(cards[HOME]) - startOf(cards[0]);
-    if (view.scrollLeft > c8) { view.scrollLeft -= setW; return -setW; }
-    if (view.scrollLeft < c3) { view.scrollLeft += setW; return +setW; }
-    return 0;
+    const b = bounds();
+    let sh = 0;
+    while (view.scrollLeft > b.top) { view.scrollLeft -= b.setW; sh -= b.setW; }
+    while (view.scrollLeft < b.bottom) { view.scrollLeft += b.setW; sh += b.setW; }
+    return sh;
   }
 
   function tCenter(i) {
@@ -289,6 +301,7 @@
     tDrag = true; tDecided = false; tId = e.pointerId;
     tX0 = tLastX = e.clientX; tY0 = e.clientY; tSL0 = view.scrollLeft;
     tLastT = performance.now(); tVel = 0; tAnchors = 0;
+    tNear0 = tNearestTo(view.scrollLeft);   // kartu saat jari menekan
   });
 
   view.addEventListener('pointermove', e => {
@@ -316,15 +329,22 @@
        berlaku lagi setelah proyeksi jarak bebas terbukti membuat
        fling cepat melintasi 2-4 kartu — bahkan looping penuh
        kembali ke kartu asal, terasa "pause lama"). Kecepatan jari
-       hanya menentukan durasi luncur, BUKAN jarak. */
-    const near = tNearestTo(view.scrollLeft);
-    let idx = near;
-    if (tAnchors === 0) {
-      if (tVel > .25) idx = Math.max(0, near - 1);                 // sapuan kanan → kartu sebelum
-      else if (tVel < -.25) idx = Math.min(cards.length - 1, near + 1);  // sapuan kiri → kartu sesudah
-    }
-    /* tAnchors > 0: wrap sudah terjadi di tengah gestur — mendarat
-       tepat di kartu hasil re-anchor, tanpa langkah tambahan. */
+       hanya menentukan durasi luncur, BUKAN jarak.
+
+       COMMIT RINGAN: maju satu kartu bila drag sudah 35% jarak
+       kartu ATAU lepasan cukup cepat (0,25 px/ms) — jauh lebih
+       rendah dari "lewat separuh kartu", supaya sapuan biasa
+       tidak terasa berat/rubber-band. Drag ragu-ragu kembali ke
+       kartu asal. tAnchors > 0: wrap sudah terjadi di tengah
+       gestur — mendarat di posisi lepas (kartu wrap-nya). */
+    const b = bounds();
+    const d = view.scrollLeft - tSL0;            // + = maju (sapuan kiri)
+    const dir = d > 0 ? 1 : -1;
+    let idx;
+    if (tAnchors > 0) idx = tNearestTo(view.scrollLeft);
+    else if (Math.abs(d) / b.step > .35 || Math.abs(tVel) > .25) idx = tNear0 + dir;
+    else idx = tNear0;
+    idx = Math.max(0, Math.min(cards.length - 1, idx));
     if (reduced) { goTo(idx); return; }
     const dur = Math.max(190, Math.min(430, 430 - (Math.abs(tVel) - .2) * 260));
     tFlingTo(tCenter(idx), dur);

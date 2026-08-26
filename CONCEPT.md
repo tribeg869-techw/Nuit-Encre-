@@ -553,12 +553,22 @@ kadang" ternyata masalah rasterisasi: wilayah salinan (clone) sering
 dingin (belum decode / tile GPU terevakuasi), jadi fling yang
 menerjangnya hiccup — bukti: lewat 003→004 dulu (memanaskan wilayah
 kanan) membuat wrap mulus. Solusi: `reanchor()` dipanggil tiap frame
-drag & fling — begitu viewport melewati batas set, scroll digeser
+drag & fling — begitu viewport melewati **tengah celah** wrap (bukan
+pusat kartu salinan, supaya se-dini mungkin), scroll digeser
 seketikas ∓lebar-set (piksel identik, track periodik) ke wilayah
-utama yang **selalu hangat**. Wrap selesai di tengah gestur, bukan
-setelah; gestur yang sudah re-anchor mendarat tepat di kartunya
-(`tAnchors`). `settle()` bertahan sebagai jaring pengaman (wheel &
-keyboard bisa mendarat di salinan).
+utama yang **selalu hangat**. Wilayah salinan dingin tak pernah
+dimasuki. Batas di-cache (`bounds()`, ulang hanya saat lebar
+berubah). Gestur yang sudah re-anchor mendarat di kartu wrap-nya
+(`tAnchors`). `settle()` tetap jaring pengaman (wheel & keyboard
+bisa mendarat di salinan).
+
+**Commit ringan (2026-08-27).** Sapuan terasa "berat" karena aturan
+lama menuntut drag melewati **separuh kartu** dengan lepasan pelan —
+sapuan biasa berakhir melambat, kartu pun memantul balik
+(rubber-band). Kini: maju **persis satu kartu** dari kartu asal bila
+drag sudah 35% jarak kartu **atau** lepasan ≥ 0,25 px/ms; drag
+ragu-ragu kembali ke kartu asal. Aturan "satu gestur = maks satu
+kartu" tetap berlaku penuh.
 
 **Scroll halaman tertahan di atas foto studi (2026-08-27, bug fix).**
 Sentuhan di atas `<img>` bisa memicu drag-gambar native (terutama
