@@ -538,88 +538,40 @@ dan disengaja tetap berhenti di kartu yang dituju. Kalau pemilik
 menginginkan kembali disiplin satu-kartu, kembalikan
 `scroll-snap-stop:always` — tapi jeda fling cepat akan kembali.
 
-**Aturan sentuh final: satu gestur = maks satu kartu (2026-08-27).**
-Setelah arsitektur sentuh jadi milik kita (di bawah), semantik
-"fling alami boleh dua kartu" **dibatalkan**: proyeksi jarak bebas
-membuat fling cepat melintasi 2–4 kartu — lintasan track persis
-4 kartu, jadi fling kencang bisa looping penuh kembali ke kartu
-asal, terasa "pause lama". Kini kecepatan jari hanya menentukan
-durasi luncur (190–430 ms), jaraknya maksimal satu kartu ke arah
-sapuan. Sapuan pelan yang melewati separuh kartu tetap mendarat di
-kartu yang dituju (via `tNearestTo` posisi lepas).
-
-**Re-anchoring mid-gesture (2026-08-27, final).** Sisa "pause
-kadang" ternyata masalah rasterisasi: wilayah salinan (clone) sering
-dingin (belum decode / tile GPU terevakuasi), jadi fling yang
-menerjangnya hiccup — bukti: lewat 003→004 dulu (memanaskan wilayah
-kanan) membuat wrap mulus. Solusi: `reanchor()` dipanggil tiap frame
-drag & fling — begitu viewport melewati **tengah celah** wrap (bukan
-pusat kartu salinan, supaya se-dini mungkin), scroll digeser
-seketikas ∓lebar-set (piksel identik, track periodik) ke wilayah
-utama yang **selalu hangat**. Wilayah salinan dingin tak pernah
-dimasuki. Batas di-cache (`bounds()`, ulang hanya saat lebar
-berubah). Gestur yang sudah re-anchor mendarat di kartu wrap-nya
-(`tAnchors`). `settle()` tetap jaring pengaman (wheel & keyboard
-bisa mendarat di salinan).
-
-**Commit ringan (2026-08-27).** Sapuan terasa "berat" karena aturan
-lama menuntut drag melewati **separuh kartu** dengan lepasan pelan —
-sapuan biasa berakhir melambat, kartu pun memantul balik
-(rubber-band). Kini: maju **persis satu kartu** dari kartu asal bila
-drag sudah 35% jarak kartu **atau** lepasan ≥ 0,25 px/ms; drag
-ragu-ragu kembali ke kartu asal. Aturan "satu gestur = maks satu
-kartu" tetap berlaku penuh.
-
-**Luncur menyambung + jalur panas ringan (2026-08-27, final).**
-Permintaan pemilik: "buat smooth gesernya aja." (1) pusat kartu
-di-cache di `bounds()` (`tCenters`, dihitung ulang hanya saat lebar
-berubah) sehingga `nearest()`, `tCenter()`, `tNearestTo()` di jalur
-scroll/drag jadi aritmetika murni — nol pembacaan layout per
-gerakan jari. (2) `tFlingTo` dengan **lantai kecepatan**: durasi
-selalu ≤ `D/0.5` (kartu ≥ 500 px/dtk, tak boleh merayap — tanpa ini
-lepasan pelan di sisa ~100px bergeser 10–30px dalam 100ms pertama
-dan galeri terlihat "stuck di celah"). Lepasan dengan momentum
-(≥ 0,3 px/ms) → Hermite menyambung kecepatan jari persis (awal =
-v0, akhir = 0). Lepasan mati → ease-out: menyentil dulu lalu pelan.
-`settle()` tak boleh memotong luncur sentuh yang berjalan
-(`if (tFling) return`).
-
-**Mendarat di kartu wrap + tap self-heal (2026-08-27, final).**
-Bug "004→001 stuck di celah, harus geser 2x": aturan
-"mendarat di posisi lepas" membalikkan wrap — bila jari lepas
-sebelum pusat kartu baru, galeri justru meluncur balik ke 004.
-Sekarang: begitu batas wrap dilewati, `tWrapTarget` dicatat
-(4 = 001 / 7 = 004) dan lepasan **selalu mendarat di kartu
-wrap-nya**; bila jari balik melewati batas lagi, wrap dibatalkan
-di `pointermove` dan aturan biasa berlaku. Tambahan: ketukan
-(bukan drag) yang memotong luncur settle merapikan posisi ke
-kartu terdekat — galeri tak boleh stuck di celah.
-
 **Scroll halaman tertahan di atas foto studi (2026-08-27, bug fix).**
 Sentuhan di atas `<img>` bisa memicu drag-gambar native (terutama
 Android) yang memblokir scroll atas-bawah; preventDefault `dragstart`
 lama hanya menangkap drag mouse. Perbaikan: `.gs` kini
-`pointer-events:none` (kartu galeri memang tak interaktif — seluruh
-touch masuk ke `.gal__view`: horizontal = galeri, vertikal =
-halaman) + `draggable="false"` di semua output `pic()` +
-`-webkit-user-drag:none` global.
+`pointer-events:none` (kartu galeri memang tak interaktif) +
+`draggable="false"` di semua output `pic()` +
+`-webkit-user-drag:none` global. (Masih berlaku sekarang.)
 
-**Arsitektur sentuh 003 (2026-08-27, final).** Bug di atas ternyata
-tak cukup: di peramban pemilik, delegasi gesture `touch-action:pan-x`
-menelan scroll vertikal — jari di foto hanya bisa geser kiri-kanan.
-Solusi definitif: `touch-action:pan-y` (vertikal 100% native halaman,
-momentum asli) + **horizontal fisika sendiri** di `main.js` (blok
-"sentuh: horizontal fisika sendiri"): drag 1:1 dengan ambang 8px,
-kecepatan dari sampel pointermove, lalu eased ke pusat kartu
-terdekat (300–650ms, easeOutCubic; minimal selangkah untuk sapuan
-pelan). Kelas `.drag` menonaktifkan snap native selama drag/lempar;
-posisi akhir persis di pusat kartu sehingga snap tak melakukan apa
-apa. Loop, settle, preload, tombol, dan keyboard memakai jalur yang
-sama (scroll event) — tak berubah. Konsekuensi: tidak ada lagi
-koreksi snap peramban → jeda fling cepat hilang secara struktural.
-**Jangan kembalikan `touch-action:pan-x` + scroll native untuk
-sentuhan** — itu rute yang sudah tiga kali gagal di perangkat
-pemilik.
+**Kembali ke sentuh native (2026-08-27, final — keputusan pemilik).**
+Setelah rangkaian eksperimen fisika sentuh buatan (pan-y + drag
+1:1 + fling custom) berulang kali melahirkan bug baru — "pause
+lama", "berat", dan "stuck di tengah celah" yang tak berkesudahan —
+pemilik memerintahkan: *kembalikan seperti pertama kali kita
+membuat smooth infinite looping.* Hasilnya:
+- `touch-action: pan-x pan-y` — horizontal 100% **native**
+  peramban (momentum & snap asli, rasa loop original); `pan-y`
+  ikut supaya scroll vertikal halaman tetap jalan saat jari di
+  atas foto (`pan-x` saja menelan scroll vertikal — bug lama).
+- `scroll-snap-type: x mandatory` **tanpa** snap-stop
+  (penghapusan snap-stop dari `7c45184` dipertahankan — itu yang
+  menyembuhkan slide-back fling cepat), `scroll-behavior:smooth`
+  dikembalikan seperti versi original.
+- Wrap = `settle()` 140ms + `wrapLock` 300ms + preload salinan
+  (desain `cbe18e0`), centering awal seketikas, tombol/keyboard
+  `goTo(pos ± 1)`, drag mouse — tak berubah dari versi original.
+- Blok "sentuh: horizontal fisika sendiri" di `main.js`
+  **dihapus** (drag 1:1 custom, re-anchor, Hermite, commit ringan,
+  lantai kecepatan — semua). Aturan "satu gestur = maks satu
+  kartu" ikut batal: momentum native bebas (fling kencang boleh
+  2 kartu) — itulah rasa original yang diminta.
+**Jangan membangun kembali fisika sentuh buatan** kecuali diminta
+pemilik secara eksplisit; rute `pan-y` + JS sudah tiga kali gagal
+di perangkat pemilik, rute `pan-x` saja menelan scroll vertikal.
+
 
 
 **Trik mendeteksi berkas biner di Pages:** `fetch_page` mengembalikan **500

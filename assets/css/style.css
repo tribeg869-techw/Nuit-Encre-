@@ -386,12 +386,12 @@ body.ready .hero__foot{animation:fade .9s var(--e) 1s forwards}
 .gal__view{
   position:relative;
   overflow-x:auto;overflow-y:hidden;
-  scroll-snap-type:x mandatory;
-  /* pan-y: scroll vertikal halaman 100% native (momentum asli).
-     Horizontal dikendalikan main.js (drag + lempar + snap) —
-     delegasi pan-x ternyata menelan scroll vertikal saat jari
-     di atas foto di peramban pemilik. (2026-08-27) */
-  -webkit-overflow-scrolling:touch;touch-action:pan-y;overscroll-behavior-x:contain;
+  scroll-snap-type:x mandatory;scroll-behavior:smooth;
+  /* Horizontal =_NATIVE_ peramban (momentum & snap asli — rasa
+     loop original yang diminta balik oleh pemilik, 2026-08-27).
+     pan-y tetap ikut: scroll vertikal halaman jalan walau jari
+     di atas foto (pan-x saja menelannya — bug 2026-08-27). */
+  -webkit-overflow-scrolling:touch;touch-action:pan-x pan-y;overscroll-behavior-x:contain;
   scrollbar-width:none;-ms-overflow-style:none;
   cursor:grab;
 }
