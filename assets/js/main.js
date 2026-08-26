@@ -141,7 +141,7 @@ behavior: jumping || reduced ? 'auto' : 'smooth'
       }
       if (i === total + 1 && view.scrollLeft > max - 8) normalizeLoop(1);
       else if (i === 0 && view.scrollLeft < 8) normalizeLoop(total);
-    }, reduced ? 0 : 500);
+    }, reduced ? 0 : 120);
   }, { passive: true });
 
   // Loop ringan: tombol panah berputar dari ujung ke awal.
