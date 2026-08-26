@@ -74,16 +74,21 @@
   const track = $('#galTrack');
   const S = D.studies;
 
-  track.innerHTML = S.map((s, i) => `
-    <figure class="gs${i === 0 ? ' on' : ''}" data-n="${i}">
+  /* Loop tak berujung: tiga salinan set bersebelahan
+     [salinan][utama][salinan]. Mendarat di salinan → scroll digeser
+     seketikas satu lebar set ke set utama; piksel identik, loop mulus. */
+  const total = S.length;
+  const HOME = total;  // set utama mulai di indeks ini
+
+  track.innerHTML = [0, 1, 2].map(set => S.map((s, i) => `
+    <figure class="gs"${set === 1 ? '' : ' aria-hidden="true"'} data-n="${i}">
       <div class="gs__fig">
         <span class="gs__i">${s.no}</span>
         ${pic(s.img, s.alt || s.title)}
       </div>
-    </figure>`).join('');
+    </figure>`).join('')).join('');
 
   const cards = $$('.gs', track);
-  const total = cards.length;
   $('#stCount').textContent = String(total).padStart(2, '0');
 
   const elNo   = $('#galNo');
@@ -95,14 +100,15 @@
   const bPrev  = $('#galPrev');
   const bNext  = $('#galNext');
 
-  let cur = -1;
+  let cur = -1, pos = HOME, wrapT = null;
 
   function paint(i) {
     if (i === cur) return;
     cur = i;
     const s = S[i];
 
-    cards.forEach((c, n) => c.classList.toggle('on', n === i));
+    /* semua salinan kartu yang sama ikut menyala */
+    cards.forEach((c, n) => c.classList.toggle('on', n % total === i));
 
     elCap.classList.add('sw');
     setTimeout(() => {
@@ -138,8 +144,8 @@
     return best;
   }
 
-  function goTo(i) {
-    const c = cards[Math.max(0, Math.min(total - 1, i))];
+  function goTo(t) {
+    const c = cards[Math.max(0, Math.min(cards.length - 1, t))];
     const max = view.scrollWidth - view.clientWidth;
     const to  = startOf(c) - (view.clientWidth - c.offsetWidth) / 2;
     view.scrollTo({
@@ -148,16 +154,41 @@
     });
   }
 
+  /* rawat posisi: mendarat di salinan → geser seketikas satu lebar set
+     ke set utama. Dipicu 140ms setelah scroll terakhir (snap sudah
+     beres) dan dibatalkan kalau jari menyentuh lagi lebih dulu. */
+  function settle() {
+    const t = nearest();
+    if (t >= HOME && t < HOME + total) return;
+    const to = t < HOME ? t + total : t - total;
+    view.style.scrollBehavior = 'auto';
+    view.scrollLeft = startOf(cards[to]) - (view.clientWidth - cards[to].offsetWidth) / 2;
+    void view.offsetWidth;
+    view.style.scrollBehavior = '';
+  }
+
   let raf = false;
   view.addEventListener('scroll', () => {
     if (raf) return;
     raf = true;
-    requestAnimationFrame(() => { paint(nearest()); raf = false; });
+    requestAnimationFrame(() => {
+      raf = false;
+      pos = nearest();
+      paint(pos % total);
+      clearTimeout(wrapT);
+      wrapT = setTimeout(settle, 140);
+    });
   }, { passive: true });
 
-  // Loop ringan: tombol panah berputar dari ujung ke awal.
-  bPrev.addEventListener('click', () => goTo(cur > 0 ? cur - 1 : total - 1));
-  bNext.addEventListener('click', () => goTo(cur < total - 1 ? cur + 1 : 0));
+  view.addEventListener('pointerdown', () => {
+    if (wrapT) { clearTimeout(wrapT); wrapT = null; }
+  }, { passive: true });
+
+  /* tombol panah — mengikuti posisi track, bukan indeks logis,
+     supaya dari kartu terakhir "berikutnya" memang melanjutkan
+     ke kanan (dan sebaliknya), sesuai loop-nya */
+  bPrev.addEventListener('click', () => goTo(pos - 1));
+  bNext.addEventListener('click', () => goTo(pos + 1));
 
   // seret dengan mouse — di layar sentuh, biarkan native
   let down = false, sx = 0, sl = 0, far = 0;
@@ -189,11 +220,20 @@
     if (!$('#sheet').hidden) return;
     const r = $('#s3').getBoundingClientRect();
     if (r.top > innerHeight * .6 || r.bottom < innerHeight * .4) return;
-    if (e.key === 'ArrowLeft')  { e.preventDefault(); goTo(cur - 1); }
-    if (e.key === 'ArrowRight') { e.preventDefault(); goTo(cur + 1); }
+    if (e.key === 'ArrowLeft')  { e.preventDefault(); goTo(pos - 1); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); goTo(pos + 1); }
   });
 
   paint(0);
+
+  /* mulai di set utama, kartu pertama di tengah — seketikas,
+     tanpa animasi gulir saat halaman dibuka */
+  requestAnimationFrame(() => {
+    view.style.scrollBehavior = 'auto';
+    view.scrollLeft = startOf(cards[HOME]) - (view.clientWidth - cards[HOME].offsetWidth) / 2;
+    void view.offsetWidth;
+    view.style.scrollBehavior = '';
+  });
 
   /* ---------- 004 · PRAKTIK ---------- */
   $('#practice').innerHTML = D.practice.map(p => `<p class="rv">${p}</p>`).join('');

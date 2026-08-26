@@ -99,7 +99,7 @@ Satu halaman, lima bagian:
 |---|---|---|
 | `001` | Pembuka | Wordmark besar, status, jam Jakarta langsung |
 | `002` | Karya | Concept Archive + Ink Chaos + Lexier — tiga kartu karya, plus ceritanya |
-| `003` | Studi | 4 studi visual — seluruhnya tayang; galeri geser dengan snap ke tengah |
+| `003` | Studi | 4 studi visual — seluruhnya tayang; galeri geser dengan snap ke tengah, loop tak berujung |
 | `004` | Praktik | Dua paragraf posisi |
 | `005` | Kontak | Satu alamat, blok inversi |
 

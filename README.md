@@ -21,7 +21,9 @@ Dirancang pada lebar **360px** lebih dulu. Layar besar hanyalah pelebaran.
   ponsel dimiringkan
 - **Nol aturan `hover`** di seluruh CSS — tidak ada isi yang tersembunyi
 - **Galeri geser** pada bagian `003` — snap ke tengah, keterangan berganti
-  mengikuti kartu aktif, lengkap dengan tombol panah sebagai cadangan
+  mengikuti kartu aktif, **loop tak berujung** (geser terus dari kartu
+  terakhir ke pertama tanpa lompat balik), lengkap dengan tombol panah
+  sebagai cadangan
 - **Sasaran sentuh ≥ 44px**
 - **`100dvh`** agar tidak terpotong bilah alamat peramban
 - **`safe-area-inset`** dihormati untuk ponsel berponi
