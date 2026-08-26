@@ -155,27 +155,25 @@
   }
 
   /* rawat posisi: mendarat di salinan → geser seketikas satu lebar set
-     ke set utama. Debounce 140ms setelah scroll terakhir (rasanya
-     mulus — jangan ganti pemicu ke scrollend: itu bisa meledak di
-     tengah fling, saat koreksi snap pertama, dan terasa jeda).
-     Lompatan hanya sah bila posisi sudah tepat di pusat kartu;
-     kalau masih dalam koreksi snap, timer di-arm ulang. Kunci 300ms
-     pasca-lompatan mencegah pelatiran ganda. */
+     ke set utama. Debounce 140ms setelah scroll terakhir. JANGAN
+     tambah tunda/guard ekstra (setiap tunda tambahan terasa jeda)
+     dan JANGAN pindah ke pemicu scrollend (meledak di tengah fling,
+     saat koreksi snap pertama — sudah dicoba, terasa jeda). Track
+     periodik, jadi lompatan di offset mana pun identik pikselnya.
+     Pasca-lompatan, scroll-behavior dipaksa 'auto' 350ms supaya
+     koreksi snap pasca-lompatan (bila ada) instan, tak beranimasi. */
+  let autoT = null;
+
   function settle() {
     if (performance.now() < wrapLock) return;
     const t = nearest();
     if (t >= HOME && t < HOME + total) return;
-    const c = cards[t];
-    const target = startOf(c) - (view.clientWidth - c.offsetWidth) / 2;
-    if (Math.abs(view.scrollLeft - target) > 24) {
-      wrapT = setTimeout(settle, 140);
-      return;
-    }
     const to = t < HOME ? t + total : t - total;
     view.style.scrollBehavior = 'auto';
     view.scrollLeft = Math.round(startOf(cards[to]) - (view.clientWidth - cards[to].offsetWidth) / 2);
     void view.offsetWidth;
-    view.style.scrollBehavior = '';
+    clearTimeout(autoT);
+    autoT = setTimeout(() => { view.style.scrollBehavior = ''; }, 350);
     wrapLock = performance.now() + 300;
   }
 
@@ -667,6 +665,7 @@
 
     /* — gambar — */
     function frame(now) {
+      if (!vOn) return;
       requestAnimationFrame(frame);
       if (!W || !H) { size(); return; }
 
@@ -727,7 +726,17 @@
 
       ctx.globalCompositeOperation = 'source-over';
     }
-    requestAnimationFrame(frame);
+    /* jeda loop saat hero tak terlihat — hemat baterai dan
+       mengurangi perebutan main-thread saat geser di bagian lain */
+    let vOn = false;
+    function vStart() { if (!vOn) { vOn = true; requestAnimationFrame(frame); } }
+    function vStop() { vOn = false; }
+    if ('IntersectionObserver' in window) {
+      const vio = new IntersectionObserver(es => {
+        es.forEach(e => { e.isIntersecting ? vStart() : vStop(); });
+      }, { threshold: 0 });
+      vio.observe(wrap);
+    } else vStart();
   })();
 
   /* ---------- SCROLL ---------- */
