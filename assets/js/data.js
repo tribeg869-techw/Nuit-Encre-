@@ -38,6 +38,27 @@ window.NE = {
     ]
   },
 
+  workMore: {
+    no:    '002',
+    title: 'Ink Chaos',
+    kind:  'Texture Study',
+    year:  '2026',
+    url:   'https://ink-chaos.pages.dev/',
+    cover: 'ink-chaos-cover.jpg',
+    coverAlt: 'Komposisi tekstur tinta hitam yang menyiprat dan merembes di atas kertas krem.',
+    lede:  'Kumpulan tekstur tinta manual untuk karya yang lebih berani, kasar, dan tidak terlalu rapi.',
+    facts: [
+      { k: 'Peran',   v: 'Konsep & Desain' },
+      { k: 'Tahun',   v: '2026' },
+      { k: 'Jenis',   v: 'Texture Pack' },
+      { k: 'Status',  v: 'Tayang' }
+    ],
+    story: [
+      'Ink Chaos berangkat dari ketertarikan pada tinta yang tidak bisa sepenuhnya dikendalikan.',
+      'Percikan, rembesan, dan sapuan dibiarkan menyimpan jejak tangan—bukan disamarkan menjadi noise digital.'
+    ]
+  },
+
   /* ---- 003 · STUDI --------------------------------------------------
      Ketuk kartu untuk membuka catatan. Tanpa hover — ramah layar sentuh.
   ------------------------------------------------------------------- */
@@ -53,12 +74,21 @@ window.NE = {
       note:'Yang hilang tidak diganti. Kisi yang rusak dibiarkan begitu.' },
     { no:'003', title:'Gestur / Bersilang',    tag:'GESTURE',          img:'st-03',
       alt:'Komposisi vertikal goresan tinta hitam dan abu-abu di atas bidang putih; sapuan tajam saling bersilang dengan satu lingkar terbuka di bagian kanan atas.',
-      note:'Beberapa sapuan bertemu tanpa dipaksa menjadi lambang. Tumpang tindih dan jedanya dibiarkan menyimpan gerak.' }
+      note:'Beberapa sapuan bertemu tanpa dipaksa menjadi lambang. Tumpang tindih dan jedanya dibiarkan menyimpan gerak.' },
+    { no:'004', title:'Ink Chaos / Simetri',    tag:'INK',              img:'st-04',
+      alt:'Ledakan tinta hitam dan putih yang simetris, dikelilingi sapuan tangan, percikan, dan jejak garis manual.',
+      note:'Ledakan tinta yang dipertemukan dengan gestur, percikan, dan jejak garis manual.' }
   ],
 
   /* ---- 004 · PRAKTIK ------------------------------------------------ */
   practice: [
     'Aku bekerja dengan bentuk, ruang, dan atmosfer. Sebagian besar waktuku habis bukan untuk membuat, melainkan untuk mengamati — sampai sebuah gagasan cukup jelas untuk diberi wujud.',
     'Halaman ini bukan etalase. Karya yang benar-benar selesai baru satu. Selebihnya adalah studi: sebagian akan tumbuh, sebagian berhenti di sini, dan itu tidak apa-apa.'
+  ],
+
+  practiceIndex: [
+    { no: '01', title: 'Mengamati', note: 'Membaca bentuk sebelum memberinya nama.' },
+    { no: '02', title: 'Menerjemahkan', note: 'Memindahkan gagasan dari satu bahasa visual ke bahasa lain.' },
+    { no: '03', title: 'Menyusun ulang', note: 'Menguji kembali apa yang sudah dianggap selesai.' }
   ]
 };

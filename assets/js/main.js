@@ -11,35 +11,40 @@
 
   /* Kontrak pic(): slug ('st-02') → pasangan webp+jpg;
      nama berekstensi ('foto.png') → berkas apa adanya, tanpa varian webp. */
-  const pic = (n, alt) =>
-    /\.[a-z0-9]{2,4}$/i.test(n)
-      ? `<img src="assets/img/${n}" alt="${alt}" loading="lazy" decoding="async">`
+  const pic = (n, alt, eager = false) => {
+    const loading = eager ? 'eager' : 'lazy';
+    const priority = eager ? ' fetchpriority="high"' : '';
+    return /\.[a-z0-9]{2,4}$/i.test(n)
+      ? `<img src="assets/img/${n}" alt="${alt}" loading="${loading}" decoding="async"${priority}>`
       : `<picture>
            <source srcset="assets/img/${n}.webp" type="image/webp">
-           <img src="assets/img/${n}.jpg" alt="${alt}" loading="lazy" decoding="async">
+           <img src="assets/img/${n}.jpg" alt="${alt}" loading="${loading}" decoding="async"${priority}>
          </picture>`;
+  };
 
-  /* ---------- 002 · KARYA ---------- */
-  const w = D.work;
-  $('#work').innerHTML = `
-    <div class="wk__top rv">
-      <span class="mono">${w.no}</span>
-      <span class="mono dim">${w.kind} · ${w.year}</span>
-    </div>
-    <h2 class="wk__title rv">${w.title}</h2>
-    <p class="wk__lede rv">${w.lede}</p>
-    <a class="wk__fig rv" href="${w.url}" target="_blank" rel="noopener">
-      ${pic(w.cover, w.coverAlt || w.title)}
-      <span class="wk__go">Kunjungi <span>↗</span></span>
-    </a>
-    <div class="wk__body">
-      <dl class="wk__facts rv">
-        ${w.facts.map(f => `<div><dt>${f.k}</dt><dd>${f.v}</dd></div>`).join('')}
-      </dl>
-      <div class="wk__story rv">
-        ${w.story.map(p => `<p>${p}</p>`).join('')}
+  /* ---------- 002 · KARYA — inline expandable archive ---------- */
+  const works = [D.work, D.workMore];
+  const workEl = $('#work');
+  workEl.innerHTML = `<div class="work-grid" role="list">${works.map((w, i) => `
+    <article class="work-card ${i === 0 ? 'is-open' : ''}" data-work="${i}" role="listitem">
+      <button class="work-card__summary" type="button" aria-expanded="${i === 0}" aria-controls="work-detail-${i}">
+        <span class="work-card__no mono">${w.no}</span><span class="work-card__brief"><strong>${w.title}</strong><span class="mono dim">${w.kind} · ${w.year}</span></span><span class="work-card__mark" aria-hidden="true">↗</span>
+      </button>
+      <div class="work-card__detail" id="work-detail-${i}">
+        <h2 class="wk__title">${w.title}</h2><p class="wk__lede">${w.lede}</p>
+        <a class="wk__fig" href="${w.url}" target="_blank" rel="noopener">${pic(w.cover, w.coverAlt, i === 0)}<span class="wk__go">Kunjungi <span>↗</span></span></a>
+        <div class="wk__body"><dl class="wk__facts">${w.facts.map(f => `<div><dt>${f.k}</dt><dd>${f.v}</dd></div>`).join('')}</dl><div class="wk__story">${w.story.map(p => `<p>${p}</p>`).join('')}</div></div>
       </div>
-    </div>`;
+    </article>`).join('')}</div>`;
+  const workCards = $$('.work-card', workEl);
+  workCards.forEach((card, i) => $('.work-card__summary', card).addEventListener('click', () => {
+    const open = card.classList.contains('is-open');
+    workCards.forEach(c => { c.classList.remove('is-open'); $('.work-card__summary', c).setAttribute('aria-expanded', 'false'); });
+    if (open) return;
+    card.classList.add('is-open'); $('.work-card__summary', card).setAttribute('aria-expanded', 'true');
+    const sectionBar = $('.sec__bar', card.closest('.sec'));
+    setTimeout(() => { const top = card.getBoundingClientRect().top + scrollY - (sectionBar ? sectionBar.offsetHeight + 18 : 18); scrollTo({ top: Math.max(0, top), behavior: reduced ? 'auto' : 'smooth' }); }, reduced ? 0 : 720);
+  }));
 
   /* ---------- 003 · STUDI — galeri geser ---------- */
   const view  = $('#galView');
@@ -88,8 +93,8 @@
     elBar.style.width = (100 / total) + '%';
     elBar.style.transform = `translateX(${i * 100}%)`;
 
-    bPrev.disabled = i === 0;
-    bNext.disabled = i === total - 1;
+    bPrev.disabled = total < 2;
+    bNext.disabled = total < 2;
   }
 
   // kartu mana yang paling dekat ke tengah jendela
@@ -127,8 +132,9 @@
     requestAnimationFrame(() => { paint(nearest()); raf = false; });
   }, { passive: true });
 
-  bPrev.addEventListener('click', () => goTo(cur - 1));
-  bNext.addEventListener('click', () => goTo(cur + 1));
+  // Loop ringan: tombol panah berputar dari ujung ke awal.
+  bPrev.addEventListener('click', () => goTo(cur > 0 ? cur - 1 : total - 1));
+  bNext.addEventListener('click', () => goTo(cur < total - 1 ? cur + 1 : 0));
 
   // seret dengan mouse — di layar sentuh, biarkan native
   let down = false, sx = 0, sl = 0, far = 0;
@@ -168,6 +174,13 @@
 
   /* ---------- 004 · PRAKTIK ---------- */
   $('#practice').innerHTML = D.practice.map(p => `<p class="rv">${p}</p>`).join('');
+  $('#practiceIndex').innerHTML = `
+    <p class="practice-index__label mono">INDEKS PRAKTIK</p>
+    <ol>${D.practiceIndex.map(item => `
+      <li class="practice-index__item rv">
+        <span class="practice-index__no mono">${item.no}</span>
+        <div><h3>${item.title}</h3><p>${item.note}</p></div>
+      </li>`).join('')}</ol>`;
 
   /* ---------- META ---------- */
   $('#heroStatus').textContent = D.meta.status;
@@ -433,7 +446,7 @@
        menjalar keluar seperti tinta merembes di air. Cabang inilah
        yang memberi kesan berserat; percikan saja hanya jadi debu.  */
     const blobs = [];
-    const strands = 4 + Math.floor(rnd() * 3);
+    const strands = 10 + Math.floor(rnd() * 3);
     const flowA = rnd() * Math.PI * 2;
 
     function grow(px, py, dir, nodes, step, thick, gen) {
@@ -457,7 +470,7 @@
         });
 
         // tumbuhkan cabang — hanya satu tingkat, agar tidak jadi debu
-        if (gen < 1 && rnd() < .17) {
+        if (gen < 1 && rnd() < .22) {
           grow(px, py,
                dir + (rnd() < .5 ? 1 : -1) * (.5 + rnd() * .7),
                Math.max(3, Math.floor(nodes * .45)),
@@ -583,7 +596,7 @@
 
       const lx = (light.x + gx * .16) * W;
       const ly = (light.y + gy * .1) * H;
-      const reach = S * (reduced ? 1.5 : .65);
+      const reach = S * (reduced ? 1.5 : .95);
       const drift = reduced ? 0 : 1;
 
       ctx.globalCompositeOperation = 'lighter';
