@@ -51,16 +51,13 @@
   const track = $('#galTrack');
   const S = D.studies;
 
-  track.innerHTML = S.map((s, i) => `
-    <figure class="gs${i === 0 ? ' on' : ''}" data-n="${i}">
-      <div class="gs__fig">
-        <span class="gs__i">${s.no}</span>
-        ${pic(s.img, s.alt || s.title)}
-      </div>
-    </figure>`).join('');
+  const cardMarkup = (s, i, clone = '') => `<figure class="gs${i === 0 && !clone ? ' on' : ''}" data-n="${i}" data-clone="${clone}">
+    <div class="gs__fig"><span class="gs__i">${s.no}</span>${pic(s.img, s.alt || s.title)}</div>
+  </figure>`;
+  track.innerHTML = cardMarkup(S[S.length - 1], S.length - 1, 'before') + S.map((s, i) => cardMarkup(s, i)).join('') + cardMarkup(S[0], 0, 'after');
 
   const cards = $$('.gs', track);
-  const total = cards.length;
+  const total = S.length;
   $('#stCount').textContent = String(total).padStart(2, '0');
 
   const elNo   = $('#galNo');
@@ -79,7 +76,7 @@
     cur = i;
     const s = S[i];
 
-    cards.forEach((c, n) => c.classList.toggle('on', n === i));
+    cards.forEach((c, n) => c.classList.toggle('on', (n - 1 + total) % total === i));
 
     elCap.classList.add('sw');
     setTimeout(() => {
@@ -108,15 +105,12 @@
   function nearest() {
     const mid = view.scrollLeft + view.clientWidth / 2;
     let best = 0, gap = Infinity;
-    cards.forEach((c, i) => {
-      const d = Math.abs(startOf(c) + c.offsetWidth / 2 - mid);
-      if (d < gap) { gap = d; best = i; }
-    });
+    cards.forEach((c, i) => { const d = Math.abs(startOf(c) + c.offsetWidth / 2 - mid); if (d < gap) { gap = d; best = i; } });
     return best;
   }
 
   function goTo(i) {
-    const c = cards[Math.max(0, Math.min(total - 1, i))];
+    const c = cards[Math.max(1, Math.min(total, i + 1))];
     const max = view.scrollWidth - view.clientWidth;
     const to  = startOf(c) - (view.clientWidth - c.offsetWidth) / 2;
     view.scrollTo({
@@ -134,11 +128,8 @@ behavior: jumping || reduced ? 'auto' : 'smooth'
     loopTimer = setTimeout(() => {
       if (jumping || total < 2) return;
       const i = nearest(), max = view.scrollWidth - view.clientWidth;
-      if (i === total - 1 && view.scrollLeft > max - 8) {
-        jumping = true; goTo(0); setTimeout(() => { jumping = false; }, 80);
-      } else if (i === 0 && view.scrollLeft < 8) {
-        jumping = true; goTo(total - 1); setTimeout(() => { jumping = false; }, 80);
-      }
+      if (i === total && view.scrollLeft > max - 8) { jumping = true; view.scrollTo({ left: startOf(cards[1]) - (view.clientWidth - cards[1].offsetWidth) / 2, behavior: 'auto' }); setTimeout(() => { jumping = false; }, 80); }
+      else if (i === 0 && view.scrollLeft < 8) { jumping = true; view.scrollTo({ left: startOf(cards[total]) - (view.clientWidth - cards[total].offsetWidth) / 2, behavior: 'auto' }); setTimeout(() => { jumping = false; }, 80); }
     }, reduced ? 0 : 500);
   }, { passive: true });
 
@@ -181,6 +172,7 @@ behavior: jumping || reduced ? 'auto' : 'smooth'
   });
 
   paint(0);
+  requestAnimationFrame(() => { goTo(0); });
 
   /* ---------- 004 · PRAKTIK ---------- */
   $('#practice').innerHTML = D.practice.map(p => `<p class="rv">${p}</p>`).join('');
