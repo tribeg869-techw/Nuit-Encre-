@@ -98,8 +98,8 @@ Satu halaman, lima bagian:
 | | Bagian | Isi |
 |---|---|---|
 | `001` | Pembuka | Wordmark besar, status, jam Jakarta langsung |
-| `002` | Karya | Concept Archive — satu-satunya yang selesai, plus ceritanya |
-| `003` | Studi | 3 studi visual — rencana akhir, seluruhnya tayang; galeri geser dengan snap ke tengah |
+| `002` | Karya | Concept Archive + Ink Chaos — dua kartu karya, plus ceritanya |
+| `003` | Studi | 4 studi visual — seluruhnya tayang; galeri geser dengan snap ke tengah |
 | `004` | Praktik | Dua paragraf posisi |
 | `005` | Kontak | Satu alamat, blok inversi |
 
@@ -313,7 +313,9 @@ melengkapi rangkaian dari `st-10.png` (2026-08-25).
 | Ground / ink | `#0A0A0A` / `#FAFAFA` |
 
 
-**Rencana: 3 studi kuat, bukan 8.** Lebih baik sedikit tapi benar-benar miliknya.
+**Rencana: 3 studi kuat, bukan 8.** Lebih baik sedikit tapi benar-benar
+miliknya. (Realita 2026-08-27: kini 4 — `004 Ink Chaos/Simetri` menyusul
+lewat PR #7.)
 
 
 ### Cara mengganti
@@ -388,7 +390,7 @@ pemilik situs sendiri sempat mengetuknya dan mengira rusak.
 | Hal | Status |
 |---|---|
 | **Email `halo@nuit-encre.studio`** | **Dummy, dan tetap begitu.** Anggaran domain dipakai proyek lain. **Berhenti menandainya sebagai kekurangan.** |
-| **Satu karya selesai** | Disengaja. `practice[]` sudah mengakuinya terbuka. |
+| **Dua karya di 002** | Concept Archive + Ink Chaos (PR #7, 2026-08-27). Teks `practice[]` masih menyebut "selesai baru satu" — mana yang "selesai" adalah keputusan pemilik. |
 | **Tanpa domain sendiri** | Disengaja. Situs harus terasa selesai apa adanya. |
 | **Layar pembuka** | Sudah diterima. Jangan dirancang ulang tanpa diminta. |
 | **Massa tinta** | Sudah pas. Jangan disetel ulang tanpa diminta. |
@@ -467,6 +469,30 @@ penyuntingan; kalau terpaksa, satu berkas dalam satu waktu, `data.js` dulu
 (teks polos, tanpa backtick) sebelum `main.js`.
 
 
+**Audit & perampingan (2026-08-27).** Audit menyeluruh menemukan dan
+memperbaiki:
+
+
+- **Studi 004:** `st-04.jpg`/`st-04.webp` tadinya PNG 3 MB yang diunggah
+  tiga kali dengan nama berbeda — `ink-chaos-02.png` bahkan duplikat
+  persis (md5 sama). Kini diproses lewat `tools/add-study.py` menjadi
+  JPG 451 KB + WebP 263 KB yang beneran; zona lencana 0,0% piksel terang.
+  Hemat ±9 MB di repo & Pages.
+- **Dihapus:** `ink-chaos-02.png`, `og-cover.webp` (tak dirujuk),
+  `image-search/` (screenshot referensi huyml.co — materi kerja, bukan
+  isi situs), `ApfelGrotezk-Regular.woff2` (bobot 400 tak pernah dipakai;
+  semua teks display = Fett 700).
+- **CSS mati:** `.wk__top`, rule `.wk__facts dd` duplikat, dan default
+  `.gal__bar i` 12,5% → 25% (sisa era 8 kartu).
+- **Dokumen:** README & CONCEPT disinkronkan dengan realita
+  (4 studi, 2 karya).
+
+
+**Perlu keputusan pemilik (jangan diubah tanpa izin):** `practice[]`
+masih menyebut "karya yang benar-benar selesai baru satu" padahal 002
+kini menampilkan dua kartu karya.
+
+
 **Trik mendeteksi berkas biner di Pages:** `fetch_page` mengembalikan **500
 kalau berkasnya ada** (alatnya gagal membaca biner) dan **halaman 404** kalau
 tidak ada. Bandingkan dengan berkas yang pasti ada untuk memastikan.
@@ -479,13 +505,14 @@ Nomor lama 007 (wordmark) kini 001. Semua entri placeholder AI dihapus dari
 `data.js` beserta berkasnya (`st-03` s.d. `st-08`; berkas `st-01` lama diganti
 varian wordmark).
 
-Status akhir: **3/3 studi tayang.**
+Status akhir: **4/4 studi tayang.**
 
 | No | Judul | Status |
 |---|---|---|
 | 001 | Wordmark / Terpotong | Tayang — diproses dari sumber `st-02-wordmark.png` |
 | 002 | Kisi / Dimakan | Tayang — diproses dari `st-09.png` (diunggah pemilik) |
 | 003 | Gestur / Bersilang | Tayang — diproses dari `st-10.png` (diunggah pemilik) |
+| 004 | Ink Chaos / Simetri | Tayang — ditambahkan lewat PR #7; pasangan `st-04.jpg`/`.webp` diproses ulang 2026-08-27 via `tools/add-study.py` dari `st-04.png` |
 
 Sumber `st-10.png` diproses dengan
 `python3 tools/add-study.py assets/img/st-10.png 3` menjadi pasangan
