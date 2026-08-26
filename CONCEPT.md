@@ -538,6 +538,15 @@ dan disengaja tetap berhenti di kartu yang dituju. Kalau pemilik
 menginginkan kembali disiplin satu-kartu, kembalikan
 `scroll-snap-stop:always` — tapi jeda fling cepat akan kembali.
 
+**Scroll halaman tertahan di atas foto studi (2026-08-27, bug fix).**
+Sentuhan di atas `<img>` bisa memicu drag-gambar native (terutama
+Android) yang memblokir scroll atas-bawah; preventDefault `dragstart`
+lama hanya menangkap drag mouse. Perbaikan: `.gs` kini
+`pointer-events:none` (kartu galeri memang tak interaktif — seluruh
+touch masuk ke `.gal__view`: horizontal = galeri, vertikal =
+halaman) + `draggable="false"` di semua output `pic()` +
+`-webkit-user-drag:none` global.
+
 
 **Trik mendeteksi berkas biner di Pages:** `fetch_page` mengembalikan **500
 kalau berkasnya ada** (alatnya gagal membaca biner) dan **halaman 404** kalau

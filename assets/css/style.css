@@ -63,7 +63,7 @@ body{
   overflow-x:hidden;-webkit-font-smoothing:antialiased;
   padding-bottom:calc(var(--dock) + var(--safe));
 }
-img{display:block;width:100%}
+img{display:block;width:100%;-webkit-user-drag:none}
 picture{display:contents}
 a{color:inherit;text-decoration:none;-webkit-tap-highlight-color:transparent}
 button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
@@ -410,6 +410,11 @@ body.ready .hero__foot{animation:fade .9s var(--e) 1s forwards}
      memang secepat itu. Sapuan pelan tak berubah. (2026-08-27) */
   width:var(--gs-w);
   flex-shrink:0;
+  /* kartu tidak menangkap sentuhan — seluruh touch masuk ke
+     .gal__view: horizontal = galeri, vertikal = halaman. Tanpa
+     ini, <img> di Android bisa memicu drag-gambar native yang
+     memblokir scroll atas-bawah. (2026-08-27) */
+  pointer-events:none;
 }
 .gs__fig{
   position:relative;overflow:hidden;background:var(--ash);

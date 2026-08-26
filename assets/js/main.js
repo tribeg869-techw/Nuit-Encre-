@@ -15,10 +15,10 @@
     const loading = eager ? 'eager' : 'lazy';
     const priority = eager ? ' fetchpriority="high"' : '';
     return /\.[a-z0-9]{2,4}$/i.test(n)
-      ? `<img src="assets/img/${n}" alt="${alt}" loading="${loading}" decoding="async"${priority}>`
+      ? `<img src="assets/img/${n}" alt="${alt}" draggable="false" loading="${loading}" decoding="async"${priority}>`
       : `<picture>
            <source srcset="assets/img/${n}.webp" type="image/webp">
-           <img src="assets/img/${n}.jpg" alt="${alt}" loading="${loading}" decoding="async"${priority}>
+           <img src="assets/img/${n}.jpg" alt="${alt}" draggable="false" loading="${loading}" decoding="async"${priority}>
          </picture>`;
   };
 
