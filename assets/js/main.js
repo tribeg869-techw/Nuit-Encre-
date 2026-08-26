@@ -128,7 +128,7 @@ behavior: jumping || reduced ? 'auto' : 'smooth'
     loopTimer = setTimeout(() => {
       if (jumping || total < 2) return;
       const i = nearest(), max = view.scrollWidth - view.clientWidth;
-      if (i === total && view.scrollLeft > max - 8) { jumping = true; view.scrollTo({ left: startOf(cards[1]) - (view.clientWidth - cards[1].offsetWidth) / 2, behavior: 'auto' }); setTimeout(() => { jumping = false; }, 80); }
+      if (i === total + 1 && view.scrollLeft > max - 8) { jumping = true; view.scrollTo({ left: startOf(cards[1]) - (view.clientWidth - cards[1].offsetWidth) / 2, behavior: 'auto' }); setTimeout(() => { jumping = false; }, 80); }
       else if (i === 0 && view.scrollLeft < 8) { jumping = true; view.scrollTo({ left: startOf(cards[total]) - (view.clientWidth - cards[total].offsetWidth) / 2, behavior: 'auto' }); setTimeout(() => { jumping = false; }, 80); }
     }, reduced ? 0 : 500);
   }, { passive: true });
