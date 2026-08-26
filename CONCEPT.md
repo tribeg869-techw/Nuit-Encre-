@@ -98,7 +98,7 @@ Satu halaman, lima bagian:
 | | Bagian | Isi |
 |---|---|---|
 | `001` | Pembuka | Wordmark besar, status, jam Jakarta langsung |
-| `002` | Karya | Concept Archive + Ink Chaos — dua kartu karya, plus ceritanya |
+| `002` | Karya | Concept Archive + Ink Chaos + Lexier — tiga kartu karya, plus ceritanya |
 | `003` | Studi | 4 studi visual — seluruhnya tayang; galeri geser dengan snap ke tengah |
 | `004` | Praktik | Dua paragraf posisi |
 | `005` | Kontak | Satu alamat, blok inversi |
@@ -390,7 +390,7 @@ pemilik situs sendiri sempat mengetuknya dan mengira rusak.
 | Hal | Status |
 |---|---|
 | **Email `halo@nuit-encre.studio`** | **Dummy, dan tetap begitu.** Anggaran domain dipakai proyek lain. **Berhenti menandainya sebagai kekurangan.** |
-| **Dua karya di 002** | Concept Archive + Ink Chaos (PR #7, 2026-08-27). Keputusan pemilik 2026-08-27: keduanya "selesai" — `practice[]` kini menyebut "baru dua". |
+| **Tiga karya di 002** | Concept Archive + Ink Chaos + Lexier. Keputusan pemilik 2026-08-27: semuanya "selesai" — `practice[]` menyebut "baru tiga". |
 | **Tanpa domain sendiri** | Disengaja. Situs harus terasa selesai apa adanya. |
 | **Layar pembuka** | Sudah diterima. Jangan dirancang ulang tanpa diminta. |
 | **Massa tinta** | Sudah pas. Jangan disetel ulang tanpa diminta. |
@@ -488,9 +488,16 @@ memperbaiki:
   (4 studi, 2 karya).
 
 
-**Keputusan pemilik (2026-08-27):** `practice[]` kini selaras dengan 002 —
-"Karya yang benar-benar selesai baru **dua**" (Concept Archive + Ink
-Chaos). Ubah angka ini kalau jumlah karya berubah.
+**Keputusan pemilik (2026-08-27):** `practice[]` selaras dengan 002 —
+"Karya yang benar-benar selesai baru **tiga**" (Concept Archive, Ink
+Chaos, Lexier). Ubah angka ini kalau jumlah karya berubah.
+
+**Karya 003 Lexier (2026-08-27).** Ditambahkan atas permintaan pemilik:
+`workThree` di `data.js`, thumbnail `lexier-cover.jpg`/`.webp`
+di-generate AI (1280×800, B&W) sesuai karakter situs
+(https://lexier.pages.dev/ — studio tipografi eksperimental, JKT).
+Grid `002` kini 2 kolom (2 kartu + 1 kartu) — mekanisme scroll
+horizontal yang sudah ada yang mengerjakan, bukan desain baru.
 
 
 **Trik mendeteksi berkas biner di Pages:** `fetch_page` mengembalikan **500

@@ -59,6 +59,27 @@ window.NE = {
     ]
   },
 
+  workThree: {
+    no:    '003',
+    title: 'Lexier',
+    kind:  'Studio Tipografi Eksperimental',
+    year:  '2026',
+    url:   'https://lexier.pages.dev/',
+    cover: 'lexier-cover',
+    coverAlt: 'Poster tipografis hitam-putih: huruf display raksasa dipecah dan dipotong melampaui tepi, berdiri di atas kisi garis rambut tipis di kertas bertekstur.',
+    lede:  'Studio tipografi eksperimental — huruf sebagai bahan mentah, bukan alat.',
+    facts: [
+      { k: 'Peran',   v: 'Konsep & Desain' },
+      { k: 'Tahun',   v: '2026' },
+      { k: 'Jenis',   v: 'Studio Tipografi' },
+      { k: 'Status',  v: 'Tayang' }
+    ],
+    story: [
+      'Lexier lahir dari satu pertanyaan: kenapa setiap huruf harus duduk rapi di baris yang sama? Di studio ini huruf diperlakukan sebagai bahan mentah — kolom, counter, dan baseline dibelah lalu ditata ulang sampai bersuara.',
+      'Manifestonya satu baris: hitam-putih bukan keterbatasan, melainkan disiplin yang membuat satu warna lain terasa keras. Salah dengan niat lebih jujur daripada benar tapi bosan.'
+    ]
+  },
+
   /* ---- 003 · STUDI --------------------------------------------------
      Ketuk kartu untuk membuka catatan. Tanpa hover — ramah layar sentuh.
   ------------------------------------------------------------------- */
@@ -83,7 +104,7 @@ window.NE = {
   /* ---- 004 · PRAKTIK ------------------------------------------------ */
   practice: [
     'Aku bekerja dengan bentuk, ruang, dan atmosfer. Sebagian besar waktuku habis bukan untuk membuat, melainkan untuk mengamati — sampai sebuah gagasan cukup jelas untuk diberi wujud.',
-    'Halaman ini bukan etalase. Karya yang benar-benar selesai baru dua. Selebihnya adalah studi: sebagian akan tumbuh, sebagian berhenti di sini, dan itu tidak apa-apa.'
+    'Halaman ini bukan etalase. Karya yang benar-benar selesai baru tiga. Selebihnya adalah studi: sebagian akan tumbuh, sebagian berhenti di sini, dan itu tidak apa-apa.'
   ],
 
   practiceIndex: [

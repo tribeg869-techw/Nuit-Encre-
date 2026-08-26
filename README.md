@@ -54,7 +54,7 @@ Keduanya memakai mesin filamen yang sama, jadi seratnya satu bahasa.
 | | Bagian |
 |---|---|
 | `001` | Pembuka — nama besar di atas **void** generatif setinggi layar, status, jam |
-| `002` | Karya — Concept Archive + Ink Chaos |
+| `002` | Karya — Concept Archive + Ink Chaos + Lexier |
 | `003` | Studi — galeri geser, 4 kartu |
 | `004` | Praktik |
 | `005` | Kontak |

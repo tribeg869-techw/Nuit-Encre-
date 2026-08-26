@@ -23,7 +23,7 @@
   };
 
   /* ---------- 002 · KARYA — inline expandable archive ---------- */
-  const works = [D.work, D.workMore];
+  const works = [D.work, D.workMore, D.workThree];
   const workEl = $('#work');
   workEl.innerHTML = `<div class="work-grid" role="list">${works.map((w, i) => `
     <article class="work-card ${i === 0 ? 'is-open' : ''}" data-work="${i}" role="listitem">
