@@ -98,7 +98,10 @@ window.NE = {
       note:'Beberapa sapuan bertemu tanpa dipaksa menjadi lambang. Tumpang tindih dan jedanya dibiarkan menyimpan gerak.' },
     { no:'004', title:'Ink Chaos / Simetri',    tag:'INK',              img:'st-04',
       alt:'Ledakan tinta hitam dan putih yang simetris, dikelilingi sapuan tangan, percikan, dan jejak garis manual.',
-      note:'Ledakan tinta yang dipertemukan dengan gestur, percikan, dan jejak garis manual.' }
+      note:'Ledakan tinta yang dipertemukan dengan gestur, percikan, dan jejak garis manual.' },
+    { no:'005', title:'Poster / Kosong',        tag:'LEXIER',           img:'st-05',
+      alt:'Poster LEXIER: huruf DESAIN raksasa di atas kertas hangat, coretan miring dicoret garis oranye, kolom teks dicoret, kata KOSONG berkontur, dan strip alfabet dengan satu aksen oranye.',
+      note:'Poster untuk studio Lexier: huruf DESAIN dipecah, coretan dicoret, dan satu oranye yang hanya muncul sekali — disiplin "kosong" yang membuat satu aksen bersuara keras.' }
   ],
 
   /* ---- 004 · PRAKTIK ------------------------------------------------ */

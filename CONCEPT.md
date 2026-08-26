@@ -610,7 +610,7 @@ Nomor lama 007 (wordmark) kini 001. Semua entri placeholder AI dihapus dari
 `data.js` beserta berkasnya (`st-03` s.d. `st-08`; berkas `st-01` lama diganti
 varian wordmark).
 
-Status akhir: **4/4 studi tayang.**
+Status akhir: **5/5 studi tayang.**
 
 | No | Judul | Status |
 |---|---|---|
@@ -618,6 +618,7 @@ Status akhir: **4/4 studi tayang.**
 | 002 | Kisi / Dimakan | Tayang — diproses dari `st-09.png` (diunggah pemilik) |
 | 003 | Gestur / Bersilang | Tayang — diproses dari `st-10.png` (diunggah pemilik) |
 | 004 | Ink Chaos / Simetri | Tayang — ditambahkan lewat PR #7; pasangan `st-04.jpg`/`.webp` diproses ulang 2026-08-27 via `tools/add-study.py` dari `st-04.png` |
+| 005 | Poster / Kosong | Tayang (2026-08-27) — poster studio Lexier; diproses via `tools/add-study.py` dari `st-05.png` (unggah pemilik). Peringatan zona lencana diabaikan: kiri atas memang kertas terang + logo LEXIER, dan menyatunya lencana putih sudah disetujui (audit 2026-08-25). Carousel transform adaptif otomatis: 3×5=15 kartu, rebase ±5, counter `05`. |
 
 Sumber `st-10.png` diproses dengan
 `python3 tools/add-study.py assets/img/st-10.png 3` menjadi pasangan
