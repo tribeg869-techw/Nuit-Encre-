@@ -51,13 +51,16 @@
   const track = $('#galTrack');
   const S = D.studies;
 
-  const cardMarkup = (s, i, clone = '') => `<figure class="gs${i === 0 && !clone ? ' on' : ''}" data-n="${i}" data-clone="${clone}">
-    <div class="gs__fig"><span class="gs__i">${s.no}</span>${pic(s.img, s.alt || s.title)}</div>
-  </figure>`;
-  track.innerHTML = cardMarkup(S[S.length - 1], S.length - 1, 'before') + S.map((s, i) => cardMarkup(s, i)).join('') + cardMarkup(S[0], 0, 'after');
+  track.innerHTML = S.map((s, i) => `
+    <figure class="gs${i === 0 ? ' on' : ''}" data-n="${i}">
+      <div class="gs__fig">
+        <span class="gs__i">${s.no}</span>
+        ${pic(s.img, s.alt || s.title)}
+      </div>
+    </figure>`).join('');
 
   const cards = $$('.gs', track);
-  const total = S.length;
+  const total = cards.length;
   $('#stCount').textContent = String(total).padStart(2, '0');
 
   const elNo   = $('#galNo');
@@ -76,7 +79,7 @@
     cur = i;
     const s = S[i];
 
-    cards.forEach((c, n) => c.classList.toggle('on', (n - 1 + total) % total === i));
+    cards.forEach((c, n) => c.classList.toggle('on', n === i));
 
     elCap.classList.add('sw');
     setTimeout(() => {
@@ -105,54 +108,33 @@
   function nearest() {
     const mid = view.scrollLeft + view.clientWidth / 2;
     let best = 0, gap = Infinity;
-    cards.forEach((c, i) => { const d = Math.abs(startOf(c) + c.offsetWidth / 2 - mid); if (d < gap) { gap = d; best = i; } });
+    cards.forEach((c, i) => {
+      const d = Math.abs(startOf(c) + c.offsetWidth / 2 - mid);
+      if (d < gap) { gap = d; best = i; }
+    });
     return best;
   }
 
   function goTo(i) {
-    const c = cards[Math.max(1, Math.min(total, i + 1))];
+    const c = cards[Math.max(0, Math.min(total - 1, i))];
     const max = view.scrollWidth - view.clientWidth;
     const to  = startOf(c) - (view.clientWidth - c.offsetWidth) / 2;
     view.scrollTo({
       left: Math.max(0, Math.min(max, to)),
-behavior: jumping || reduced ? 'auto' : 'smooth'
+      behavior: reduced ? 'auto' : 'smooth'
     });
   }
 
-  let raf = false, loopTimer = 0, jumping = false;
+  let raf = false;
   view.addEventListener('scroll', () => {
     if (raf) return;
     raf = true;
-    requestAnimationFrame(() => {
-      const domIndex = nearest();
-      paint(Number(cards[domIndex].dataset.n));
-      raf = false;
-    });
-    clearTimeout(loopTimer);
-    loopTimer = setTimeout(() => {
-      if (jumping || total < 2) return;
-      const i = nearest(), max = view.scrollWidth - view.clientWidth;
-      function normalizeLoop(target) {
-        jumping = true;
-        const old = view.style.scrollBehavior;
-        view.style.scrollBehavior = 'auto';
-        view.scrollTo({ left: startOf(cards[target]) - (view.clientWidth - cards[target].offsetWidth) / 2, behavior: 'auto' });
-        requestAnimationFrame(() => { view.style.scrollBehavior = old; jumping = false; });
-      }
-      if (i === total + 1 && view.scrollLeft > max - 8) normalizeLoop(1);
-      else if (i === 0 && view.scrollLeft < 8) normalizeLoop(total);
-    }, reduced ? 0 : 120);
+    requestAnimationFrame(() => { paint(nearest()); raf = false; });
   }, { passive: true });
 
   // Loop ringan: tombol panah berputar dari ujung ke awal.
-  bPrev.addEventListener('click', () => {
-    if (cur === 0) { jumping = false; view.scrollTo({ left: startOf(cards[0]) - (view.clientWidth - cards[0].offsetWidth) / 2, behavior: reduced ? 'auto' : 'smooth' }); }
-    else goTo(cur - 1);
-  });
-  bNext.addEventListener('click', () => {
-    if (cur === total - 1) { jumping = false; view.scrollTo({ left: startOf(cards[total + 1]) - (view.clientWidth - cards[total + 1].offsetWidth) / 2, behavior: reduced ? 'auto' : 'smooth' }); }
-    else goTo(cur + 1);
-  });
+  bPrev.addEventListener('click', () => goTo(cur > 0 ? cur - 1 : total - 1));
+  bNext.addEventListener('click', () => goTo(cur < total - 1 ? cur + 1 : 0));
 
   // seret dengan mouse — di layar sentuh, biarkan native
   let down = false, sx = 0, sl = 0, far = 0;
@@ -189,7 +171,6 @@ behavior: jumping || reduced ? 'auto' : 'smooth'
   });
 
   paint(0);
-  requestAnimationFrame(() => { goTo(0); });
 
   /* ---------- 004 · PRAKTIK ---------- */
   $('#practice').innerHTML = D.practice.map(p => `<p class="rv">${p}</p>`).join('');
