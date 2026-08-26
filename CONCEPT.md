@@ -390,7 +390,7 @@ pemilik situs sendiri sempat mengetuknya dan mengira rusak.
 | Hal | Status |
 |---|---|
 | **Email `halo@nuit-encre.studio`** | **Dummy, dan tetap begitu.** Anggaran domain dipakai proyek lain. **Berhenti menandainya sebagai kekurangan.** |
-| **Dua karya di 002** | Concept Archive + Ink Chaos (PR #7, 2026-08-27). Teks `practice[]` masih menyebut "selesai baru satu" — mana yang "selesai" adalah keputusan pemilik. |
+| **Dua karya di 002** | Concept Archive + Ink Chaos (PR #7, 2026-08-27). Keputusan pemilik 2026-08-27: keduanya "selesai" — `practice[]` kini menyebut "baru dua". |
 | **Tanpa domain sendiri** | Disengaja. Situs harus terasa selesai apa adanya. |
 | **Layar pembuka** | Sudah diterima. Jangan dirancang ulang tanpa diminta. |
 | **Massa tinta** | Sudah pas. Jangan disetel ulang tanpa diminta. |
@@ -488,9 +488,9 @@ memperbaiki:
   (4 studi, 2 karya).
 
 
-**Perlu keputusan pemilik (jangan diubah tanpa izin):** `practice[]`
-masih menyebut "karya yang benar-benar selesai baru satu" padahal 002
-kini menampilkan dua kartu karya.
+**Keputusan pemilik (2026-08-27):** `practice[]` kini selaras dengan 002 —
+"Karya yang benar-benar selesai baru **dua**" (Concept Archive + Ink
+Chaos). Ubah angka ini kalau jumlah karya berubah.
 
 
 **Trik mendeteksi berkas biner di Pages:** `fetch_page` mengembalikan **500

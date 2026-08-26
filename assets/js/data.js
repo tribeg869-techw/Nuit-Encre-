@@ -83,7 +83,7 @@ window.NE = {
   /* ---- 004 · PRAKTIK ------------------------------------------------ */
   practice: [
     'Aku bekerja dengan bentuk, ruang, dan atmosfer. Sebagian besar waktuku habis bukan untuk membuat, melainkan untuk mengamati — sampai sebuah gagasan cukup jelas untuk diberi wujud.',
-    'Halaman ini bukan etalase. Karya yang benar-benar selesai baru satu. Selebihnya adalah studi: sebagian akan tumbuh, sebagian berhenti di sini, dan itu tidak apa-apa.'
+    'Halaman ini bukan etalase. Karya yang benar-benar selesai baru dua. Selebihnya adalah studi: sebagian akan tumbuh, sebagian berhenti di sini, dan itu tidak apa-apa.'
   ],
 
   practiceIndex: [
