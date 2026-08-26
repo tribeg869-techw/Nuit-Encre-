@@ -548,6 +548,18 @@ durasi luncur (190–430 ms), jaraknya maksimal satu kartu ke arah
 sapuan. Sapuan pelan yang melewati separuh kartu tetap mendarat di
 kartu yang dituju (via `tNearestTo` posisi lepas).
 
+**Re-anchoring mid-gesture (2026-08-27, final).** Sisa "pause
+kadang" ternyata masalah rasterisasi: wilayah salinan (clone) sering
+dingin (belum decode / tile GPU terevakuasi), jadi fling yang
+menerjangnya hiccup — bukti: lewat 003→004 dulu (memanaskan wilayah
+kanan) membuat wrap mulus. Solusi: `reanchor()` dipanggil tiap frame
+drag & fling — begitu viewport melewati batas set, scroll digeser
+seketikas ∓lebar-set (piksel identik, track periodik) ke wilayah
+utama yang **selalu hangat**. Wrap selesai di tengah gestur, bukan
+setelah; gestur yang sudah re-anchor mendarat tepat di kartunya
+(`tAnchors`). `settle()` bertahan sebagai jaring pengaman (wheel &
+keyboard bisa mendarat di salinan).
+
 **Scroll halaman tertahan di atas foto studi (2026-08-27, bug fix).**
 Sentuhan di atas `<img>` bisa memicu drag-gambar native (terutama
 Android) yang memblokir scroll atas-bawah; preventDefault `dragstart`

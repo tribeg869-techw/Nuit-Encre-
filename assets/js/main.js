@@ -232,7 +232,21 @@
      peramban (pan-x) yang menelan scroll vertikal. */
   let tDrag = false, tId = -1, tDecided = false;
   let tX0 = 0, tY0 = 0, tLastX = 0, tLastT = 0, tVel = 0, tSL0 = 0;
-  let tFling = 0, tAutoT = null;
+  let tFling = 0, tAutoT = null, tAnchors = 0;
+
+  /* re-anchoring seketika saat viewport melewati batas set:
+     track periodik → piksel identik; wilayah tujuan selalu
+     hangat (baru dilewati / selalu terlihat) → tanpa decode
+     atau raster baru, inilah yang menghilangkan "pause" wrap
+     intermiten. Dipanggil tiap frame drag & fling. */
+  function reanchor() {
+    const c8 = startOf(cards[HOME + 1]) - (view.clientWidth - cards[HOME + 1].offsetWidth) / 2;
+    const c3 = startOf(cards[HOME - 1]) - (view.clientWidth - cards[HOME - 1].offsetWidth) / 2;
+    const setW = startOf(cards[HOME]) - startOf(cards[0]);
+    if (view.scrollLeft > c8) { view.scrollLeft -= setW; return -setW; }
+    if (view.scrollLeft < c3) { view.scrollLeft += setW; return +setW; }
+    return 0;
+  }
 
   function tCenter(i) {
     const c = cards[i];
@@ -257,6 +271,8 @@
     const step = () => {
       const p = Math.min(1, (performance.now() - t0) / dur);
       view.scrollLeft = from + (target - from) * ease(p);
+      const sh = reanchor();
+      if (sh) { from += sh; target += sh; }
       if (p < 1) { tFling = requestAnimationFrame(step); return; }
       tFling = 0;
       view.classList.remove('drag');
@@ -272,7 +288,7 @@
     cancelAnimationFrame(tFling); tFling = 0;
     tDrag = true; tDecided = false; tId = e.pointerId;
     tX0 = tLastX = e.clientX; tY0 = e.clientY; tSL0 = view.scrollLeft;
-    tLastT = performance.now(); tVel = 0;
+    tLastT = performance.now(); tVel = 0; tAnchors = 0;
   });
 
   view.addEventListener('pointermove', e => {
@@ -288,6 +304,8 @@
     if (dt > 0) { const v = (e.clientX - tLastX) / dt; tVel = .75 * v + .25 * tVel; }
     tLastX = e.clientX; tLastT = now;
     view.scrollLeft = tSL0 - dx;
+    const sh = reanchor();
+    if (sh) { tSL0 += sh; tAnchors++; }
   });
 
   function tEnd(e) {
@@ -301,8 +319,12 @@
        hanya menentukan durasi luncur, BUKAN jarak. */
     const near = tNearestTo(view.scrollLeft);
     let idx = near;
-    if (tVel > .25) idx = Math.max(0, near - 1);                 // sapuan kanan → kartu sebelum
-    else if (tVel < -.25) idx = Math.min(cards.length - 1, near + 1);  // sapuan kiri → kartu sesudah
+    if (tAnchors === 0) {
+      if (tVel > .25) idx = Math.max(0, near - 1);                 // sapuan kanan → kartu sebelum
+      else if (tVel < -.25) idx = Math.min(cards.length - 1, near + 1);  // sapuan kiri → kartu sesudah
+    }
+    /* tAnchors > 0: wrap sudah terjadi di tengah gestur — mendarat
+       tepat di kartu hasil re-anchor, tanpa langkah tambahan. */
     if (reduced) { goTo(idx); return; }
     const dur = Math.max(190, Math.min(430, 430 - (Math.abs(tVel) - .2) * 260));
     tFlingTo(tCenter(idx), dur);
