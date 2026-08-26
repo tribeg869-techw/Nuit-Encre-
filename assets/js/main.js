@@ -123,7 +123,11 @@ behavior: jumping || reduced ? 'auto' : 'smooth'
   view.addEventListener('scroll', () => {
     if (raf) return;
     raf = true;
-    requestAnimationFrame(() => { paint(nearest()); raf = false; });
+    requestAnimationFrame(() => {
+      const domIndex = nearest();
+      paint(Number(cards[domIndex].dataset.n));
+      raf = false;
+    });
     clearTimeout(loopTimer);
     loopTimer = setTimeout(() => {
       if (jumping || total < 2) return;
