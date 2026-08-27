@@ -103,8 +103,8 @@ window.NE = {
       alt:'Poster LEXIER: huruf DESAIN raksasa di atas kertas hangat, coretan miring dicoret garis oranye, kolom teks dicoret, kata KOSONG berkontur, dan strip alfabet dengan satu aksen oranye.',
       note:'Poster untuk studio Lexier: huruf DESAIN dipecah, coretan dicoret, dan satu oranye yang hanya muncul sekali — disiplin "kosong" yang membuat satu aksen bersuara keras.' },
     { no:'006', title:'Kaligrafi / Tegak',      tag:'LETTERFORM',       img:'st-06',
-      alt:'Tulisan kaligrafi tinta "design" disusun vertikal: sapuan kuas tebal dan kering, percikan, dan satu spiral di ekor huruf g, di atas kertas hangat.',
-      note:'Kata "design" berdiri tegak — sapuan kuas cepat, percikan, dan satu spiral di ekor huruf g dibiarkan apa adanya.' }
+      alt:'Tulisan kaligrafi tinta "plume" disusun vertikal: sapuan kuas tebal dan kering, percikan, dan satu spiral besar di tengah, di atas kertas hangat.',
+      note:'Kata "plume" berdiri tegak — sapuan kuas cepat, percikan, dan satu spiral besar dibiarkan apa adanya.' }
   ],
 
   /* ---- 004 · PRAKTIK ------------------------------------------------ */

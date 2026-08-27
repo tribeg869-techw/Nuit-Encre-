@@ -619,7 +619,7 @@ Status akhir: **6/6 studi tayang.**
 | 003 | Gestur / Bersilang | Tayang — diproses dari `st-10.png` (diunggah pemilik) |
 | 004 | Ink Chaos / Simetri | Tayang — ditambahkan lewat PR #7; pasangan `st-04.jpg`/`.webp` diproses ulang 2026-08-27 via `tools/add-study.py` dari `st-04.png` |
 | 005 | Poster / Kosong | Tayang (2026-08-27) — poster studio Lexier; diproses via `tools/add-study.py` dari `st-05.png` (unggah pemilik). Peringatan zona lencana tak relevan lagi (lencana dihapus, lihat bawah). |
-| 006 | Kaligrafi / Tegak | Tayang (2026-08-27) — kaligrafi tinta vertikal kata "design"; `st-06.png` diunggah pemilik via GitHub, diproses `tools/add-study.py` (jpg 162KB + webp 35KB). |
+| 006 | Kaligrafi / Tegak | Tayang (2026-08-27) — kaligrafi tinta vertikal kata "plume"; `st-06.png` diunggah pemilik via GitHub, diproses `tools/add-study.py` (jpg 162KB + webp 35KB). |
 
 Carousel transform adaptif otomatis terhadap jumlah studi: kini
 3×6=18 kartu, rebase ±6, counter `06`, progress bar 6 segmen.
