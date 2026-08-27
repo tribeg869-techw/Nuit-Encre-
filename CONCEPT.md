@@ -610,7 +610,7 @@ Nomor lama 007 (wordmark) kini 001. Semua entri placeholder AI dihapus dari
 `data.js` beserta berkasnya (`st-03` s.d. `st-08`; berkas `st-01` lama diganti
 varian wordmark).
 
-Status akhir: **5/5 studi tayang.**
+Status akhir: **6/6 studi tayang.**
 
 | No | Judul | Status |
 |---|---|---|
@@ -618,7 +618,11 @@ Status akhir: **5/5 studi tayang.**
 | 002 | Kisi / Dimakan | Tayang — diproses dari `st-09.png` (diunggah pemilik) |
 | 003 | Gestur / Bersilang | Tayang — diproses dari `st-10.png` (diunggah pemilik) |
 | 004 | Ink Chaos / Simetri | Tayang — ditambahkan lewat PR #7; pasangan `st-04.jpg`/`.webp` diproses ulang 2026-08-27 via `tools/add-study.py` dari `st-04.png` |
-| 005 | Poster / Kosong | Tayang (2026-08-27) — poster studio Lexier; diproses via `tools/add-study.py` dari `st-05.png` (unggah pemilik). Peringatan zona lencana tak relevan lagi (lencana dihapus, lihat bawah). Carousel transform adaptif otomatis: 3×5=15 kartu, rebase ±5, counter `05`. |
+| 005 | Poster / Kosong | Tayang (2026-08-27) — poster studio Lexier; diproses via `tools/add-study.py` dari `st-05.png` (unggah pemilik). Peringatan zona lencana tak relevan lagi (lencana dihapus, lihat bawah). |
+| 006 | Kaligrafi / Tegak | Tayang (2026-08-27) — kaligrafi tinta vertikal kata "design"; `st-06.png` diunggah pemilik via GitHub, diproses `tools/add-study.py` (jpg 162KB + webp 35KB). |
+
+Carousel transform adaptif otomatis terhadap jumlah studi: kini
+3×6=18 kartu, rebase ±6, counter `06`, progress bar 6 segmen.
 
 **Lencana nomor kartu dihapus (2026-08-27, keputusan pemilik).**
 Pemilik bertanya: lencana putih `.gs__i` cocok nggak, soalnya nomor
