@@ -80,6 +80,27 @@ window.NE = {
     ]
   },
 
+  workFour: {
+    no:    '004',
+    title: 'Zestpop',
+    kind:  'Concept Beverage · Sticky Scroll',
+    year:  '2026',
+    url:   'https://zestpop.pages.dev/',
+    cover: 'zestpop-cover',
+    coverAlt: 'Kaleng seltzer dingin yang tab-nya baru dicabut — karbonasi dan tetesan air menyembur dari mulut kaleng, latar off-white hangat.',
+    lede:  'Brand konsep seltzer rasa buah lokal di halaman yang ikut berkarbonasi — sticky scroll, gelembung yang ngikut jari, dan tab yang bisa dicabut.',
+    facts: [
+      { k: 'Peran',   v: 'Konsep, Desain & Pengembangan' },
+      { k: 'Tahun',   v: '2026' },
+      { k: 'Jenis',   v: 'Landing Page Interaktif' },
+      { k: 'Status',  v: 'Tayang' }
+    ],
+    story: [
+      'Zestpop berangkat dari satu pertanyaan: kalau minumannya berkarbonasi, kenapa halamannya tidak ikut? Seltzer rasa buah lokal — jeruk, kelapa, manggis — dengan halaman yang ikut berkarbonasi: sticky scroll, gelembung yang ngikut jari, dan tab kaleng yang bisa dicabut.',
+      'Ini percobaan sticky scroll pertama. Eksekusinya belum semulus referensi yang kagumi, tapi tujuannya halaman yang bergerak seperti minuman: disentuh, dia bergeser. Rasanya sudah ada; teknik yang masih dilatih.'
+    ]
+  },
+
   /* ---- 003 · STUDI --------------------------------------------------
      Ketuk kartu untuk membuka catatan. Tanpa hover — ramah layar sentuh.
   ------------------------------------------------------------------- */
@@ -110,7 +131,7 @@ window.NE = {
   /* ---- 004 · PRAKTIK ------------------------------------------------ */
   practice: [
     'Aku bekerja dengan bentuk, ruang, dan atmosfer. Sebagian besar waktuku habis bukan untuk membuat, melainkan untuk mengamati — sampai sebuah gagasan cukup jelas untuk diberi wujud.',
-    'Halaman ini bukan etalase. Karya yang benar-benar selesai baru tiga. Selebihnya adalah studi: sebagian akan tumbuh, sebagian berhenti di sini, dan itu tidak apa-apa.'
+    'Halaman ini bukan etalase. Karya yang benar-benar selesai baru empat. Selebihnya adalah studi: sebagian akan tumbuh, sebagian berhenti di sini, dan itu tidak apa-apa.'
   ],
 
   practiceIndex: [

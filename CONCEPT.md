@@ -98,7 +98,7 @@ Satu halaman, lima bagian:
 | | Bagian | Isi |
 |---|---|---|
 | `001` | Pembuka | Wordmark besar, status, jam Jakarta langsung |
-| `002` | Karya | Concept Archive + Ink Chaos + Lexier — tiga kartu karya, plus ceritanya |
+| `002` | Karya | Concept Archive + Ink Chaos + Lexier + Zestpop — empat kartu karya, plus ceritanya |
 | `003` | Studi | 4 studi visual — seluruhnya tayang; galeri geser dengan snap ke tengah, loop tak berujung |
 | `004` | Praktik | Dua paragraf posisi |
 | `005` | Kontak | Satu alamat, blok inversi |
@@ -390,7 +390,7 @@ pemilik situs sendiri sempat mengetuknya dan mengira rusak.
 | Hal | Status |
 |---|---|
 | **Email `halo@nuit-encre.studio`** | **Dummy, dan tetap begitu.** Anggaran domain dipakai proyek lain. **Berhenti menandainya sebagai kekurangan.** |
-| **Tiga karya di 002** | Concept Archive + Ink Chaos + Lexier. Keputusan pemilik 2026-08-27: semuanya "selesai" — `practice[]` menyebut "baru tiga". |
+| **Empat karya di 002** | Concept Archive + Ink Chaos + Lexier + Zestpop. Keputusan pemilik 2026-08-27: tiga-tiganya "selesai" — `practice[]` menyebut "baru tiga", dinaikkan ke "baru empat" 2026-08-28 bersama Zestpop. |
 | **Tanpa domain sendiri** | Disengaja. Situs harus terasa selesai apa adanya. |
 | **Layar pembuka** | Sudah diterima. Jangan dirancang ulang tanpa diminta. |
 | **Massa tinta** | Sudah pas. Jangan disetel ulang tanpa diminta. |
@@ -490,7 +490,8 @@ memperbaiki:
 
 **Keputusan pemilik (2026-08-27):** `practice[]` selaras dengan 002 —
 "Karya yang benar-benar selesai baru **tiga**" (Concept Archive, Ink
-Chaos, Lexier). Ubah angka ini kalau jumlah karya berubah.
+Chaos, Lexier). Naik ke "baru **empat**" 2026-08-28 bersama Zestpop.
+Ubah angka ini kalau jumlah karya berubah.
 
 **Karya 003 Lexier (2026-08-27).** Ditambahkan atas permintaan pemilik:
 `workThree` di `data.js`, thumbnail `lexier-cover.jpg`/`.webp`
@@ -501,6 +502,16 @@ horizontal yang sudah ada yang mengerjakan, bukan desain baru.
 Keputusan pemilik 2026-08-27: **geser antar kolom membuka kartu
 utamanya otomatis** (kolom 2 → Lexier) via listener scroll di
 `main.js`; ketuk manual tetap akordeon + gulir halus.
+
+**Karya 004 Zestpop (2026-08-28).** Ditambahkan atas permintaan pemilik:
+`workFour` di `data.js` (landing page konsep seltzer rasa buah lokal,
+https://zestpop.pages.dev/ — percobaan sticky scroll pertama pemilik;
+rasa: jeruk, kelapa, manggis). Thumbnail `zestpop-cover.jpg`/`.webp`
+di-generate AI (1280×800) dari karakter situs: tab kaleng dicabut,
+karbonasi menyembur. Grid `002` kini 2×2 penuh — layout, border,
+dan auto-open saat geser (`workCards[p*2]`) tetap benar tanpa ubah
+kode; Zestpop duduk di bawah kolom 2 (di bawah Lexier, yang tetap
+kartu utama kolom itu). Counter seksi `002 — KARYA`: 03 → 04.
 
 **Galeri 003 loop tak berujung (2026-08-27).** Permintaan pemilik:
 geser dari kartu terakhir harusnya melanjutkan ke pertama tanpa
