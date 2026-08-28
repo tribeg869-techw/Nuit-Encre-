@@ -351,14 +351,23 @@ Yang kedua sengaja ada supaya gambar bisa diunggah langsung tanpa diproses.
 
 
 `assets/img/og-cover.jpg` — 1200×630, muncul saat link dikirim ke WhatsApp,
-X, atau LinkedIn. Dibangkitkan oleh `tools/make-og-card.py`; petunjuk lengkap
-di `tools/README.md`.
+X, atau LinkedIn.
 
 
 **Pekerjaan ini sudah selesai — jangan disetel ulang tanpa diminta.**
-Versi prosedural (memakai `grow()` dari `main.js`) **sudah dicoba dan
-ditolak**: parameternya disetel untuk kanvas potret dan menghasilkan bentuk
-seperti petir di kanvas lanskap.
+Riwayat:
+1. Versi prosedural (`tools/make-og-card.py`, memakai `grow()` dari
+   `main.js`) **sudah dicoba dan ditolak**: parameternya disetel untuk
+   kanvas potret dan menghasilkan bentuk seperti petir di kanvas
+   lanskap.
+2. Versi "swirl tinta 3D" (generate AI) **ditolak pemilik 2026-08-28**
+   ("jelek banget"): glossy render cat cair, wordmark gradasi — tidak
+   sesuai identitas situs.
+3. **Final (2026-08-28, generate AI, 1200×630):** matte total — latar
+   hitam pekat, wordmark NUIT ENCRE dua baris putih flat di kiri, satu
+   sapuan tinta kuas kering dengan percikan halus di kanan, monospace
+   "VISUAL / CONCEPT DESIGNER" di kiri bawah. Bahasa situs: flat,
+   matte, tanpa gloss.
 
 
 URL OG **wajib absolut** — WhatsApp, X, dan LinkedIn tidak me-resolve path
