@@ -87,7 +87,7 @@ window.NE = {
     year:  '2026',
     url:   'https://zestpop.pages.dev/',
     cover: 'zestpop-cover',
-    coverAlt: 'Kaleng seltzer dingin yang tab-nya baru dicabut — karbonasi dan tetesan air menyembur dari mulut kaleng, latar off-white hangat.',
+    coverAlt: 'Kaleng seltzer Zestpop dengan embun dingin, dikelilingi jeruk, kelapa muda terbelah, dan manggis terbuka di atas latar krem.',
     lede:  'Brand konsep seltzer rasa buah lokal di halaman yang ikut berkarbonasi — sticky scroll, gelembung yang ngikut jari, dan tab yang bisa dicabut.',
     facts: [
       { k: 'Peran',   v: 'Konsep, Desain & Pengembangan' },

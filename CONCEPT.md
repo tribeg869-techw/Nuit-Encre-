@@ -507,8 +507,9 @@ utamanya otomatis** (kolom 2 → Lexier) via listener scroll di
 `workFour` di `data.js` (landing page konsep seltzer rasa buah lokal,
 https://zestpop.pages.dev/ — percobaan sticky scroll pertama pemilik;
 rasa: jeruk, kelapa, manggis). Thumbnail `zestpop-cover.jpg`/`.webp`
-di-generate AI (1280×800) dari karakter situs: tab kaleng dicabut,
-karbonasi menyembur. Grid `002` kini 2×2 penuh — layout, border,
+(1280×800) dari `og.jpg` milik situs — upload pemilik 2026-08-28 via
+GitHub, crop tengah 16:10 + konversi standar (menggantikan versi
+generate AI pertama: tab kaleng dicabut, karbonasi menyembur). Grid `002` kini 2×2 penuh — layout, border,
 dan auto-open saat geser (`workCards[p*2]`) tetap benar tanpa ubah
 kode; Zestpop duduk di bawah kolom 2 (di bawah Lexier, yang tetap
 kartu utama kolom itu). Counter seksi `002 — KARYA`: 03 → 04.
