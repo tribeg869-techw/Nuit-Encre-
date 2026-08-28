@@ -39,9 +39,20 @@
   const workCards = $$('.work-card', workEl);
   const workGrid = $('.work-grid', workEl);
 
+  /* "Terakhir dilihat" per kolom: grid 2 baris = 2 kartu per kolom.
+     Balik ke kolom membuka kartu terakhir dilihat di sana, bukan
+     selalu kartu utamanya (keputusan pemilik 2026-08-28). */
+  const PER_COL = 2;
+  const lastOpen = {};
+  workCards.forEach((c, i) => {
+    const col = Math.floor(i / PER_COL);
+    if (lastOpen[col] === undefined) lastOpen[col] = i;
+  });
+
   /* buka satu kartu (akordeon). withScroll: ketuk manual ikut
      menggulir halaman; buka lewat geser grid tidak perlu. */
   function openWork(card, withScroll) {
+    lastOpen[Math.floor(workCards.indexOf(card) / PER_COL)] = workCards.indexOf(card);
     workCards.forEach(c => { c.classList.remove('is-open'); $('.work-card__summary', c).setAttribute('aria-expanded', 'false'); });
     card.classList.add('is-open'); $('.work-card__summary', card).setAttribute('aria-expanded', 'true');
     if (!withScroll) return;
@@ -57,15 +68,15 @@
     openWork(card, true);
   }));
 
-  /* geser antar kolom: kolom yang terlihat membuka kartu utamanya
-     (kolom 1 → Concept Archive, kolom 2 → Lexier) — hanya kalau
-     belum ada kartu di kolom itu yang terbuka. */
+  /* geser antar kolom: kolom yang terlihat membuka kartu terakhir
+     dilihat di sana (lastOpen) — hanya kalau belum ada kartu di
+     kolom itu yang terbuka. */
   let workPage = 0;
   workGrid.addEventListener('scroll', () => {
     const p = workGrid.scrollLeft > workGrid.clientWidth * .5 ? 1 : 0;
     if (p === workPage) return;
     workPage = p;
-    const target = workCards[p * 2] || workCards[workCards.length - 1];
+    const target = workCards[lastOpen[p]];
     if (target && !target.classList.contains('is-open')) openWork(target, false);
   }, { passive: true });
 
