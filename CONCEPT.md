@@ -514,6 +514,18 @@ dan auto-open saat geser (`workCards[p*2]`) tetap benar tanpa ubah
 kode; Zestpop duduk di bawah kolom 2 (di bawah Lexier, yang tetap
 kartu utama kolom itu). Counter seksi `002 — KARYA`: 03 → 04.
 
+**Karya 002 "terakhir dilihat" per kolom (2026-08-28).** Keputusan
+pemilik: geser balik ke kolom tidak boleh reset ke kartu utama —
+yang terbuka adalah kartu terakhir dilihat di sana (contoh: buka
+Ink Chaos → geser kanan → balik kiri → Ink Chaos terbuka lagi,
+bukan Concept Archive; dan sebaliknya). Implementasi di `main.js`:
+`lastOpen[col]` (2 kartu/kolom, sesuai grid 2 baris) diperbarui
+setiap kartu dibuka — ketuk manual maupun auto — dan listener
+scroll membuka `lastOpen[p]` hanya kalau di kolom itu tidak ada
+yang terbuka. Konsekuensi sadar: menutup kartu lalu pergi dan
+balik, kartu yang ditutup itu terbuka lagi (ia memang "terakhir
+dilihat").
+
 **Galeri 003 loop tak berujung (2026-08-27).** Permintaan pemilik:
 geser dari kartu terakhir harusnya melanjutkan ke pertama tanpa
 lompat balik. Solusi di `main.js`: track berisi tiga salinan set
