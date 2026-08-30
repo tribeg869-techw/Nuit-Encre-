@@ -157,7 +157,7 @@ window.NE = {
     year:  '2026',
     url:   'https://elan-fashion-editorial.pages.dev/',
     cover: 'elan-cover',
-    coverAlt: 'Potret editorial fashion monokrom: model berjaket kamuflase, sikap percaya diri, pencahayaan dramatis dari samping.',
+    coverAlt: 'Kolase editorial Élan: potret monokrom besar dengan close-up mata bermakeup, dua frame model berjaket kamuflase, dan strip palet warna di tepi kiri.',
     lede:  'Fashion editorial Issue No. 01 — identitas, kontras, dan ekspresi diri yang tak kenal takut. Bukan tren, tapi suasana.',
     facts: [
       { k: 'Peran',   v: 'Konsep & Desain' },
