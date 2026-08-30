@@ -192,10 +192,31 @@ window.NE = {
     ]
   },
 
+  workEight: {
+    no:    '008',
+    title: 'OCULAR',
+    kind:  'Sci-fi Product Concept',
+    year:  '2026',
+    url:   'https://ocular-45z.pages.dev/',
+    cover: 'ocular-cover',
+    coverAlt: 'Makro mata sibernetik: iris implen LED merah dengan tekstur serat biru, wordmark serif OCULAR dan tagline "Vision. Redefined."',
+    lede:  'Situs konsep sinematik tentang teknologi mata — mata sibernetik, lensa kaca, visor sci-fi. "Vision. Redefined."',
+    facts: [
+      { k: 'Peran',   v: 'Konsep & Desain' },
+      { k: 'Tahun',   v: '2026' },
+      { k: 'Jenis',   v: 'Sci-fi Product Concept' },
+      { k: 'Status',  v: 'Tayang' }
+    ],
+    story: [
+      'OCULAR adalah konsep sinematik tentang teknologi mata: macro mata sibernetik, lensa kaca abstrak 3D, dan visor sci-fi high-fashion. Tiga objek yang disajikan seperti benda laboratorium.',
+      'Halamannya bergerak seperti film: gelap, presisi, detailnya dibuka lewat zoom. "Vision. Redefined." — bukan penjelasan, tapi janji.'
+    ]
+  },
+
   /* ---- 004 · PRAKTIK ------------------------------------------------ */
   practice: [
     'Aku bekerja dengan bentuk, ruang, dan atmosfer. Sebagian besar waktuku habis bukan untuk membuat, melainkan untuk mengamati — sampai sebuah gagasan cukup jelas untuk diberi wujud.',
-    'Halaman ini bukan etalase. Karya yang benar-benar selesai baru tujuh. Selebihnya adalah studi: sebagian akan tumbuh, sebagian berhenti di sini, dan itu tidak apa-apa.'
+    'Halaman ini bukan etalase. Karya yang benar-benar selesai baru delapan. Selebihnya adalah studi: sebagian akan tumbuh, sebagian berhenti di sini, dan itu tidak apa-apa.'
   ],
 
   practiceIndex: [

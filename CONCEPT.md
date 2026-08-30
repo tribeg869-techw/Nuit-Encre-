@@ -98,7 +98,7 @@ Satu halaman, lima bagian:
 | | Bagian | Isi |
 |---|---|---|
 | `001` | Pembuka | Wordmark besar, status, jam Jakarta langsung |
-| `002` | Karya | Concept Archive + Ink Chaos + Lexier + Zestpop + Vellichor + Élan + BARA — tujuh kartu karya, plus ceritanya |
+| `002` | Karya | Concept Archive + Ink Chaos + Lexier + Zestpop + Vellichor + Élan + BARA + OCULAR — delapan kartu karya, plus ceritanya |
 | `003` | Studi | 4 studi visual — seluruhnya tayang; galeri geser dengan snap ke tengah, loop tak berujung |
 | `004` | Praktik | Dua paragraf posisi |
 | `005` | Kontak | Satu alamat, blok inversi |
@@ -399,7 +399,7 @@ pemilik situs sendiri sempat mengetuknya dan mengira rusak.
 | Hal | Status |
 |---|---|
 | **Email `halo@nuit-encre.studio`** | **Dummy, dan tetap begitu.** Anggaran domain dipakai proyek lain. **Berhenti menandainya sebagai kekurangan.** |
-| **Tujuh karya di 002** | Concept Archive + Ink Chaos + Lexier + Zestpop + Vellichor + Élan + BARA. `practice[]` mengikuti jumlah: "baru tiga" (2026-08-27) → "empat" (2026-08-28, Zestpop) → "tujuh" (2026-08-28, Vellichor, Élan, BARA). |
+| **Delapan karya di 002** | Concept Archive + Ink Chaos + Lexier + Zestpop + Vellichor + Élan + BARA + OCULAR. `practice[]` mengikuti jumlah: "baru tiga" (2026-08-27) → "empat" (2026-08-28, Zestpop) → "tujuh" (2026-08-28, Vellichor, Élan, BARA) → "delapan" (2026-08-30, OCULAR). |
 | **Tanpa domain sendiri** | Disengaja. Situs harus terasa selesai apa adanya. |
 | **Layar pembuka** | Sudah diterima. Jangan dirancang ulang tanpa diminta. |
 | **Massa tinta** | Sudah pas. Jangan disetel ulang tanpa diminta. |
@@ -499,7 +499,7 @@ memperbaiki:
 
 **Keputusan pemilik (2026-08-27):** `practice[]` selaras dengan 002 —
 "Karya yang benar-benar selesai baru **tiga**" (Concept Archive, Ink
-Chaos, Lexier). Naik ke "baru **empat**" 2026-08-28 bersama Zestpop, lalu "baru **tujuh**" 2026-08-28 bersama Vellichor, Élan, dan BARA.
+Chaos, Lexier). Naik ke "baru **empat**" 2026-08-28 bersama Zestpop, lalu "baru **tujuh**" 2026-08-28 bersama Vellichor, Élan, dan BARA, dan "baru **delapan**" 2026-08-30 bersama OCULAR.
 Ubah angka ini kalau jumlah karya berubah.
 
 **Karya 003 Lexier (2026-08-27).** Ditambahkan atas permintaan pemilik:
@@ -535,6 +535,15 @@ kolom yang benar-benar terlihat (`round(scrollLeft / clientWidth)`,
 dulu hanya 0/1) supaya auto-open benar di kolom 3–4; (2)
 `.work-card:last-child{border-bottom:0}` agar kartu terakhir di kolom
 janggal tak punya garis bawah melayang. Counter seksi: 07.
+
+**Karya 008 OCULAR (2026-08-30).** Ditambahkan atas permintaan
+pemilik: situs konsep produk sci-fi (mata sibernetik, lensa kaca, visor
+— "vision. redefined."). `workEight` di `data.js`; thumbnail
+di-upload pemilik sebagai `ocular-cover.jpg` (hero situs, 1731×909),
+lalu di-crop dengan bias kiri ke 16:10 — crop tengah biasa
+memotong huruf O pada wordmark — dan dikonversi pasangan
+`.jpg`/`.webp` 1280×800. Grid 002 kini 2×4 penuh (8 kartu) — tanpa
+kolom janggal, tak perlu perbaikan lagi. Counter seksi: 08.
 
 **Karya 002 "terakhir dilihat" per kolom (2026-08-28).** Keputusan
 pemilik: geser balik ke kolom tidak boleh reset ke kartu utama —
