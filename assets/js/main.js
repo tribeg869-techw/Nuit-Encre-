@@ -23,7 +23,7 @@
   };
 
   /* ---------- 002 · KARYA — inline expandable archive ---------- */
-  const works = [D.work, D.workMore, D.workThree, D.workFour];
+  const works = [D.work, D.workMore, D.workThree, D.workFour, D.workFive, D.workSix, D.workSeven];
   const workEl = $('#work');
   workEl.innerHTML = `<div class="work-grid" role="list">${works.map((w, i) => `
     <article class="work-card ${i === 0 ? 'is-open' : ''}" data-work="${i}" role="listitem">
@@ -70,10 +70,15 @@
 
   /* geser antar kolom: kolom yang terlihat membuka kartu terakhir
      dilihat di sana (lastOpen) — hanya kalau belum ada kartu di
-     kolom itu yang terbuka. */
+     kolom itu yang terbuka. p = kolom yang benar-benar terlihat
+     (bukan cuma 0/1) — wajib sejak grid melebihi 2 kolom. */
+  const nCols = Math.ceil(workCards.length / PER_COL);
   let workPage = 0;
   workGrid.addEventListener('scroll', () => {
-    const p = workGrid.scrollLeft > workGrid.clientWidth * .5 ? 1 : 0;
+    const p = Math.max(0, Math.min(
+      Math.round(workGrid.scrollLeft / workGrid.clientWidth),
+      nCols - 1
+    ));
     if (p === workPage) return;
     workPage = p;
     const target = workCards[lastOpen[p]];

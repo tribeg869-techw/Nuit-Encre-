@@ -98,7 +98,7 @@ Satu halaman, lima bagian:
 | | Bagian | Isi |
 |---|---|---|
 | `001` | Pembuka | Wordmark besar, status, jam Jakarta langsung |
-| `002` | Karya | Concept Archive + Ink Chaos + Lexier + Zestpop — empat kartu karya, plus ceritanya |
+| `002` | Karya | Concept Archive + Ink Chaos + Lexier + Zestpop + Vellichor + Élan + BARA — tujuh kartu karya, plus ceritanya |
 | `003` | Studi | 4 studi visual — seluruhnya tayang; galeri geser dengan snap ke tengah, loop tak berujung |
 | `004` | Praktik | Dua paragraf posisi |
 | `005` | Kontak | Satu alamat, blok inversi |
@@ -399,7 +399,7 @@ pemilik situs sendiri sempat mengetuknya dan mengira rusak.
 | Hal | Status |
 |---|---|
 | **Email `halo@nuit-encre.studio`** | **Dummy, dan tetap begitu.** Anggaran domain dipakai proyek lain. **Berhenti menandainya sebagai kekurangan.** |
-| **Empat karya di 002** | Concept Archive + Ink Chaos + Lexier + Zestpop. Keputusan pemilik 2026-08-27: tiga-tiganya "selesai" — `practice[]` menyebut "baru tiga", dinaikkan ke "baru empat" 2026-08-28 bersama Zestpop. |
+| **Tujuh karya di 002** | Concept Archive + Ink Chaos + Lexier + Zestpop + Vellichor + Élan + BARA. `practice[]` mengikuti jumlah: "baru tiga" (2026-08-27) → "empat" (2026-08-28, Zestpop) → "tujuh" (2026-08-28, Vellichor, Élan, BARA). |
 | **Tanpa domain sendiri** | Disengaja. Situs harus terasa selesai apa adanya. |
 | **Layar pembuka** | Sudah diterima. Jangan dirancang ulang tanpa diminta. |
 | **Massa tinta** | Sudah pas. Jangan disetel ulang tanpa diminta. |
@@ -499,7 +499,7 @@ memperbaiki:
 
 **Keputusan pemilik (2026-08-27):** `practice[]` selaras dengan 002 —
 "Karya yang benar-benar selesai baru **tiga**" (Concept Archive, Ink
-Chaos, Lexier). Naik ke "baru **empat**" 2026-08-28 bersama Zestpop.
+Chaos, Lexier). Naik ke "baru **empat**" 2026-08-28 bersama Zestpop, lalu "baru **tujuh**" 2026-08-28 bersama Vellichor, Élan, dan BARA.
 Ubah angka ini kalau jumlah karya berubah.
 
 **Karya 003 Lexier (2026-08-27).** Ditambahkan atas permintaan pemilik:
@@ -522,6 +522,19 @@ generate AI pertama: tab kaleng dicabut, karbonasi menyembur). Grid `002` kini 2
 dan auto-open saat geser (`workCards[p*2]`) tetap benar tanpa ubah
 kode; Zestpop duduk di bawah kolom 2 (di bawah Lexier, yang tetap
 kartu utama kolom itu). Counter seksi `002 — KARYA`: 03 → 04.
+
+**Karya 005–007 Vellichor, Élan, BARA (2026-08-28).** Ditambahkan atas
+permintaan pemilik: Vellichor (perpustakaan fiksi est. 1883 — "rahasia
+cerita yang dilupakan"), Élan (fashion editorial monokrom Issue No. 01 —
+"not a trend. a mood."), BARA (object study — wewangian keramik hitam
+arang, "shaped by heat"). `workFive`/`workSix`/`workSeven` di `data.js`;
+sumber PNG thumbnail di-generate AI dan disimpan di repo (pola sumber
+studi), pasangan `.jpg`/`.webp` 1280×800. Grid 002 kini 4 kolom
+(7 kartu) — dua perbaikan pendamping: (1) listener scroll menghitung
+kolom yang benar-benar terlihat (`round(scrollLeft / clientWidth)`,
+dulu hanya 0/1) supaya auto-open benar di kolom 3–4; (2)
+`.work-card:last-child{border-bottom:0}` agar kartu terakhir di kolom
+janggal tak punya garis bawah melayang. Counter seksi: 07.
 
 **Karya 002 "terakhir dilihat" per kolom (2026-08-28).** Keputusan
 pemilik: geser balik ke kolom tidak boleh reset ke kartu utama —

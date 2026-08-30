@@ -315,6 +315,8 @@ body.ready .hero__foot{animation:fade .9s var(--e) 1s forwards}
 .work-grid::-webkit-scrollbar{display:none}
 .work-card{min-width:0;border-right:1px solid var(--line);border-bottom:1px solid var(--line);scroll-snap-align:start;overflow-anchor:none}
 .work-card:nth-child(2n){border-bottom:0}
+/* kartu terakhir tidak punya garis bawah melayang walau kolomnya janggal (7 kartu = 4 kolom, kolom 4 hanya 1 kartu) */
+.work-card:last-child{border-bottom:0}
 .work-card__summary{width:100%;min-height:124px;display:grid;grid-template-columns:34px 1fr auto;grid-template-rows:auto 1fr;align-items:start;gap:6px 10px;padding:18px 14px;text-align:left;color:var(--pure);font:inherit}
 .work-card__no{color:var(--dim);grid-row:1/3}
 .work-card__brief{display:grid;gap:5px;min-width:0}

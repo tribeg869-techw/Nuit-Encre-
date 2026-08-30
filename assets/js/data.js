@@ -128,10 +128,74 @@ window.NE = {
       note:'Kata "plume" berdiri tegak — sapuan kuas cepat, percikan, dan satu spiral besar dibiarkan apa adanya.' }
   ],
 
+  /* ---- 002 · KARYA (lanjutan) ---------------------------------- */
+  workFive: {
+    no:    '005',
+    title: 'Vellichor',
+    kind:  'Concept Bookstore',
+    year:  '2026',
+    url:   'https://vellichor-2u7.pages.dev/',
+    cover: 'vellichor-cover',
+    coverAlt: 'Interior toko buku tua monokrom: rak kayu tinggi penuh buku antik, satu berkas cahaya menembus gelap, meja baca kosong di depan.',
+    lede:  'Perpustakaan fiksi est. 1883 — tempat cerita-cerita yang dilupakan disimpan, dan satu pembaca pada satu waktu.',
+    facts: [
+      { k: 'Peran',   v: 'Konsep & Desain' },
+      { k: 'Tahun',   v: '2026' },
+      { k: 'Jenis',   v: 'Concept Bookstore' },
+      { k: 'Status',  v: 'Tayang' }
+    ],
+    story: [
+      'Vellichor adalah kata yang hampir tak ada: kerinduan aneh pada toko buku bekas — waktu yang menempel di antara halaman, milik pembaca-pembaca sebelummu. Kata itu menjadi situs: perpustakaan fiksi est. 1883, dibuka dengan undangan, satu pembaca pada satu waktu.',
+      'Strukturnya seperti buku — Babak I sampai IV, epilog sebagai daftar bahan: kertas gilingan 1897, kulit kambing hitam, emas 23 karat, dan asap pembaca sebelumnya. Yang dicari bukan jawabannya, melainkan tempat di mana jawaban itu pernah disimpan.'
+    ]
+  },
+
+  workSix: {
+    no:    '006',
+    title: 'Élan',
+    kind:  'Fashion Editorial',
+    year:  '2026',
+    url:   'https://elan-fashion-editorial.pages.dev/',
+    cover: 'elan-cover',
+    coverAlt: 'Potret editorial fashion monokrom: model berjaket kamuflase, sikap percaya diri, pencahayaan dramatis dari samping.',
+    lede:  'Fashion editorial Issue No. 01 — identitas, kontras, dan ekspresi diri yang tak kenal takut. Bukan tren, tapi suasana.',
+    facts: [
+      { k: 'Peran',   v: 'Konsep & Desain' },
+      { k: 'Tahun',   v: '2026' },
+      { k: 'Jenis',   v: 'Fashion Editorial' },
+      { k: 'Status',  v: 'Tayang' }
+    ],
+    story: [
+      'Élan dibuka dengan satu baris: "Style is not what you wear — it is how you arrive." Issue No. 01 adalah studi editorial monokrom — utility, gerak, diam — dibangun dari insting, dipakai dengan niat.',
+      'Detail yang bicara: eye study, gestur kulit, tekstur jaket. "Not a trend. A mood." — halaman fashion yang tidak mengejar musim, tapi membangun sikap.'
+    ]
+  },
+
+  workSeven: {
+    no:    '007',
+    title: 'BARA',
+    kind:  'Object Study',
+    year:  '2026',
+    url:   'https://bara-object-01.pages.dev/',
+    cover: 'bara-cover',
+    coverAlt: 'Makro ekstrem tanah liat keramik hitam arang berbentuk lingkaran berukir, atmosfer tungku gelap, cahaya lembut memperlihatkan tekstur matte.',
+    lede:  'Object study 01 — wewangian keramik hitam arang dengan saluran tembaga, dibentuk oleh panas.',
+    facts: [
+      { k: 'Peran',   v: 'Konsep & Desain' },
+      { k: 'Tahun',   v: '2026' },
+      { k: 'Jenis',   v: 'Object Study' },
+      { k: 'Status',  v: 'Tayang' }
+    ],
+    story: [
+      'BARA Object 01: wewangian keramik dari tanah liat hitam arang dengan saluran tembaga, di atas rak tungku gelap. Hampir tanpa kata di halamannya — satu macro, satu final, dan satu baris: SHAPED BY HEAT.',
+      'Pelajaran tentang menahan diri: benda bisa disajikan tanpa dijelaskan. Panas, bahan, waktu — sisanya dibiarkan untuk penonton.'
+    ]
+  },
+
   /* ---- 004 · PRAKTIK ------------------------------------------------ */
   practice: [
     'Aku bekerja dengan bentuk, ruang, dan atmosfer. Sebagian besar waktuku habis bukan untuk membuat, melainkan untuk mengamati — sampai sebuah gagasan cukup jelas untuk diberi wujud.',
-    'Halaman ini bukan etalase. Karya yang benar-benar selesai baru empat. Selebihnya adalah studi: sebagian akan tumbuh, sebagian berhenti di sini, dan itu tidak apa-apa.'
+    'Halaman ini bukan etalase. Karya yang benar-benar selesai baru tujuh. Selebihnya adalah studi: sebagian akan tumbuh, sebagian berhenti di sini, dan itu tidak apa-apa.'
   ],
 
   practiceIndex: [
