@@ -15,15 +15,15 @@
     const loading = eager ? 'eager' : 'lazy';
     const priority = eager ? ' fetchpriority="high"' : '';
     return /\.[a-z0-9]{2,4}$/i.test(n)
-      ? `<img src="assets/img/${n}" alt="${alt}" loading="${loading}" decoding="async"${priority}>`
+      ? `<img src="assets/img/${n}" alt="${alt}" draggable="false" loading="${loading}" decoding="async"${priority}>`
       : `<picture>
            <source srcset="assets/img/${n}.webp" type="image/webp">
-           <img src="assets/img/${n}.jpg" alt="${alt}" loading="${loading}" decoding="async"${priority}>
+           <img src="assets/img/${n}.jpg" alt="${alt}" draggable="false" loading="${loading}" decoding="async"${priority}>
          </picture>`;
   };
 
   /* ---------- 002 · KARYA — inline expandable archive ---------- */
-  const works = [D.work, D.workMore];
+  const works = [D.work, D.workMore, D.workThree, D.workFour, D.workFive, D.workSix, D.workSeven, D.workEight];
   const workEl = $('#work');
   workEl.innerHTML = `<div class="work-grid" role="list">${works.map((w, i) => `
     <article class="work-card ${i === 0 ? 'is-open' : ''}" data-work="${i}" role="listitem">
@@ -37,30 +37,73 @@
       </div>
     </article>`).join('')}</div>`;
   const workCards = $$('.work-card', workEl);
-  workCards.forEach((card, i) => $('.work-card__summary', card).addEventListener('click', () => {
-    const open = card.classList.contains('is-open');
+  const workGrid = $('.work-grid', workEl);
+
+  /* "Terakhir dilihat" per kolom: grid 2 baris = 2 kartu per kolom.
+     Balik ke kolom membuka kartu terakhir dilihat di sana, bukan
+     selalu kartu utamanya (keputusan pemilik 2026-08-28). */
+  const PER_COL = 2;
+  const lastOpen = {};
+  workCards.forEach((c, i) => {
+    const col = Math.floor(i / PER_COL);
+    if (lastOpen[col] === undefined) lastOpen[col] = i;
+  });
+
+  /* buka satu kartu (akordeon). withScroll: ketuk manual ikut
+     menggulir halaman; buka lewat geser grid tidak perlu. */
+  function openWork(card, withScroll) {
+    lastOpen[Math.floor(workCards.indexOf(card) / PER_COL)] = workCards.indexOf(card);
     workCards.forEach(c => { c.classList.remove('is-open'); $('.work-card__summary', c).setAttribute('aria-expanded', 'false'); });
-    if (open) return;
     card.classList.add('is-open'); $('.work-card__summary', card).setAttribute('aria-expanded', 'true');
+    if (!withScroll) return;
     const sectionBar = $('.sec__bar', card.closest('.sec'));
     setTimeout(() => { const top = card.getBoundingClientRect().top + scrollY - (sectionBar ? sectionBar.offsetHeight + 18 : 18); scrollTo({ top: Math.max(0, top), behavior: reduced ? 'auto' : 'smooth' }); }, reduced ? 0 : 720);
+  }
+
+  workCards.forEach((card) => $('.work-card__summary', card).addEventListener('click', () => {
+    if (card.classList.contains('is-open')) {
+      card.classList.remove('is-open'); $('.work-card__summary', card).setAttribute('aria-expanded', 'false');
+      return;
+    }
+    openWork(card, true);
   }));
+
+  /* geser antar kolom: kolom yang terlihat membuka kartu terakhir
+     dilihat di sana (lastOpen) — hanya kalau belum ada kartu di
+     kolom itu yang terbuka. p = kolom yang benar-benar terlihat
+     (bukan cuma 0/1) — wajib sejak grid melebihi 2 kolom. */
+  const nCols = Math.ceil(workCards.length / PER_COL);
+  let workPage = 0;
+  workGrid.addEventListener('scroll', () => {
+    const p = Math.max(0, Math.min(
+      Math.round(workGrid.scrollLeft / workGrid.clientWidth),
+      nCols - 1
+    ));
+    if (p === workPage) return;
+    workPage = p;
+    const target = workCards[lastOpen[p]];
+    if (target && !target.classList.contains('is-open')) openWork(target, false);
+  }, { passive: true });
 
   /* ---------- 003 · STUDI — galeri geser ---------- */
   const view  = $('#galView');
   const track = $('#galTrack');
   const S = D.studies;
 
-  track.innerHTML = S.map((s, i) => `
-    <figure class="gs${i === 0 ? ' on' : ''}" data-n="${i}">
+  /* Loop tak berujung: tiga salinan set bersebelahan
+     [salinan][utama][salinan]. Rebase ±satu set (piksel identik,
+     track periodik) menjaga viewport di set utama — loop mulus. */
+  const total = S.length;
+  const HOME = total;  // set utama mulai di indeks ini
+
+  track.innerHTML = [0, 1, 2].map(set => S.map((s, i) => `
+    <figure class="gs"${set === 1 ? '' : ' aria-hidden="true"'} data-n="${i}">
       <div class="gs__fig">
-        <span class="gs__i">${s.no}</span>
         ${pic(s.img, s.alt || s.title)}
       </div>
-    </figure>`).join('');
+    </figure>`).join('')).join('');
 
   const cards = $$('.gs', track);
-  const total = cards.length;
   $('#stCount').textContent = String(total).padStart(2, '0');
 
   const elNo   = $('#galNo');
@@ -79,7 +122,8 @@
     cur = i;
     const s = S[i];
 
-    cards.forEach((c, n) => c.classList.toggle('on', n === i));
+    /* semua salinan kartu yang sama ikut menyala */
+    cards.forEach((c, n) => c.classList.toggle('on', n % total === i));
 
     elCap.classList.add('sw');
     setTimeout(() => {
@@ -97,80 +141,189 @@
     bNext.disabled = total < 2;
   }
 
-  // kartu mana yang paling dekat ke tengah jendela
-  // jarak kartu dari tepi kiri isi yang bisa digulir
-  function startOf(c) {
-    return c.getBoundingClientRect().left
-         - view.getBoundingClientRect().left
-         + view.scrollLeft;
+  /* ---------- carousel transform (2026-08-27, final) ----------
+     Keputusan pemilik: berhenti bertikai dengan mesin scroll
+     peramban (snap + lompatan settle = biang "pause 004→001").
+     Track digerakkan transform:translate3d — murni kompositor.
+     Wrap = rebase ±4 kartu (piksel identik) saat posisi diam;
+     keadaan istirahat SELALU persis di pusat kartu, jadi "stuck
+     di celah" tak mungkin lagi. Geser 1:1; lepasan dianimasikan
+     menyambung kecepatan jari (Hermite) atau kick ease-out. */
+  let gIdx = HOME;               // indeks kartu (float saat drag)
+  let gAnim = 0;                 // rAF animasi
+  let gDragging = false, gId = -1, gDecided = false;
+  let gX0 = 0, gY0 = 0, gIdx0 = HOME, gLastX = 0, gLastT = 0, gVel = 0;
+  let gStep = 0, gViewW = 0, gCardW = 0;
+  let gWheelLock = 0;
+
+  function gMeasure() {
+    gViewW = view.clientWidth;
+    gCardW = cards[0].offsetWidth;
+    gStep = cards[1].offsetLeft - cards[0].offsetLeft;
+  }
+  function gApply() {
+    track.style.transform =
+      'translate3d(' + (gViewW / 2 - (gIdx * gStep + gCardW / 2)) + 'px,0,0)';
+  }
+  /* viewport dijaga di sekitar set utama: begitu pusat melewati
+     celah wrap, rebase ±4 kartu (piksel identik, track periodik).
+     Wilayah salinan dingin tak pernah terlihat > separuh kartu. */
+  function gRebase() {
+    let sh = 0;
+    while (gIdx > HOME + total - .5) { gIdx -= total; sh -= total; }
+    while (gIdx < HOME - .5)         { gIdx += total; sh += total; }
+    return sh;
   }
 
-  function nearest() {
-    const mid = view.scrollLeft + view.clientWidth / 2;
-    let best = 0, gap = Infinity;
-    cards.forEach((c, i) => {
-      const d = Math.abs(startOf(c) + c.offsetWidth / 2 - mid);
-      if (d < gap) { gap = d; best = i; }
-    });
-    return best;
+  function gAnimate(to, v0px) {
+    cancelAnimationFrame(gAnim);
+    let from = gIdx;
+    const D = to - from;
+    if (Math.abs(D) * gStep < 2) {
+      gAnim = 0; gIdx = to; gRebase(); gApply();
+      paint(Math.round(gIdx) % total);
+      return;
+    }
+    const v0 = v0px / gStep;                    // kartu/ms
+    /* LANTAI KECEPATAN: kartu tak boleh merayap (>=500 px/dtk).
+       Momentum nyata (>= 0,3 px/ms) → Hermite menyambung
+       kecepatan jari persis; lepasan mati → ease-out (kick). */
+    const fast = Math.abs(v0px) > .3;
+    const tCap = Math.max(160, Math.min(480, Math.abs(D) * gStep / .5));
+    const T = (fast && Math.sign(v0) === Math.sign(D))
+      ? Math.max(160, Math.min(tCap, 2 * D / v0)) : tCap;
+    const m0 = fast ? v0 * T : 0;
+    const t0 = performance.now();
+    const step = () => {
+      const s = Math.min(1, (performance.now() - t0) / T);
+      let x;
+      if (fast) {
+        const h00 = 2 * s ** 3 - 3 * s * s + 1;
+        const h10 = s ** 3 - 2 * s * s + s;
+        const h01 = -2 * s ** 3 + 3 * s * s;
+        x = h00 * from + h10 * m0 + h01 * to;
+      } else {
+        x = from + D * (1 - Math.pow(1 - s, 3));
+      }
+      gIdx = x;
+      const sh = gRebase();
+      if (sh) { from += sh; to += sh; }
+      gApply();
+      paint(Math.round(gIdx) % total);
+      if (s < 1) { gAnim = requestAnimationFrame(step); return; }
+      gAnim = 0;
+    };
+    gAnim = requestAnimationFrame(step);
   }
 
-  function goTo(i) {
-    const c = cards[Math.max(0, Math.min(total - 1, i))];
-    const max = view.scrollWidth - view.clientWidth;
-    const to  = startOf(c) - (view.clientWidth - c.offsetWidth) / 2;
-    view.scrollTo({
-      left: Math.max(0, Math.min(max, to)),
-      behavior: reduced ? 'auto' : 'smooth'
-    });
+  function gGo(dir) {
+    const to = Math.round(gIdx) + dir;
+    if (reduced) {
+      gIdx = to; gRebase(); gApply();
+      paint(Math.round(gIdx) % total);
+      return;
+    }
+    gAnimate(to, 0);
   }
 
-  let raf = false;
-  view.addEventListener('scroll', () => {
-    if (raf) return;
-    raf = true;
-    requestAnimationFrame(() => { paint(nearest()); raf = false; });
-  }, { passive: true });
+  /* tombol panah — mengikuti indeks saat ini; dari kartu terakhir
+     "berikutnya" memang melanjutkan ke kanan (loop) */
+  bPrev.addEventListener('click', () => gGo(-1));
+  bNext.addEventListener('click', () => gGo(1));
 
-  // Loop ringan: tombol panah berputar dari ujung ke awal.
-  bPrev.addEventListener('click', () => goTo(cur > 0 ? cur - 1 : total - 1));
-  bNext.addEventListener('click', () => goTo(cur < total - 1 ? cur + 1 : 0));
-
-  // seret dengan mouse — di layar sentuh, biarkan native
-  let down = false, sx = 0, sl = 0, far = 0;
+  /* drag — sentuh & mouse satu jalur. Horizontal = kita; vertikal
+     = halaman (touch-action:pan-y). Pointer capture menjamin
+     pointerup selalu sampai walau jari keluar area. */
   view.addEventListener('dragstart', e => e.preventDefault());
   view.addEventListener('pointerdown', e => {
-    if (e.pointerType === 'touch' || e.button !== 0) return;
-    down = true; far = 0;
-    sx = e.clientX; sl = view.scrollLeft;
-    view.classList.add('drag');
-    view.setPointerCapture(e.pointerId);
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    if (gDragging) return;                       // abaikan jari kedua
+    cancelAnimationFrame(gAnim); gAnim = 0;
+    gDragging = true; gDecided = false; gId = e.pointerId;
+    gX0 = gLastX = e.clientX; gY0 = e.clientY;
+    gIdx0 = gIdx; gLastT = performance.now(); gVel = 0;
+    try { view.setPointerCapture(e.pointerId); } catch (_) {}
   });
   view.addEventListener('pointermove', e => {
-    if (!down) return;
-    const d = e.clientX - sx;
-    far += Math.abs(d);
-    view.scrollLeft = sl - d;
+    if (!gDragging || e.pointerId !== gId) return;
+    const dx = e.clientX - gX0, dy = e.clientY - gY0;
+    if (!gDecided) {
+      if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
+      if (Math.abs(dy) >= Math.abs(dx)) { gDragging = false; return; }
+      gDecided = true;
+      view.classList.add('drag');
+    }
+    const now = performance.now(), dt = now - gLastT;
+    if (dt > 0) gVel = .75 * (e.clientX - gLastX) / dt + .25 * gVel;
+    gLastX = e.clientX; gLastT = now;
+    gIdx = gIdx0 - dx / gStep;
+    const sh = gRebase();
+    if (sh) gIdx0 += sh;
+    gApply();
+    paint(Math.round(gIdx) % total);
   });
-  function release() {
-    if (!down) return;
-    down = false;
+  function gEnd(e) {
+    if (!gDragging || (e && e.pointerId !== gId)) return;
+    gDragging = false;
     view.classList.remove('drag');
-    goTo(nearest());
+    if (!gDecided) return;
+    /* SATU GESTUR = MAKS SATU KARTU: commit bila drag sudah 35%
+       jarak kartu ATAU lepasan >= 0,25 px/ms; ragu-ragu → kembali. */
+    const start = Math.round(gIdx0);
+    const d = gIdx - gIdx0;
+    const dir = d > 0 ? 1 : -1;
+    const idx = (Math.abs(d) > .35 || Math.abs(gVel) > .25)
+      ? start + dir : start;
+    if (reduced) { gIdx = idx; gRebase(); gApply(); paint(idx % total); return; }
+    gAnimate(idx, -gVel);
   }
-  view.addEventListener('pointerup', release);
-  view.addEventListener('pointercancel', release);
+  view.addEventListener('pointerup', gEnd);
+  view.addEventListener('pointercancel', gEnd);
+
+  /* roda horizontal (trackpad) — satu langkah per gestur,
+     cooldown 350ms. Roda vertikal TIDAK disentuh: halaman
+     yang digulir, bukan galeri. */
+  view.addEventListener('wheel', e => {
+    if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+    if (Math.abs(e.deltaX) < 10 || performance.now() < gWheelLock) return;
+    gWheelLock = performance.now() + 350;
+    gGo(e.deltaX > 0 ? 1 : -1);
+  }, { passive: true });
 
   // panah kiri / kanan
   addEventListener('keydown', e => {
     if (!$('#sheet').hidden) return;
     const r = $('#s3').getBoundingClientRect();
     if (r.top > innerHeight * .6 || r.bottom < innerHeight * .4) return;
-    if (e.key === 'ArrowLeft')  { e.preventDefault(); goTo(cur - 1); }
-    if (e.key === 'ArrowRight') { e.preventDefault(); goTo(cur + 1); }
+    if (e.key === 'ArrowLeft')  { e.preventDefault(); gGo(-1); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); gGo(1); }
   });
 
   paint(0);
+
+  /* mulai di set utama, kartu pertama di tengah — sinkron sebelum
+     frame pertama, tanpa animasi */
+  gMeasure();
+  gIdx = HOME;
+  gApply();
+  addEventListener('resize', () => { gMeasure(); gApply(); }, { passive: true });
+
+  /* gambar salinan dimuat begitu bagian 003 terlihat — tanpa ini,
+     wrap pertama bisa kedip karena <img> salinan masih lazy-load */
+  if ('IntersectionObserver' in window) {
+    const preo = new IntersectionObserver(es => {
+      es.forEach(e => {
+        if (!e.isIntersecting) return;
+        preo.disconnect();
+        S.forEach(st => {
+          const file = /\.[a-z0-9]{2,4}$/i.test(st.img);
+          (new Image()).src = 'assets/img/' + (file ? st.img : st.img + '.webp');
+          if (!file) (new Image()).src = 'assets/img/' + st.img + '.jpg';
+        });
+      });
+    });
+    preo.observe($('#s3'));
+  }
 
   /* ---------- 004 · PRAKTIK ---------- */
   $('#practice').innerHTML = D.practice.map(p => `<p class="rv">${p}</p>`).join('');
@@ -575,6 +728,7 @@
 
     /* — gambar — */
     function frame(now) {
+      if (!vOn) return;
       requestAnimationFrame(frame);
       if (!W || !H) { size(); return; }
 
@@ -635,7 +789,17 @@
 
       ctx.globalCompositeOperation = 'source-over';
     }
-    requestAnimationFrame(frame);
+    /* jeda loop saat hero tak terlihat — hemat baterai dan
+       mengurangi perebutan main-thread saat geser di bagian lain */
+    let vOn = false;
+    function vStart() { if (!vOn) { vOn = true; requestAnimationFrame(frame); } }
+    function vStop() { vOn = false; }
+    if ('IntersectionObserver' in window) {
+      const vio = new IntersectionObserver(es => {
+        es.forEach(e => { e.isIntersecting ? vStart() : vStop(); });
+      }, { threshold: 0 });
+      vio.observe(wrap);
+    } else vStart();
   })();
 
   /* ---------- SCROLL ---------- */

@@ -21,7 +21,9 @@ Dirancang pada lebar **360px** lebih dulu. Layar besar hanyalah pelebaran.
   ponsel dimiringkan
 - **Nol aturan `hover`** di seluruh CSS — tidak ada isi yang tersembunyi
 - **Galeri geser** pada bagian `003` — snap ke tengah, keterangan berganti
-  mengikuti kartu aktif, lengkap dengan tombol panah sebagai cadangan
+  mengikuti kartu aktif, **loop tak berujung** (geser terus dari kartu
+  terakhir ke pertama tanpa lompat balik), lengkap dengan tombol panah
+  sebagai cadangan
 - **Sasaran sentuh ≥ 44px**
 - **`100dvh`** agar tidak terpotong bilah alamat peramban
 - **`safe-area-inset`** dihormati untuk ponsel berponi
@@ -54,8 +56,8 @@ Keduanya memakai mesin filamen yang sama, jadi seratnya satu bahasa.
 | | Bagian |
 |---|---|
 | `001` | Pembuka — nama besar di atas **void** generatif setinggi layar, status, jam |
-| `002` | Karya — Concept Archive |
-| `003` | Studi — galeri geser, 8 kartu |
+| `002` | Karya — Concept Archive + Ink Chaos + Lexier + Zestpop + Vellichor + Élan + BARA + OCULAR |
+| `003` | Studi — galeri geser, 4 kartu |
 | `004` | Praktik |
 | `005` | Kontak |
 

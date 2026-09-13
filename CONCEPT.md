@@ -98,8 +98,8 @@ Satu halaman, lima bagian:
 | | Bagian | Isi |
 |---|---|---|
 | `001` | Pembuka | Wordmark besar, status, jam Jakarta langsung |
-| `002` | Karya | Concept Archive — satu-satunya yang selesai, plus ceritanya |
-| `003` | Studi | 3 studi visual — rencana akhir, seluruhnya tayang; galeri geser dengan snap ke tengah |
+| `002` | Karya | Concept Archive + Ink Chaos + Lexier + Zestpop + Vellichor + Élan + BARA + OCULAR — delapan kartu karya, plus ceritanya |
+| `003` | Studi | 4 studi visual — seluruhnya tayang; galeri geser dengan snap ke tengah, loop tak berujung |
 | `004` | Praktik | Dua paragraf posisi |
 | `005` | Kontak | Satu alamat, blok inversi |
 
@@ -313,7 +313,9 @@ melengkapi rangkaian dari `st-10.png` (2026-08-25).
 | Ground / ink | `#0A0A0A` / `#FAFAFA` |
 
 
-**Rencana: 3 studi kuat, bukan 8.** Lebih baik sedikit tapi benar-benar miliknya.
+**Rencana: 3 studi kuat, bukan 8.** Lebih baik sedikit tapi benar-benar
+miliknya. (Realita 2026-08-27: kini 4 — `004 Ink Chaos/Simetri` menyusul
+lewat PR #7.)
 
 
 ### Cara mengganti
@@ -349,14 +351,23 @@ Yang kedua sengaja ada supaya gambar bisa diunggah langsung tanpa diproses.
 
 
 `assets/img/og-cover.jpg` — 1200×630, muncul saat link dikirim ke WhatsApp,
-X, atau LinkedIn. Dibangkitkan oleh `tools/make-og-card.py`; petunjuk lengkap
-di `tools/README.md`.
+X, atau LinkedIn.
 
 
 **Pekerjaan ini sudah selesai — jangan disetel ulang tanpa diminta.**
-Versi prosedural (memakai `grow()` dari `main.js`) **sudah dicoba dan
-ditolak**: parameternya disetel untuk kanvas potret dan menghasilkan bentuk
-seperti petir di kanvas lanskap.
+Riwayat:
+1. Versi prosedural (`tools/make-og-card.py`, memakai `grow()` dari
+   `main.js`) **sudah dicoba dan ditolak**: parameternya disetel untuk
+   kanvas potret dan menghasilkan bentuk seperti petir di kanvas
+   lanskap.
+2. Versi "swirl tinta 3D" (generate AI) **ditolak pemilik 2026-08-28**
+   ("jelek banget"): glossy render cat cair, wordmark gradasi — tidak
+   sesuai identitas situs.
+3. **Final (2026-08-28, generate AI, 1200×630):** matte total — latar
+   hitam pekat, wordmark NUIT ENCRE dua baris putih flat di kiri, satu
+   sapuan tinta kuas kering dengan percikan halus di kanan, monospace
+   "VISUAL / CONCEPT DESIGNER" di kiri bawah. Bahasa situs: flat,
+   matte, tanpa gloss.
 
 
 URL OG **wajib absolut** — WhatsApp, X, dan LinkedIn tidak me-resolve path
@@ -388,7 +399,7 @@ pemilik situs sendiri sempat mengetuknya dan mengira rusak.
 | Hal | Status |
 |---|---|
 | **Email `halo@nuit-encre.studio`** | **Dummy, dan tetap begitu.** Anggaran domain dipakai proyek lain. **Berhenti menandainya sebagai kekurangan.** |
-| **Satu karya selesai** | Disengaja. `practice[]` sudah mengakuinya terbuka. |
+| **Delapan karya di 002** | Concept Archive + Ink Chaos + Lexier + Zestpop + Vellichor + Élan + BARA + OCULAR. `practice[]` mengikuti jumlah: "baru tiga" (2026-08-27) → "empat" (2026-08-28, Zestpop) → "tujuh" (2026-08-28, Vellichor, Élan, BARA) → "delapan" (2026-08-30, OCULAR). |
 | **Tanpa domain sendiri** | Disengaja. Situs harus terasa selesai apa adanya. |
 | **Layar pembuka** | Sudah diterima. Jangan dirancang ulang tanpa diminta. |
 | **Massa tinta** | Sudah pas. Jangan disetel ulang tanpa diminta. |
@@ -467,6 +478,181 @@ penyuntingan; kalau terpaksa, satu berkas dalam satu waktu, `data.js` dulu
 (teks polos, tanpa backtick) sebelum `main.js`.
 
 
+**Audit & perampingan (2026-08-27).** Audit menyeluruh menemukan dan
+memperbaiki:
+
+
+- **Studi 004:** `st-04.jpg`/`st-04.webp` tadinya PNG 3 MB yang diunggah
+  tiga kali dengan nama berbeda — `ink-chaos-02.png` bahkan duplikat
+  persis (md5 sama). Kini diproses lewat `tools/add-study.py` menjadi
+  JPG 451 KB + WebP 263 KB yang beneran; zona lencana 0,0% piksel terang.
+  Hemat ±9 MB di repo & Pages.
+- **Dihapus:** `ink-chaos-02.png`, `og-cover.webp` (tak dirujuk),
+  `image-search/` (screenshot referensi huyml.co — materi kerja, bukan
+  isi situs), `ApfelGrotezk-Regular.woff2` (bobot 400 tak pernah dipakai;
+  semua teks display = Fett 700).
+- **CSS mati:** `.wk__top`, rule `.wk__facts dd` duplikat, dan default
+  `.gal__bar i` 12,5% → 25% (sisa era 8 kartu).
+- **Dokumen:** README & CONCEPT disinkronkan dengan realita
+  (4 studi, 2 karya).
+
+
+**Keputusan pemilik (2026-08-27):** `practice[]` selaras dengan 002 —
+"Karya yang benar-benar selesai baru **tiga**" (Concept Archive, Ink
+Chaos, Lexier). Naik ke "baru **empat**" 2026-08-28 bersama Zestpop, lalu "baru **tujuh**" 2026-08-28 bersama Vellichor, Élan, dan BARA, dan "baru **delapan**" 2026-08-30 bersama OCULAR.
+Ubah angka ini kalau jumlah karya berubah.
+
+**Karya 003 Lexier (2026-08-27).** Ditambahkan atas permintaan pemilik:
+`workThree` di `data.js`, thumbnail `lexier-cover.jpg`/`.webp`
+di-generate AI (1280×800, B&W) sesuai karakter situs
+(https://lexier.pages.dev/ — studio tipografi eksperimental, JKT).
+Grid `002` kini 2 kolom (2 kartu + 1 kartu) — mekanisme scroll
+horizontal yang sudah ada yang mengerjakan, bukan desain baru.
+Keputusan pemilik 2026-08-27: **geser antar kolom membuka kartu
+utamanya otomatis** (kolom 2 → Lexier) via listener scroll di
+`main.js`; ketuk manual tetap akordeon + gulir halus.
+
+**Karya 004 Zestpop (2026-08-28).** Ditambahkan atas permintaan pemilik:
+`workFour` di `data.js` (landing page konsep seltzer rasa buah lokal,
+https://zestpop.pages.dev/ — percobaan sticky scroll pertama pemilik;
+rasa: jeruk, kelapa, manggis). Thumbnail `zestpop-cover.jpg`/`.webp`
+(1280×800) dari `og.jpg` milik situs — upload pemilik 2026-08-28 via
+GitHub, crop tengah 16:10 + konversi standar (menggantikan versi
+generate AI pertama: tab kaleng dicabut, karbonasi menyembur). Grid `002` kini 2×2 penuh — layout, border,
+dan auto-open saat geser (`workCards[p*2]`) tetap benar tanpa ubah
+kode; Zestpop duduk di bawah kolom 2 (di bawah Lexier, yang tetap
+kartu utama kolom itu). Counter seksi `002 — KARYA`: 03 → 04.
+
+**Karya 005–007 Vellichor, Élan, BARA (2026-08-28).** Ditambahkan atas
+permintaan pemilik: Vellichor (perpustakaan fiksi est. 1883 — "rahasia
+cerita yang dilupakan"), Élan (fashion editorial monokrom Issue No. 01 —
+"not a trend. a mood."), BARA (object study — wewangian keramik hitam
+arang, "shaped by heat"). `workFive`/`workSix`/`workSeven` di `data.js`;
+sumber PNG thumbnail di-generate AI dan disimpan di repo (pola sumber
+studi), pasangan `.jpg`/`.webp` 1280×800. Grid 002 kini 4 kolom
+(7 kartu) — dua perbaikan pendamping: (1) listener scroll menghitung
+kolom yang benar-benar terlihat (`round(scrollLeft / clientWidth)`,
+dulu hanya 0/1) supaya auto-open benar di kolom 3–4; (2)
+`.work-card:last-child{border-bottom:0}` agar kartu terakhir di kolom
+janggal tak punya garis bawah melayang. Counter seksi: 07.
+
+**Karya 008 OCULAR (2026-08-30).** Ditambahkan atas permintaan
+pemilik: situs konsep produk sci-fi (mata sibernetik, lensa kaca, visor
+— "vision. redefined."). `workEight` di `data.js`; thumbnail
+di-upload pemilik sebagai `ocular-cover.jpg` (hero situs, 1731×909),
+lalu di-crop dengan bias kiri ke 16:10 — crop tengah biasa
+memotong huruf O pada wordmark — dan dikonversi pasangan
+`.jpg`/`.webp` 1280×800. Grid 002 kini 2×4 penuh (8 kartu) — tanpa
+kolom janggal, tak perlu perbaikan lagi. Counter seksi: 08.
+
+**Karya 002 "terakhir dilihat" per kolom (2026-08-28).** Keputusan
+pemilik: geser balik ke kolom tidak boleh reset ke kartu utama —
+yang terbuka adalah kartu terakhir dilihat di sana (contoh: buka
+Ink Chaos → geser kanan → balik kiri → Ink Chaos terbuka lagi,
+bukan Concept Archive; dan sebaliknya). Implementasi di `main.js`:
+`lastOpen[col]` (2 kartu/kolom, sesuai grid 2 baris) diperbarui
+setiap kartu dibuka — ketuk manual maupun auto — dan listener
+scroll membuka `lastOpen[p]` hanya kalau di kolom itu tidak ada
+yang terbuka. Konsekuensi sadar: menutup kartu lalu pergi dan
+balik, kartu yang ditutup itu terbuka lagi (ia memang "terakhir
+dilihat").
+
+**Galeri 003 loop tak berujung (2026-08-27).** Permintaan pemilik:
+geser dari kartu terakhir harusnya melanjutkan ke pertama tanpa
+lompat balik. Solusi di `main.js`: track berisi tiga salinan set
+`[salinan][utama][salinan]` (salinan non-utama `aria-hidden`); saat
+kartu di salinan jadi kartu mendarat, scroll digeser **seketikas**
+satu lebar set ke set utama. Piksel identik, jadi loop-nya mulus.
+Tombol panah & keyboard memakai posisi track (`pos`), bukan indeks
+logis. Catatan lama "jangan carousel transform" **tidak berlaku
+lagi** — lihat arsitektur sentuh di bawah (2026-08-27).
+
+Perbaikan kedipan & jeda (2026-08-27, final): pemicu lompatan tetap
+**debounce 140ms** setelah scroll terakhir — JANGAN tambah tunda atau
+guard ekstra (setiap tunda terasa jeda; guard pusat-kartu sudah
+dibuktikan bikin jeda intermiten dan dibuang), JANGAN pindah ke
+`scrollend` (meledak di tengah fling, saat koreksi snap pertama —
+sudah dicoba, terasa jeda). Track periodik, jadi lompatan di offset
+mana pun identik pikselnya. Yang dipertahankan: (1) pasca-lompatan,
+`scroll-behavior` dipaksa `auto` 350ms agar koreksi snap
+pasca-lompatan instan, tak beranimasi; (2) target dibulatkan
+`Math.round`; (3) kunci 300ms pasca-lompatan; (4) gambar salinan
+di-preload begitu bagian 003 terlihat (IntersectionObserver).
+Bonus: loop kanvas void kini **berhenti saat hero tak terlihat**
+(IntersectionObserver di `#void`) — hemat baterai dan mengurangi
+perebutan main-thread saat geser di bagian lain.
+
+**Pencabutan `scroll-snap-stop:always` (2026-08-27, final).**
+Keputusan 2026-08-25 ("satu gestur berhenti di satu kartu") ternyata
+sumber jeda fling cepat: momentum menerbangkan kartu melewati clone
+pertama, lalu peramban menariknya kembali dengan slide yang terlihat.
+Dengan `mandatory` saja, fling cepat meluncur alami — mendarat di
+kartu berikutnya, atau melangkah dua kartu kalau memang secepat itu
+(semantik carousel wajar; acuan huyml.co pun begini). Sapuan pelan
+dan disengaja tetap berhenti di kartu yang dituju. Kalau pemilik
+menginginkan kembali disiplin satu-kartu, kembalikan
+`scroll-snap-stop:always` — tapi jeda fling cepat akan kembali.
+
+**Scroll halaman tertahan di atas foto studi (2026-08-27, bug fix).**
+Sentuhan di atas `<img>` bisa memicu drag-gambar native (terutama
+Android) yang memblokir scroll atas-bawah; preventDefault `dragstart`
+lama hanya menangkap drag mouse. Perbaikan: `.gs` kini
+`pointer-events:none` (kartu galeri memang tak interaktif) +
+`draggable="false"` di semua output `pic()` +
+`-webkit-user-drag:none` global. (Masih berlaku sekarang.)
+
+**Kembali ke sentuh native (2026-08-27, final — keputusan pemilik).**
+Setelah rangkaian eksperimen fisika sentuh buatan (pan-y + drag
+1:1 + fling custom) berulang kali melahirkan bug baru — "pause
+lama", "berat", dan "stuck di tengah celah" yang tak berkesudahan —
+pemilik memerintahkan: *kembalikan seperti pertama kali kita
+membuat smooth infinite looping.* Hasilnya:
+- `touch-action: pan-x pan-y` — horizontal 100% **native**
+  peramban (momentum & snap asli, rasa loop original); `pan-y`
+  ikut supaya scroll vertikal halaman tetap jalan saat jari di
+  atas foto (`pan-x` saja menelan scroll vertikal — bug lama).
+- `scroll-snap-type: x mandatory` **tanpa** snap-stop
+  (penghapusan snap-stop dari `7c45184` dipertahankan — itu yang
+  menyembuhkan slide-back fling cepat), `scroll-behavior:smooth`
+  dikembalikan seperti versi original.
+- Wrap = `settle()` 140ms + `wrapLock` 300ms + preload salinan
+  (desain `cbe18e0`), centering awal seketikas, tombol/keyboard
+  `goTo(pos ± 1)`, drag mouse — tak berubah dari versi original.
+- Blok "sentuh: horizontal fisika sendiri" di `main.js`
+  **dihapus** (drag 1:1 custom, re-anchor, Hermite, commit ringan,
+  lantai kecepatan — semua). Aturan "satu gestur = maks satu
+  kartu" ikut batal: momentum native bebas (fling kencang boleh
+  2 kartu) — itulah rasa original yang diminta.
+**Jangan membangun kembali fisika sentuh buatan** kecuali diminta
+pemilik secara eksplisit; rute `pan-y` + JS sudah tiga kali gagal
+di perangkat pemilik, rute `pan-x` saja menelan scroll vertikal.
+(Sudah digantikan — lihat "Carousel transform" di bawah.)
+
+**Carousel transform (2026-08-27, final 2 — disetujui pemilik).**
+Pemilik mengizinkan penulisan ulang dengan metode transform
+(temuan dari benchmarking huyml.co/Framer: mereka tidak pernah
+memakai mesin scroll peramban — track digerakkan
+`transform: translate3d` di kompositor). Arsitektur:
+- `.gal__view` bukan scroll container lagi (`overflow:hidden`,
+  `touch-action:pan-y`); `.gal__track` `will-change:transform`.
+- `gIdx` = indeks kartu float; `gApply()` = translate3d;
+  `gMeasure()` ulang saat resize.
+- Drag 1:1 via pointer events (sentuh & mouse satu jalur, pointer
+  capture; ambang 8px; vertikal = milik halaman). Lepas →
+  `gAnimate()`: Hermite menyambung kecepatan jari (≥ 0,3 px/ms)
+  atau kick ease-out; lantai kecepatan 500 px/s; commit 35% atau
+  0,25 px/ms, maks satu kartu.
+- `gRebase()`: begitu pusat viewport melewati celah wrap, rebase
+  ±4 kartu (piksel identik, track periodik) — wilayah salinan
+  dingin tak pernah terlihat > separuh kartu.
+- **Jaminan struktural**: keadaan istirahat selalu persis pusat
+  kartu (gIdx integer) — "stuck di celah" tak mungkin.
+- Tombol/keyboard = `gGo(±1)`; wheel hanya horizontal (vertikal
+  = halaman); reduced motion = lompat seketika.
+- `startOf`/`nearest`/`goTo`/`settle`/scroll-listener galeri
+  **lenyap**. Revert satu langkah via git bila diminta.
+
+
 **Trik mendeteksi berkas biner di Pages:** `fetch_page` mengembalikan **500
 kalau berkasnya ada** (alatnya gagal membaca biner) dan **halaman 404** kalau
 tidak ada. Bandingkan dengan berkas yang pasti ada untuk memastikan.
@@ -479,13 +665,30 @@ Nomor lama 007 (wordmark) kini 001. Semua entri placeholder AI dihapus dari
 `data.js` beserta berkasnya (`st-03` s.d. `st-08`; berkas `st-01` lama diganti
 varian wordmark).
 
-Status akhir: **3/3 studi tayang.**
+Status akhir: **6/6 studi tayang.**
 
 | No | Judul | Status |
 |---|---|---|
 | 001 | Wordmark / Terpotong | Tayang — diproses dari sumber `st-02-wordmark.png` |
 | 002 | Kisi / Dimakan | Tayang — diproses dari `st-09.png` (diunggah pemilik) |
 | 003 | Gestur / Bersilang | Tayang — diproses dari `st-10.png` (diunggah pemilik) |
+| 004 | Ink Chaos / Simetri | Tayang — ditambahkan lewat PR #7; pasangan `st-04.jpg`/`.webp` diproses ulang 2026-08-27 via `tools/add-study.py` dari `st-04.png` |
+| 005 | Poster / Kosong | Tayang (2026-08-27) — poster studio Lexier; diproses via `tools/add-study.py` dari `st-05.png` (unggah pemilik). Peringatan zona lencana tak relevan lagi (lencana dihapus, lihat bawah). |
+| 006 | Kaligrafi / Tegak | Tayang (2026-08-27) — kaligrafi tinta vertikal kata "plume"; `st-06.png` diunggah pemilik via GitHub, diproses `tools/add-study.py` (jpg 162KB + webp 35KB). |
+
+Carousel transform adaptif otomatis terhadap jumlah studi: kini
+3×6=18 kartu, rebase ±6, counter `06`, progress bar 6 segmen.
+
+**Lencana nomor kartu dihapus (2026-08-27, keputusan pemilik).**
+Pemilik bertanya: lencana putih `.gs__i` cocok nggak, soalnya nomor
+sudah ada di atas? Kesepakatan: redundan — angka besar + tag di
+atas adalah penanda yang bekerja; lencana adalah elemen lebih
+lemah dan canggung di kartu latar terang (poster Lexier). Opsi C
+dipilih: lencana **dibuang total** (span di template track +
+aturan CSS). Identitas kartu sekarang sepenuhnya dari angka besar,
+tag, dan caption. Catatan audit 2026-08-25 tentang tepi lencana
+berlaku-sejarah; peringatan zona lencana di `tools/add-study.py`
+tetap berjalan sebagai saran saja.
 
 Sumber `st-10.png` diproses dengan
 `python3 tools/add-study.py assets/img/st-10.png 3` menjadi pasangan
