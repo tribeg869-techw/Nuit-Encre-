@@ -321,7 +321,12 @@ body.ready .hero__foot{animation:fade .9s var(--e) 1s forwards}
    KONTRAK: setiap :hover di sini wajib punya padanan .is-open, dan
    :hover hanya hidup di @media (hover:hover) agar ponsel tidak
    terjebak hover-lengket setelah ketukan. */
-#work{overflow-anchor:none}
+/* Scroll anchoring peramban SENGAJA dibiarkan hidup: saat baris di atas
+   viewport menutup (tinggi berkurang 200–350px), peramban menggeser
+   scrollY agar konten di bawah jari tidak melompat. `overflow-anchor:
+   none` dari era akordeon lama justru mematikan penjaga ini (audit
+   2026-09-13: lompatan −214px di ponsel). Safari tak punya anchoring —
+   JS mengompensasi sendiri (lihat main.js, "kompensasi tinggi"). */
 .sec--idx{--quart:cubic-bezier(.26,1,.48,1)}
 .idx{padding-top:8px}
 

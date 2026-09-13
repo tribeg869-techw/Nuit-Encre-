@@ -1,8 +1,10 @@
 # NUIT-ENCRE — Dokumen Konsep
 
 
-> Versi 1.0 · situs sudah tayang. Dokumen ini adalah **peta kerja** —
-> baca sampai habis sebelum mengubah apa pun.
+> Versi 1.1 (2026-09-13) · situs sudah tayang. Dokumen ini adalah
+> **peta kerja** — baca sampai habis sebelum mengubah apa pun.
+> Perubahan besar terakhir: bagian 002 menjadi **INDEKS** (§9a) dan
+> aturan hover dilonggarkan (§0 butir 3).
 
 
 **Tayang di:** https://tribeg869-techw.github.io/Nuit-Encre-/
@@ -56,7 +58,10 @@ lengkap, bukan etalase jasa.
 
 
 **Aturan 1 — Mobile-first, harfiah.** Dirancang pada 360px lebih dulu. Layar
-besar hanyalah pelebaran. Sasaran sentuh minimal 44px.
+besar hanyalah pelebaran. Sasaran sentuh minimal 44px. *Sejak 2026-09-13*
+pelebaran itu wajib **selesai** sampai desktop: tata letak ≥720px dan
+≥1100px bukan pilihan, dan interaksi kursor (hover) boleh ada — asal tiap
+hover punya padanan sentuh (§0 butir 3).
 
 
 **Aturan 2 — Jangan menyerupai Concept Archive.** Situs induk harus punya
@@ -458,6 +463,44 @@ Tiga keputusan yang mengubah aturan lama, semuanya eksplisit dari pemilik:
   reduced motion, semuanya tampil penuh sejak awal. Jangan pindahkan
   keadaan awal ke CSS dasar — itu kesalahan yang pernah menghilangkan
   wordmark hero (lihat komentar `.wm__l`).
+- **`overflow-anchor:none` di `#work` (warisan akordeon lama) membuat
+  halaman melompat** saat baris di atas viewport menutup: terukur
+  **−214px** di ponsel (audit 2026-09-13). Dihapus — scroll anchoring
+  peramban justru penjaga yang dibutuhkan. Safari/iOS tak punya
+  anchoring, jadi `main.js` mengompensasi sendiri (`compensate()`:
+  pantau tinggi baris yang menutup tiap frame selama 1,1 s, kembalikan
+  selisihnya ke `scrollY` bila baris itu berada di atas baris yang
+  membuka). Dipicu hanya bila `CSS.supports('overflow-anchor','auto')`
+  bernilai false. Hasil setelah perbaikan: 0px di Chrome (anchoring
+  native) dan 0px di simulasi Safari.
+- **Ketuk-ganda pada baris tertutup membuka tab luar** — ketukan
+  pertama membuka baris, ketukan kedua (pantulan, <300ms) dibaca
+  sebagai "kunjungi". Kini ketukan kedua pada baris terbuka hanya
+  mengikuti tautan bila datang **>600ms** setelah baris dibuka
+  (`row.dataset.t`). Diuji: 150ms & 450ms dibatalkan, 850ms navigasi.
+
+### Audit 2026-09-13 (setelah pembangunan)
+
+Diuji di Chromium headless: 360px sentuh, 700/720/1100/1280/1440px
+kursor, reduced-motion, tanpa JS, simulasi Safari tanpa anchoring.
+
+| Pemeriksaan | Hasil |
+|---|---|
+| Lompatan scroll saat baris di atas menutup (ponsel) | −214px → **0px** (perbaikan di atas) |
+| Ketuk-ganda baris tertutup → tab luar | ya → **tidak** (jendela 600ms) |
+| Ketukan kedua disengaja (>0,6 s) → situs karya | ✓ |
+| Dua baris terbuka bersamaan (hover + auto-open) | tidak pernah — `pointermove` melepas `.is-open` |
+| Sapuan kursor cepat 5 baris | hanya baris terakhir terbuka |
+| Fokus keyboard membuka, Tab berikutnya berpindah, keluar daftar menutup | ✓ |
+| Sasaran sentuh: baris 53px, tombol LIST/GRID 50×44 | ✓ ≥44 |
+| Overflow horizontal di 360px | tidak ada |
+| Gambar `alt`: 8/8 terisi; `.row__imgs` `aria-hidden` | ✓ |
+| Urutan heading: H1 wordmark → H2 INDEKS → H2 studi → H2 praktik | ✓ |
+| Tanpa JS | judul, baris, dan gambar tampil penuh (tidak ada state tersembunyi di CSS dasar) |
+| Reduced motion | tanpa flip/stagger; baris pertama tetap terbuka |
+| Byte gambar saat halaman dibuka (ponsel, tanpa gulir) | 1,35 MB — **sama persis dengan versi sebelum INDEKS** (14 berkas), jadi bukan regresi; sampul dibangunkan saat 002 berjarak 600px |
+| `tools/cek-hover.py` | LOLOS: 6 `:hover`, semua di dalam `@media (hover:hover)` |
+| Berkas gambar tak dirujuk | `showcase-thumbnail.jpg` (138 KB) — sumber unggahan pemilik untuk `elan-cover` (commit `e1bcccc`); **dibiarkan**, pola "sumber disimpan" sama dengan PNG studi |
 
 ### Menambah karya / gambar
 
@@ -517,6 +560,15 @@ jadi galerinya dialihfungsikan untuk **artefak**.
 **观察** Amati · **转译** Terjemahkan · **重构** Susun ulang.
 
 
+**https://guillaumecolombel.fr/works** — acuan bagian 002 INDEKS (sejak
+2026-09-13, permintaan pemilik). Yang **diambil**: mekanisme daftar melar
+(0fr→1fr, .75s/1s quart-out), grid 24 kolom, geometri empat slot gambar,
+flip judul per huruf, toggle LIST/GRID. Yang **ditolak**: latar putih,
+sans italic, filter kategori (8 karya beda jenis semua), dan perilaku
+ponselnya (grid saja — di sini daftar melar tetap hidup lewat ketuk).
+Rincian di §9a.
+
+
 ---
 
 
@@ -524,12 +576,20 @@ jadi galerinya dialihfungsikan untuk **artefak**.
 
 
 ```bash
-grep -n ':hover' assets/css/style.css        # semua harus di dalam @media (hover:hover)
+python3 tools/cek-hover.py                   # kontrak hover — wajib LOLOS (exit 0)
 node --check assets/js/main.js
 node --check assets/js/data.js
 python3 -c "s=open('assets/css/style.css').read(); print(s.count('{'),s.count('}'))"
 python3 -c "import xml.dom.minidom as m; m.parse('sitemap.xml')"
+# data.js: semua gambar works[] ada di assets/img?
+node -e "global.window={};require('./assets/js/data.js');const fs=require('fs');window.NE.works.forEach(w=>w.images.forEach(i=>{(/\.[a-z0-9]{2,4}$/i.test(i)?[i]:[i+'.webp',i+'.jpg']).forEach(x=>{if(!fs.existsSync('assets/img/'+x))console.log('HILANG',x)})}))"
 ```
+
+Kalau ada Chromium (Playwright), skenario sentuh yang wajib diulang setelah
+menyentuh bagian 002: (a) buka baris 001, gulir sampai 001 di atas
+viewport, ketuk 008 → baris 008 **tidak boleh bergeser**; (b) ketuk-ganda
+cepat pada baris tertutup → **tidak boleh** membuka tab baru; (c) ketukan
+kedua setelah >0,6 s pada baris terbuka → membuka situs karya.
 
 
 Keseimbangan tag HTML: himpunan elemen kosong **harus memuat `i`**.
@@ -557,7 +617,10 @@ GitHub di ponsel pemilik situs**:
 
 **Periksa dulu apakah kamu bisa push.** Kalau bisa, abaikan seluruh bagian ini.
 *(Ronde 2026-08-25: agen **bisa** push — branch sementara dites lalu
-dihapus. Rute manual di bawah kini hanya cadangan.)*
+dihapus. Ronde 2026-09-13: `git ls-remote` bisa, `git push` butuh
+kredensial — pemilik memberikan token sekali pakai lewat percakapan;
+token TIDAK boleh disimpan di repo, `.git/config`, atau dokumen ini.
+Rute manual di bawah tetap cadangan.)*
 Kalau tidak, pola di atas terbukti jalan — tapi hemat permintaanmu: pemilik
 situs mengetik di ponsel dan gugup menyentuh kode. Utamakan rute tanpa
 penyuntingan; kalau terpaksa, satu berkas dalam satu waktu, `data.js` dulu

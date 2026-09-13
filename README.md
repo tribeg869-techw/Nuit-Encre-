@@ -10,7 +10,10 @@ Alasan setiap keputusan ada di **[`CONCEPT.md`](CONCEPT.md)**.
 
 ## Dibangun untuk ponsel, bukan diperkecil dari desktop
 
-Dirancang pada lebar **360px** lebih dulu. Layar besar hanyalah pelebaran.
+Dirancang pada lebar **360px** lebih dulu. Layar besar hanyalah pelebaran —
+tapi pelebaran yang selesai: tablet (≥720px) dan desktop (≥1100px) punya tata
+letak sendiri, dan interaksi kursor ada di mana ia menambah, tanpa pernah
+menyembunyikan sesuatu dari jari.
 
 - **Navigasi di bawah** — zona jangkauan ibu jari, bukan pojok atas
 - **Layar pembuka beranimasi** — setetes tinta putih jatuh, merembes naik
@@ -22,6 +25,9 @@ Dirancang pada lebar **360px** lebih dulu. Layar besar hanyalah pelebaran.
 - **Hover hanya sebagai bonus** — setiap `:hover` hidup di dalam
   `@media (hover:hover)` dan punya padanan sentuh; tidak ada isi yang
   hanya bisa dicapai dengan kursor
+- **Indeks melar** pada bagian `002` — daftar tipis delapan karya; baris yang
+  disentuh (atau dilewati kursor) membuka gambarnya, baris lain mengempis
+  jadi garis. Tampilan **LIST / GRID**
 - **Galeri geser** pada bagian `003` — snap ke tengah, keterangan berganti
   mengikuti kartu aktif, **loop tak berujung** (geser terus dari kartu
   terakhir ke pertama tanpa lompat balik), lengkap dengan tombol panah
@@ -72,12 +78,13 @@ Keduanya memakai mesin filamen yang sama, jadi seratnya satu bahasa.
 .
 ├── CONCEPT.md
 ├── index.html
-└── assets/
-    ├── css/style.css
-    ├── js/
-    │   ├── data.js      ← SEMUA ISI ADA DI SINI
-    │   └── main.js
-    └── img/             # .webp + .jpg
+├── assets/
+│   ├── css/style.css
+│   ├── js/
+│   │   ├── data.js      ← SEMUA ISI ADA DI SINI
+│   │   └── main.js
+│   └── img/             # .webp + .jpg
+└── tools/               # pemroses gambar studi, kartu berbagi, cek-hover
 ```
 
 ---
@@ -91,6 +98,21 @@ python3 -m http.server 3000
 Tanpa build step, tanpa dependency.
 
 ---
+
+## Menambah karya
+
+Satu entri di `works[]` dalam **`assets/js/data.js`**:
+
+```js
+{ no:'009', title:'Judul', kind:'Jenis', role:'Peran', year:'2026',
+  url:'https://…', images:['slug-cover'], alt:'Satu kalimat deskripsi.',
+  lede:'…', story:['…'] }
+```
+
+`images` maksimal 4 (slot 2–4 mengisi tata letak referensi begitu ada).
+Slug tanpa ekstensi = pasangan `.webp` + `.jpg` di `assets/img/`. Counter,
+animasi, dan grid menyesuaikan sendiri; hanya kalimat "baru delapan" di
+`practice[]` yang masih ditulis tangan.
 
 ## Menambah studi
 

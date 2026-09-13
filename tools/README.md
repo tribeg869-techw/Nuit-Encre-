@@ -14,7 +14,8 @@ pasangan berkas siap tayang:
 - peringatan kalau >10% gambar terbuang saat potong (ekspor Canva
   idealnya langsung 3:4), kalau gambar terlalu gelap (kartu tidak
   aktif dipakai `brightness .6`), atau kalau kiri atas menabrak zona
-  lencana `.gs__i` (115×75 px).
+  lencana `.gs__i` (115×75 px) — *lencana sudah dihapus 2026-08-27
+  (CONCEPT.md), jadi peringatan ini tinggal saran komposisi*.
 
 Ambang peringatan dikalibrasi dari delapan studi yang ada
 (2026-08-25): rata-rata terang < 12 atau massa terang < 2% dianggap
@@ -57,3 +58,14 @@ huruf.
 memakai algoritma `grow()` dari `main.js`. Parameter itu disetel untuk
 kanvas potret di HP dan menghasilkan bentuk seperti petir di kanvas
 lanskap — ditinggalkan, diganti foto.
+
+## cek-hover.py
+
+Menjaga kontrak hover (CONCEPT.md §0 butir 3, sejak 2026-09-13): setiap
+selektor `:hover` di `assets/css/style.css` harus berada di dalam blok
+`@media (hover:hover)` — supaya ponsel tidak pernah terjebak state hover
+lengket, dan tidak ada isi yang hanya bisa dicapai dengan kursor.
+
+    python3 tools/cek-hover.py     # exit 0 = LOLOS, 1 = ada pelanggaran (nomor baris dicetak)
+
+Komentar CSS diabaikan. Jalankan setiap kali menyentuh CSS.

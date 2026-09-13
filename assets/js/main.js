@@ -61,11 +61,36 @@
   const rows = $$('.row', listEl);
   let openRow = null;
 
+  /* Kompensasi tinggi untuk peramban TANPA scroll anchoring (Safari/iOS):
+     baris yang menutup di ATAS viewport mengurangi tinggi dokumen
+     200–350px, dan tanpa anchoring konten di bawah jari ikut melompat
+     naik. Selama transisi tutup (1s) tinggi baris lama dipantau tiap
+     frame dan selisihnya dikembalikan ke scrollY. Chrome/Firefox punya
+     anchoring native — di sana blok ini tidak pernah jalan. */
+  const noAnchor = !(window.CSS && CSS.supports && CSS.supports('overflow-anchor', 'auto'));
+  let compRaf = 0;
+  function compensate(closing, opening) {
+    if (!noAnchor || !closing) return;
+    cancelAnimationFrame(compRaf);
+    let prev = closing.getBoundingClientRect().height;
+    const t0 = performance.now();
+    const step = () => {
+      const r = closing.getBoundingClientRect();
+      const above = r.bottom < (opening ? opening.getBoundingClientRect().top : 0);
+      const d = r.height - prev; prev = r.height;
+      if (above && d < 0 && scrollY > 0) scrollBy(0, d);
+      if (performance.now() - t0 < 1100) compRaf = requestAnimationFrame(step);
+    };
+    compRaf = requestAnimationFrame(step);
+  }
+
   function setOpen(row) {
     if (openRow === row) return;
-    if (openRow) openRow.classList.remove('is-open');
+    const prev = openRow;
+    if (prev) prev.classList.remove('is-open');
     openRow = row;
-    if (row) row.classList.add('is-open');
+    if (row) { row.classList.add('is-open'); row.dataset.t = performance.now(); }
+    compensate(prev, row);
   }
 
   /* modalitas masukan terakhir: ketukan juga memberi fokus (Android),
@@ -80,7 +105,14 @@
       if (listEl.classList.contains('is-grid')) return;      // grid: ketuk = kunjungi
       if (byKey) return;                                     // Enter = kunjungi
       if (lastPointer === 'mouse') return;                   // kursor: klik = kunjungi
-      if (row.classList.contains('is-open')) return;         // ketukan kedua = kunjungi
+      if (row.classList.contains('is-open')) {
+        /* ketukan kedua = kunjungi — kecuali datang < 600ms setelah
+           membuka: itu ketuk-ganda/pantulan, bukan niat pindah halaman
+           (audit 2026-09-13). Diuji dengan dispatchEvent bertimestamp:
+           150/450ms dibatalkan, 850ms navigasi. */
+        if (performance.now() - (+row.dataset.t || 0) > 600) return;
+        e.preventDefault(); return;
+      }
       e.preventDefault();
       setOpen(row);
       hint.classList.add('is-done');                         // petunjuk sudah tak perlu
@@ -125,7 +157,7 @@
   if ('IntersectionObserver' in window) {
     const pio = new IntersectionObserver(es => {
       es.forEach(e => { if (e.isIntersecting) { pio.disconnect(); wakeImgs(); } });
-    }, { rootMargin: '800px 0px' });
+    }, { rootMargin: '600px 0px' });
     pio.observe(idxEl);
   } else wakeImgs();
 
