@@ -783,13 +783,31 @@
       if (!lit) { lit = true; wrap.classList.add('lit'); }
     }
 
-    wrap.addEventListener('pointermove', e => touch(e.clientX, e.clientY), { passive: true });
+    /* Hover dua tahap (keputusan pemilik 2026-09-13, desktop):
+       tahap 1 — kursor MASUK hero: tinta tersingkap lembut dari
+                 tengah (cahaya .42, posisi pusat), tanpa perlu bergerak;
+       tahap 2 — kursor BERGERAK: cahaya penuh mengikuti kursor (touch()).
+       Keluar hero → memudar. Hanya pointerType 'mouse'; sentuh tetap
+       memakai jalur lama (menyala saat jari menyentuh/menggeser).
+       Peristiwa didengar di #s1 (hero), bukan .void: .hero__in
+       pointer-events:none sudah membuat kursor tembus, tapi tautan &
+       tombol di dalamnya tidak — kalau didengar di .void, cahaya mati
+       setiap kursor lewat di atas teks yang bisa diklik. */
+    const hero = wrap.closest('.hero') || wrap;
+    hero.addEventListener('pointerenter', e => {
+      if (e.pointerType !== 'mouse') return;
+      light.x = .5; light.y = .5;
+      light.want = Math.max(light.want, .42);
+      if (!lit) { lit = true; wrap.classList.add('lit'); }
+    });
+    hero.addEventListener('pointermove', e => { if (e.pointerType === 'mouse') touch(e.clientX, e.clientY); }, { passive: true });
+    hero.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') light.want = 0; });
+
     wrap.addEventListener('pointerdown', e => touch(e.clientX, e.clientY), { passive: true });
     wrap.addEventListener('touchmove', e => {
       const t = e.touches[0];
       if (t) touch(t.clientX, t.clientY);
     }, { passive: true });
-    wrap.addEventListener('pointerleave', () => { light.want = 0; });
     wrap.addEventListener('touchend',    () => { light.want = 0; });
 
     /* — giroskop: lapisan bonus, tidak wajib — */
@@ -904,15 +922,14 @@
   })();
 
   /* ---------- SCROLL ---------- */
-  const prog = $('#dockP'), dockI = $('#dockI');
+  /* bilah kemajuan di dock dihapus 2026-09-13 (keputusan pemilik) —
+     indeks bagian 00N/005 tetap jadi satu-satunya penunjuk posisi */
+  const dockI = $('#dockI');
   const secs = $$('[data-i]');
   let t = false;
 
   function onScroll() {
     const y = scrollY;
-    const max = document.documentElement.scrollHeight - innerHeight;
-    prog.style.width = (max > 0 ? (y / max) * 100 : 0) + '%';
-
     let cur = '001';
     secs.forEach(s => { if (y >= s.offsetTop - innerHeight * .45) cur = s.dataset.i; });
     dockI.textContent = cur + '/005';

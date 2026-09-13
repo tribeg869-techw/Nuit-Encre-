@@ -83,7 +83,7 @@ tipografi besar, metadata teknis, ruang kosong. Jangan ambil bentuknya.
 | Latar | Kertas hangat terang | **Hitam** `#000000` |
 | Aksen | Cinnabar `#C8402F` | **Tidak ada warna.** Aksen = inversi blok putih–hitam |
 | Aksara | 中文 sebagai tekstur | **Dilepas** — tanpa CJK |
-| Huruf | Serif kontras tinggi | **Grotesque padat**, serif hanya sesekali |
+| Huruf | Serif kontras tinggi | **Grotesque padat**, tanpa serif, tanpa italic (sejak 2026-09-13) |
 | Penyusun | Taksonomi `01—06` | **Indeks tiga digit** `008 / 001` |
 | Suasana | Galeri yang tenang | Ruang gelap, sinyal, laboratorium |
 
@@ -114,7 +114,9 @@ Satu halaman, lima bagian:
 | `005` | Kontak | Satu alamat, blok inversi |
 
 
-Bilah bawah tetap: nama · indeks bagian berjalan · tombol menu.
+Bilah bawah tetap: nama · indeks bagian berjalan · tombol menu. *Bilah
+kemajuan 1px di tepi dock dihapus 2026-09-13 (keputusan pemilik) — indeks
+`00N/005` adalah satu-satunya penunjuk posisi.*
 
 
 ---
@@ -162,21 +164,25 @@ tools/                pembangkit kartu berbagi + penyiap gambar studi
 | Display | **Apfel Grotezk Fett** 700 | ≥26px |
 | Badan | Inter 400 | 15px |
 | Meta | JetBrains Mono | 10–11px |
-| Aksen | Instrument Serif italic | jarang |
+
+**Tanpa italic, di mana pun** (keputusan pemilik 2026-09-13). Aksen serif
+Instrument Serif italic — dulu dipakai untuk "atmosfer." di hero dan
+"selesai" di Praktik — **dilepas** beserta berkas font & lisensinya; kedua
+kata kini polos, sama dengan teks sekitarnya. CSS memasang `em,i{font-style:
+normal}` sebagai pengaman: `<em>` di menu dan `<i>` dekoratif tidak boleh
+memunculkan italic sintetis. Periksa setelah menyentuh tipografi:
+`[...document.querySelectorAll('body *')].filter(e=>getComputedStyle(e).fontStyle!=='normal').length`
+harus **0**.
 
 
 **Apfel Grotezk** oleh Luigi Gorlero / [Collletttivo](https://www.collletttivo.it/typefaces/apfel-grotezk),
 **SIL OFL 1.1**, di-hosting sendiri di `assets/fonts/`. Kreditnya **wajib
 tetap ada** di bagian kolofon — itu syarat lisensi, bukan hiasan.
 
-Font pendamping juga di-hosting sendiri: Inter 400, JetBrains Mono 400/500,
-dan Instrument Serif italic 400. WOFF2 dibuat dari sumber resmi repositori
-`google/fonts`; lisensi OFL tiap keluarga disimpan di `assets/fonts/`. Tidak
-ada lagi permintaan ke Google Fonts saat halaman dibuka.
-
-
-Serif di dalam Apfel 700: `font-size:1.06em; letter-spacing:.005em`.
-**Jangan pernah ditebalkan.**
+Font pendamping juga di-hosting sendiri: Inter 400 dan JetBrains Mono
+400/500. WOFF2 dibuat dari sumber resmi repositori `google/fonts`; lisensi
+OFL tiap keluarga disimpan di `assets/fonts/`. Tidak ada lagi permintaan ke
+Google Fonts saat halaman dibuka. Tiga keluarga, semuanya tegak.
 
 
 ---
@@ -188,6 +194,18 @@ Serif di dalam Apfel 700: `font-size:1.06em; letter-spacing:.005em`.
 Hero semula menyisakan 58% layar kosong. Ruang itu tidak ditambal, melainkan
 **dijadikan karya**: tinta yang dibangkitkan acak tiap kunjungan, hanya
 tersingkap oleh cahaya yang mengikuti jari.
+
+**Hover kursor, dua tahap (2026-09-13, keputusan pemilik).** Di desktop
+void tidak lagi menunggu gerakan: (1) kursor **masuk** hero → tinta
+tersingkap lembut dari pusat (`light.want = .42`, posisi tengah); (2) kursor
+**bergerak** → cahaya penuh mengikuti kursor; keluar hero → memudar.
+Terukur: alpha rata-rata kanvas 0,033 saat masuk-diam → 0,129 saat
+bergerak (≈4×). Peristiwa `pointerenter/move/leave` didengar di **`#s1`
+(hero), bukan `.void`** — `.hero__in` memang `pointer-events:none`, tapi
+tautan/tombol di dalamnya tidak, jadi kalau didengar di `.void` cahaya
+padam tiap kursor melintasi teks yang bisa diklik. Hanya `pointerType ===
+'mouse'`; jalur sentuh (pointerdown/touchmove/touchend di `.void`) tidak
+berubah. Auto-singkap 2,6 s tanpa interaksi tetap ada sebagai jaring.
 
 
 ### Bentuk tinta: dari debu ke serat

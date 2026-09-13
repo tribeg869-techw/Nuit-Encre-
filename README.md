@@ -21,7 +21,8 @@ menyembunyikan sesuatu dari jari.
 - **Void yang disingkap sentuhan** — mengisi **seluruh latar hero**, bukan
   kotak tersendiri. Tinta berserat yang dibangkitkan acak tiap kunjungan
   (`SPESIMEN 4A7F—2147`), hanya muncul mengikuti jari, dan bergeser saat
-  ponsel dimiringkan
+  ponsel dimiringkan. Di desktop: kursor **masuk** hero → tersingkap lembut
+  dari tengah; kursor **bergerak** → cahaya penuh mengikutinya
 - **Hover hanya sebagai bonus** — setiap `:hover` hidup di dalam
   `@media (hover:hover)` dan punya padanan sentuh; tidak ada isi yang
   hanya bisa dicapai dengan kursor
@@ -54,6 +55,9 @@ Berbeda dari **Concept Archive** — dan bukan tiruan **huyml.co**.
 
 Aksennya bukan warna, melainkan **inversi**: blok putih penuh dengan teks hitam.
 Lebih tegas, dan tidak mungkin tertukar dengan Concept Archive.
+
+Hurufnya tiga keluarga, semuanya tegak — **tanpa italic** di mana pun:
+Apfel Grotezk Fett (display), Inter (badan), JetBrains Mono (meta).
 
 Gerakannya pun dibedakan: **pembuka = tinta bergerak, hero = tinta mengendap**.
 Keduanya memakai mesin filamen yang sama, jadi seratnya satu bahasa.
@@ -123,7 +127,7 @@ Semua isi terpusat di **`assets/js/data.js`**:
   note:'Satu kalimat catatan.' }
 ```
 
-Galeri, penghitung, dan bilah kemajuan menyesuaikan sendiri.
+Galeri, penghitung, dan bilah kemajuan galeri menyesuaikan sendiri.
 
 Taruh `st-09.webp` dan `st-09.jpg` di `assets/img/`.
 
