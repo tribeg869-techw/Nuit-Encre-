@@ -22,68 +22,137 @@
          </picture>`;
   };
 
-  /* ---------- 002 · KARYA — inline expandable archive ---------- */
-  const works = [D.work, D.workMore, D.workThree, D.workFour, D.workFive, D.workSix, D.workSeven, D.workEight];
-  const workEl = $('#work');
-  workEl.innerHTML = `<div class="work-grid" role="list">${works.map((w, i) => `
-    <article class="work-card ${i === 0 ? 'is-open' : ''}" data-work="${i}" role="listitem">
-      <button class="work-card__summary" type="button" aria-expanded="${i === 0}" aria-controls="work-detail-${i}">
-        <span class="work-card__no mono">${w.no}</span><span class="work-card__brief"><strong>${w.title}</strong><span class="mono dim">${w.kind} · ${w.year}</span></span><span class="work-card__mark" aria-hidden="true">↗</span>
-      </button>
-      <div class="work-card__detail" id="work-detail-${i}">
-        <h2 class="wk__title">${w.title}</h2><p class="wk__lede">${w.lede}</p>
-        <a class="wk__fig" href="${w.url}" target="_blank" rel="noopener">${pic(w.cover, w.coverAlt, i === 0)}<span class="wk__go">Kunjungi <span>↗</span></span></a>
-        <div class="wk__body"><dl class="wk__facts">${w.facts.map(f => `<div><dt>${f.k}</dt><dd>${f.v}</dd></div>`).join('')}</dl><div class="wk__story">${w.story.map(p => `<p>${p}</p>`).join('')}</div></div>
+  /* ---------- 002 · KARYA — INDEKS (daftar melar) ----------
+     Acuan: guillaumecolombel.fr/works. Baris = <a> ke situs karya.
+     Wadah gambar dibuka CSS (grid-template-rows 0fr→1fr) lewat
+     :hover di perangkat berkursor dan .is-open yang dipasang di sini.
+
+     Kontrak sentuh (keputusan pemilik 2026-09-13):
+       • ketuk baris tertutup  → buka (tautan DIBATALKAN)
+       • ketuk baris terbuka   → ikuti tautan (kunjungi situs)
+       • ketuk baris lain      → yang lama menutup, yang baru membuka
+     Kursor: hover membuka, keluar dari daftar menutup; klik = kunjungi.
+     Keyboard: fokus (Tab) membuka, Enter = kunjungi.
+     Masuk layar: judul flip per huruf, garis memanjang, baris muncul
+     berurutan, baris pertama terbuka otomatis (persis referensi). */
+  const works = D.works;
+  const idxEl = $('#idx');
+  const listEl = $('#work');
+  const hint = $('#idxHint');
+  const fine = matchMedia('(hover:hover) and (pointer:fine)');
+  const host = u => u.replace(/^https?:\/\//, '').replace(/\/$/, '');
+
+  $('#workCount').textContent = String(works.length).padStart(2, '0');
+
+  /* <div> di dalam <a> sah: <a> berkonten transparan di konteks blok */
+  listEl.innerHTML = works.map((w, i) => `
+    <a class="row" href="${w.url}" target="_blank" rel="noopener" data-i="${i}">
+      <div class="row__meta">
+        <span class="row__ttl"><span class="row__no">${w.no}</span><span class="row__name">${w.title}</span></span>
+        <span class="row__kind">${w.kind}</span>
+        <span class="row__url">${host(w.url)}</span>
+        <span class="row__role">${w.role}</span>
+        <span class="row__year">${w.year}</span>
       </div>
-    </article>`).join('')}</div>`;
-  const workCards = $$('.work-card', workEl);
-  const workGrid = $('.work-grid', workEl);
+      <div class="row__imgs" aria-hidden="true"><div>
+        ${w.images.slice(0, 4).map((img, k) => `<span class="row__as row__as--${k + 1}">${pic(img, k === 0 ? w.alt : '', i === 0 && k === 0)}</span>`).join('')}
+      </div></div>
+    </a>`).join('');
+  const rows = $$('.row', listEl);
+  let openRow = null;
 
-  /* "Terakhir dilihat" per kolom: grid 2 baris = 2 kartu per kolom.
-     Balik ke kolom membuka kartu terakhir dilihat di sana, bukan
-     selalu kartu utamanya (keputusan pemilik 2026-08-28). */
-  const PER_COL = 2;
-  const lastOpen = {};
-  workCards.forEach((c, i) => {
-    const col = Math.floor(i / PER_COL);
-    if (lastOpen[col] === undefined) lastOpen[col] = i;
-  });
-
-  /* buka satu kartu (akordeon). withScroll: ketuk manual ikut
-     menggulir halaman; buka lewat geser grid tidak perlu. */
-  function openWork(card, withScroll) {
-    lastOpen[Math.floor(workCards.indexOf(card) / PER_COL)] = workCards.indexOf(card);
-    workCards.forEach(c => { c.classList.remove('is-open'); $('.work-card__summary', c).setAttribute('aria-expanded', 'false'); });
-    card.classList.add('is-open'); $('.work-card__summary', card).setAttribute('aria-expanded', 'true');
-    if (!withScroll) return;
-    const sectionBar = $('.sec__bar', card.closest('.sec'));
-    setTimeout(() => { const top = card.getBoundingClientRect().top + scrollY - (sectionBar ? sectionBar.offsetHeight + 18 : 18); scrollTo({ top: Math.max(0, top), behavior: reduced ? 'auto' : 'smooth' }); }, reduced ? 0 : 720);
+  function setOpen(row) {
+    if (openRow === row) return;
+    if (openRow) openRow.classList.remove('is-open');
+    openRow = row;
+    if (row) row.classList.add('is-open');
   }
 
-  workCards.forEach((card) => $('.work-card__summary', card).addEventListener('click', () => {
-    if (card.classList.contains('is-open')) {
-      card.classList.remove('is-open'); $('.work-card__summary', card).setAttribute('aria-expanded', 'false');
-      return;
-    }
-    openWork(card, true);
-  }));
+  /* modalitas masukan terakhir: ketukan juga memberi fokus (Android),
+     jadi "fokus membuka" hanya boleh berlaku untuk keyboard */
+  let lastPointer = fine.matches ? 'mouse' : 'touch';
+  let byKey = false;
+  addEventListener('pointerdown', e => { lastPointer = e.pointerType || lastPointer; byKey = false; }, { passive: true, capture: true });
+  addEventListener('keydown', () => { byKey = true; }, { passive: true, capture: true });
 
-  /* geser antar kolom: kolom yang terlihat membuka kartu terakhir
-     dilihat di sana (lastOpen) — hanya kalau belum ada kartu di
-     kolom itu yang terbuka. p = kolom yang benar-benar terlihat
-     (bukan cuma 0/1) — wajib sejak grid melebihi 2 kolom. */
-  const nCols = Math.ceil(workCards.length / PER_COL);
-  let workPage = 0;
-  workGrid.addEventListener('scroll', () => {
-    const p = Math.max(0, Math.min(
-      Math.round(workGrid.scrollLeft / workGrid.clientWidth),
-      nCols - 1
-    ));
-    if (p === workPage) return;
-    workPage = p;
-    const target = workCards[lastOpen[p]];
-    if (target && !target.classList.contains('is-open')) openWork(target, false);
+  rows.forEach(row => {
+    row.addEventListener('click', e => {
+      if (listEl.classList.contains('is-grid')) return;      // grid: ketuk = kunjungi
+      if (byKey) return;                                     // Enter = kunjungi
+      if (lastPointer === 'mouse') return;                   // kursor: klik = kunjungi
+      if (row.classList.contains('is-open')) return;         // ketukan kedua = kunjungi
+      e.preventDefault();
+      setOpen(row);
+      hint.classList.add('is-done');                         // petunjuk sudah tak perlu
+    });
+    row.addEventListener('focus', () => { if (byKey) setOpen(row); });
+  });
+  /* kursor bergerak di baris lain: lepas .is-open lama (mis. baris
+     pertama yang terbuka otomatis) agar tak ada dua baris terbuka.
+     pointermove, bukan pointerenter — kursor yang sudah diam di atas
+     baris sejak sebelum daftar dirender tak pernah memicu enter. */
+  listEl.addEventListener('pointermove', e => {
+    if (e.pointerType !== 'mouse' || !openRow) return;
+    const r = e.target.closest('.row');
+    if (r && r !== openRow) setOpen(null);
   }, { passive: true });
+  /* kursor / fokus keyboard meninggalkan daftar: semua menutup */
+  listEl.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') setOpen(null); });
+  listEl.addEventListener('focusout', e => { if (byKey && !listEl.contains(e.relatedTarget)) setOpen(null); });
+
+  /* --- LIST / GRID --- */
+  const vbs = $$('.idx__vb', idxEl);
+  function setView(v) {
+    vbs.forEach(b => { const on = b.dataset.view === v; b.classList.toggle('is-on', on); b.setAttribute('aria-pressed', on); });
+    const apply = () => {
+      listEl.classList.toggle('is-grid', v === 'grid');
+      setOpen(v === 'grid' ? null : rows[0]);
+      hint.classList.toggle('is-off', v === 'grid');
+      listEl.classList.remove('is-switching');
+    };
+    if (reduced) { apply(); return; }
+    listEl.classList.add('is-switching');
+    setTimeout(apply, 260);
+  }
+  vbs.forEach(b => b.addEventListener('click', () => { if (!b.classList.contains('is-on')) setView(b.dataset.view); }));
+  /* petunjuk sentuh hanya untuk yang tak punya kursor */
+  if (fine.matches) hint.hidden = true;
+
+  /* --- gambar: wadah 0fr tingginya nol, jadi loading="lazy" tak pernah
+     terpicu (IntersectionObserver menganggapnya di luar layar). Begitu
+     bagian 002 mendekat (800px), semua gambar baris dipaksa dimuat. --- */
+  const wakeImgs = () => $$('img', listEl).forEach(im => { im.loading = 'eager'; });
+  if ('IntersectionObserver' in window) {
+    const pio = new IntersectionObserver(es => {
+      es.forEach(e => { if (e.isIntersecting) { pio.disconnect(); wakeImgs(); } });
+    }, { rootMargin: '800px 0px' });
+    pio.observe(idxEl);
+  } else wakeImgs();
+
+  /* --- masuk layar: judul flip per huruf, garis memanjang, baris bertahap --- */
+  const ttl = $('#idxTitle');
+  ttl.innerHTML = [...ttl.textContent].map(c => `<span class="ch" aria-hidden="true">${c}</span>`).join('');
+  const chars = $$('.ch', ttl);
+  /* stagger dari tengah, .075s per langkah (angka referensi) */
+  const mid = (chars.length - 1) / 2;
+  chars.forEach((c, i) => c.style.setProperty('--d', (Math.abs(i - mid) * .075) + 's'));
+  rows.forEach((r, i) => r.style.setProperty('--d', (.15 + i * .1) + 's'));
+
+  function idxEnter() {
+    idxEl.classList.add('is-in');
+    /* baris pertama terbuka otomatis, sesaat setelah barisnya muncul */
+    setTimeout(() => { if (!openRow && !listEl.classList.contains('is-grid')) setOpen(rows[0]); }, reduced ? 0 : 350);
+    /* setelah semua transisi masuk selesai, lepas state animasi supaya
+       aturan dasar kembali berlaku murni */
+    setTimeout(() => idxEl.classList.remove('is-armed'), reduced ? 0 : 1800);
+  }
+  if (!reduced && 'IntersectionObserver' in window) {
+    idxEl.classList.add('is-armed');
+    const iio = new IntersectionObserver(es => {
+      es.forEach(e => { if (e.isIntersecting) { iio.disconnect(); idxEnter(); } });
+    }, { threshold: 0, rootMargin: '0px 0px -15% 0px' });
+    iio.observe(ttl);
+  } else idxEnter();
 
   /* ---------- 003 · STUDI — galeri geser ---------- */
   const view  = $('#galView');

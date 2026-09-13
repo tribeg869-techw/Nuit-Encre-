@@ -23,9 +23,14 @@ yang meneruskan proyek ini, empat hal berikut yang paling sering salah dipahami:
    komentar kode, dan pesan commit memakai Bahasa Indonesia.
 2. **Jangan langsung membangun.** Bahas arah dulu, minta persetujuan, baru
    kerjakan. Ini permintaan eksplisit pemilik situs.
-3. **Nol aturan `:hover`.** Bukan preferensi — keharusan. Pemilik situs tidak
-   punya mouse. Setiap kali menyentuh CSS, jalankan `grep -c ':hover'` dan
-   pastikan hasilnya **0**.
+3. **Hover boleh, tapi tidak pernah sendirian.** *(Diubah pemilik
+   2026-09-13 — sebelumnya "nol `:hover`".)* Situs kini wajib kompatibel
+   desktop **dan** responsif di semua ukuran. Aturannya: setiap `:hover`
+   **hanya** boleh hidup di dalam `@media (hover:hover) and (pointer:fine)`
+   dan **wajib** punya padanan sentuh/keyboard (kelas `.is-open`, `:active`,
+   atau fokus) — pemilik tetap bekerja dari ponsel dan harus bisa mengalami
+   semua yang dilihat pengguna kursor. Periksa dengan
+   `grep -n ':hover'` — semua hasil harus berada di dalam blok media itu.
 4. **Fase sekarang: memperindah, bukan menambah.** Tidak ada konten baru,
    bagian baru, atau fitur baru kecuali diminta.
 
@@ -98,7 +103,7 @@ Satu halaman, lima bagian:
 | | Bagian | Isi |
 |---|---|---|
 | `001` | Pembuka | Wordmark besar, status, jam Jakarta langsung |
-| `002` | Karya | Concept Archive + Ink Chaos + Lexier + Zestpop + Vellichor + Élan + BARA + OCULAR — delapan kartu karya, plus ceritanya |
+| `002` | Karya · **INDEKS** | Delapan karya sebagai daftar melar ala indeks (judul raksasa INDEKS, LIST/GRID, baris tipis yang membuka gambarnya saat hover/ketuk) — lihat §9a |
 | `003` | Studi | 4 studi visual — seluruhnya tayang; galeri geser dengan snap ke tengah, loop tak berujung |
 | `004` | Praktik | Dua paragraf posisi |
 | `005` | Kontak | Satu alamat, blok inversi |
@@ -393,13 +398,94 @@ pemilik situs sendiri sempat mengetuknya dan mengira rusak.
 ---
 
 
+## 9a. Bagian 002 · INDEKS — daftar melar (2026-09-13)
+
+
+**Permintaan pemilik:** rombak bagian Karya menjadi seperti halaman *Index*
+di **guillaumecolombel.fr/works** (video referensi di rilis `Video` repo).
+Tiga keputusan yang mengubah aturan lama, semuanya eksplisit dari pemilik:
+
+1. **Hover diizinkan** — situs kini desktop-kompatibel & responsif semua
+   ukuran (lihat §0 butir 3 untuk kontraknya).
+2. **Baris terbuka = gambar saja**, persis referensi. Lede, tabel fakta,
+   dan cerita **tidak dirender lagi** — tapi teksnya **tetap disimpan** di
+   `data.js` (`lede`, `story`) agar bisa dipakai kembali. Jangan dihapus.
+3. **Ponsel = daftar juga** (referensi aslinya beralih ke grid di ponsel).
+   Kontrak sentuh: ketuk baris tertutup → buka; ketuk baris terbuka →
+   kunjungi situs; ketuk baris lain → berganti.
+
+### Yang dibongkar dari referensi (sumber asli dibaca, bukan ditebak)
+
+| Unsur | Referensi | Di sini |
+|---|---|---|
+| Melar | `grid-template-rows: 0fr→1fr`, **buka .75s / tutup 1s**, `quart.out` `cubic-bezier(.26,1,.48,1)` | Sama persis, via CSS `.is-open` + `:hover` |
+| Kolom (grid 24) | judul 5 · kategori 5 · kredit 8 · peran 5 · tahun 1 | ≥1100: judul 6 · jenis 6 · **domain** 6 · peran 5 · tahun 1. 720–1099: empat kolom (domain sembunyi). <720: dua baris teks |
+| Slot gambar | kolom 6–10 · 11–13 · 19–20 · 21–24; rasio 321/195 · 189/120 · 123/75 · 255/195 | Sama; ponsel: 1 penuh, 2–3 berdampingan, 4 penuh |
+| Masuk layar | INDEX flip per huruf `rotateX(90°)`, stagger .075s dari tengah; baris fade berurutan; garis `scaleX` 1s; **baris pertama terbuka otomatis** | Sama |
+| LIST/GRID | toggle, sudut HUD 4px | Sama; filter kategori **dilewati** (8 karya, 8 jenis berbeda — tak ada yang bisa disaring) |
+| Warna & huruf | putih, ABC italic 10–12px | Hitam; judul baris **Apfel Fett 13px kapital**, meta **JetBrains Mono 9–10px** — suara sendiri |
+| Ponsel | grid 2 kolom, tanpa daftar melar | **Daftar melar tetap** (keputusan pemilik) |
+
+### Angka yang bukan tebakan
+
+- **Judul INDEKS**: `font-size = (100vw − 2·pad) / 3.04` — 3.04em adalah
+  lebar tinta "INDEKS" pada tracking −.04em, diukur dari berkas font
+  (`fontTools`). `margin-left:-.05em` = side bearing kiri huruf I, jadi
+  tinta rata dengan tepi konten (terukur: 15px vs konten 20px di 360px —
+  5px itu bearing, bukan salah hitung). Batas atas **168px = batas
+  wordmark hero**: judul bagian tidak boleh mengalahkan nama.
+- **Kolom tablet (720px)**: string terpanjang `KONSEP, DESAIN & PENGEMBANGAN`
+  = 29 huruf × 6,12px = 178px ≤ 7 kolom (181px). Menambah karya dengan
+  peran/jenis lebih panjang → kolom itu yang pertama terpotong `…`.
+
+### Jebakan yang sudah ditemukan — jangan diulang
+
+- **`loading="lazy"` di dalam wadah 0fr tidak pernah terpicu** (tinggi
+  nol = "di luar layar" bagi peramban). `main.js` memaksa `loading=eager`
+  begitu bagian 002 berjarak 800px dari viewport. Tanpa ini, baris yang
+  dibuka menampilkan kotak `--ash` kosong sekejap.
+- **`pointerenter` tidak cukup** untuk melepas baris yang terbuka otomatis:
+  kursor yang sudah diam di atas daftar sejak sebelum render tak pernah
+  memicu enter. Dipakai `pointermove` (passive) pada daftar.
+- **Fokus ≠ keyboard.** Ketukan di Android juga memfokuskan `<a>`; kalau
+  "fokus membuka" berlaku untuk semua modalitas, ketukan pertama membuka
+  lalu klik-nya langsung mengikuti tautan. `byKey` (keydown terakhir vs
+  pointerdown terakhir) memisahkannya.
+- **`:hover` tanpa `@media (hover:hover)`** membuat ponsel terjebak
+  hover-lengket setelah ketukan — baris lama tak mau menutup.
+- **`is-armed`** (keadaan awal tersembunyi) hanya dipasang oleh JS saat
+  `IntersectionObserver` ada dan gerak tidak direduksi. Tanpa JS / dengan
+  reduced motion, semuanya tampil penuh sejak awal. Jangan pindahkan
+  keadaan awal ke CSS dasar — itu kesalahan yang pernah menghilangkan
+  wordmark hero (lihat komentar `.wm__l`).
+
+### Menambah karya / gambar
+
+Satu entri di `works[]`:
+
+```js
+{ no:'009', title:'Judul', kind:'Jenis', role:'Peran', year:'2026',
+  url:'https://…pages.dev/', images:['slug-cover'], alt:'…',
+  lede:'…', story:['…'] }
+```
+
+`images` maksimal 4; slot 2–4 mengikuti geometri referensi begitu diisi.
+Slug tanpa ekstensi → pasangan `.webp`+`.jpg`; nama berekstensi → apa
+adanya. Counter, stagger, dan grid menyesuaikan sendiri; hanya kalimat
+"baru delapan" di `practice[]` yang masih manual.
+
+
+---
+
+
 ## 10. Batasan yang sudah disepakati — jangan ditawar ulang
 
 
 | Hal | Status |
 |---|---|
 | **Email `halo@nuit-encre.studio`** | **Dummy, dan tetap begitu.** Anggaran domain dipakai proyek lain. **Berhenti menandainya sebagai kekurangan.** |
-| **Delapan karya di 002** | Concept Archive + Ink Chaos + Lexier + Zestpop + Vellichor + Élan + BARA + OCULAR. `practice[]` mengikuti jumlah: "baru tiga" (2026-08-27) → "empat" (2026-08-28, Zestpop) → "tujuh" (2026-08-28, Vellichor, Élan, BARA) → "delapan" (2026-08-30, OCULAR). |
+| **Delapan karya di 002** | Concept Archive + Ink Chaos + Lexier + Zestpop + Vellichor + Élan + BARA + OCULAR — kini satu array `works[]` di `data.js`. Counter `002 — KARYA` otomatis dari `works.length`. `practice[]` masih ditulis tangan: "baru tiga" (2026-08-27) → "empat" (2026-08-28, Zestpop) → "tujuh" (2026-08-28, Vellichor, Élan, BARA) → "delapan" (2026-08-30, OCULAR). |
+| **Hover di 002** | **Disengaja** sejak 2026-09-13 (keputusan pemilik, lihat §0 butir 3 dan §9a). Jangan "diperbaiki" kembali ke nol hover. |
 | **Tanpa domain sendiri** | Disengaja. Situs harus terasa selesai apa adanya. |
 | **Layar pembuka** | Sudah diterima. Jangan dirancang ulang tanpa diminta. |
 | **Massa tinta** | Sudah pas. Jangan disetel ulang tanpa diminta. |
@@ -438,7 +524,7 @@ jadi galerinya dialihfungsikan untuk **artefak**.
 
 
 ```bash
-grep -c ':hover' assets/css/style.css        # wajib 0
+grep -n ':hover' assets/css/style.css        # semua harus di dalam @media (hover:hover)
 node --check assets/js/main.js
 node --check assets/js/data.js
 python3 -c "s=open('assets/css/style.css').read(); print(s.count('{'),s.count('}'))"
@@ -501,6 +587,13 @@ memperbaiki:
 "Karya yang benar-benar selesai baru **tiga**" (Concept Archive, Ink
 Chaos, Lexier). Naik ke "baru **empat**" 2026-08-28 bersama Zestpop, lalu "baru **tujuh**" 2026-08-28 bersama Vellichor, Élan, dan BARA, dan "baru **delapan**" 2026-08-30 bersama OCULAR.
 Ubah angka ini kalau jumlah karya berubah.
+
+> **Kedaluwarsa (2026-09-13).** Lima catatan di bawah — Lexier, Zestpop,
+> Vellichor/Élan/BARA, OCULAR, dan "terakhir dilihat per kolom" — membahas
+> grid horizontal 2×N + akordeon yang **sudah dibongkar** dan diganti INDEKS
+> (§9a). Isi datanya masih benar (asal-usul thumbnail, crop, dll.); mekanisme
+> `work-grid`, `workCards[p*2]`, `lastOpen[col]`, dan counter manual sudah
+> tidak ada di kode.
 
 **Karya 003 Lexier (2026-08-27).** Ditambahkan atas permintaan pemilik:
 `workThree` di `data.js`, thumbnail `lexier-cover.jpg`/`.webp`

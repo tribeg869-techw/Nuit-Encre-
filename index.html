@@ -110,10 +110,29 @@
   </div>
 </section>
 
-<!-- ═══════ 002 · KARYA ═══════ -->
-<section class="sec" id="s2" data-i="002">
-  <div class="sec__bar"><span class="mono">002 — KARYA</span><span class="mono dim">08</span></div>
-  <div id="work"><!-- js --></div>
+<!-- ═══════ 002 · KARYA · INDEKS ═══════
+     Daftar melar ala indeks: baris teks tipis; yang aktif membuka
+     gambarnya (hover di desktop, ketuk di layar sentuh). Isi baris
+     dirender dari NE.works di data.js. -->
+<section class="sec sec--idx" id="s2" data-i="002">
+  <div class="sec__bar"><span class="mono">002 — KARYA</span><span class="mono dim" id="workCount">—</span></div>
+
+  <div class="idx" id="idx">
+    <!-- judul raksasa; huruf dipecah per karakter oleh JS untuk animasi flip -->
+    <h2 class="idx__title" id="idxTitle" aria-label="Indeks">INDEKS</h2>
+
+    <div class="idx__ctl">
+      <div class="idx__view" role="group" aria-label="Tampilan">
+        <button class="idx__vb is-on" type="button" data-view="list" aria-pressed="true"><i></i><i></i>LIST<i></i><i></i></button>
+        <button class="idx__vb" type="button" data-view="grid" aria-pressed="false"><i></i><i></i>GRID<i></i><i></i></button>
+      </div>
+      <span class="idx__hint mono dim" id="idxHint">SENTUH BARIS UNTUK MEMBUKA</span>
+    </div>
+
+    <i class="idx__rule" aria-hidden="true"></i>
+
+    <div class="idx__list" id="work"><!-- js --></div>
+  </div>
 </section>
 
 <!-- ═══════ 003 · STUDI ═══════ -->

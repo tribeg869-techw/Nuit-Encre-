@@ -19,7 +19,9 @@ Dirancang pada lebar **360px** lebih dulu. Layar besar hanyalah pelebaran.
   kotak tersendiri. Tinta berserat yang dibangkitkan acak tiap kunjungan
   (`SPESIMEN 4A7F—2147`), hanya muncul mengikuti jari, dan bergeser saat
   ponsel dimiringkan
-- **Nol aturan `hover`** di seluruh CSS — tidak ada isi yang tersembunyi
+- **Hover hanya sebagai bonus** — setiap `:hover` hidup di dalam
+  `@media (hover:hover)` dan punya padanan sentuh; tidak ada isi yang
+  hanya bisa dicapai dengan kursor
 - **Galeri geser** pada bagian `003` — snap ke tengah, keterangan berganti
   mengikuti kartu aktif, **loop tak berujung** (geser terus dari kartu
   terakhir ke pertama tanpa lompat balik), lengkap dengan tombol panah
@@ -41,6 +43,7 @@ Berbeda dari **Concept Archive** — dan bukan tiruan **huyml.co**.
 | Aksara | 中文 | — | **Tanpa CJK** |
 | Navigasi | — | Baris tengah | **Bilah bawah tetap** |
 | Galeri | — | Seret mendatar | **Geser + snap tengah** |
+| Karya | — | — | **Daftar melar (indeks)** |
 | Indeks | `01—06` | `01/19` | **`001 / 005`** |
 
 Aksennya bukan warna, melainkan **inversi**: blok putih penuh dengan teks hitam.
@@ -56,7 +59,7 @@ Keduanya memakai mesin filamen yang sama, jadi seratnya satu bahasa.
 | | Bagian |
 |---|---|
 | `001` | Pembuka — nama besar di atas **void** generatif setinggi layar, status, jam |
-| `002` | Karya — Concept Archive + Ink Chaos + Lexier + Zestpop + Vellichor + Élan + BARA + OCULAR |
+| `002` | Karya — **INDEKS**: daftar melar ala indeks, 8 karya; hover/ketuk baris membuka gambarnya, LIST/GRID |
 | `003` | Studi — galeri geser, 4 kartu |
 | `004` | Praktik |
 | `005` | Kontak |
